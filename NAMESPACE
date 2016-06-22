@@ -1,0 +1,4 @@
+useDynLib(CoxBinChange)
+exportPattern("^[[:alpha:]]+")
+importFrom(Rcpp, evalCpp)
+importFrom("stats", "pweibull", "rbinom", "rexp", "runif", "rweibull")
