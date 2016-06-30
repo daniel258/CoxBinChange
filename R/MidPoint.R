@@ -18,7 +18,7 @@ MidPoint <- function(w, w.res, point)
     colnames(lr.for.fit) <- c("left","right")
     tm.v <- vector(length=nrow(w)) #time of chhange
     tm.v[lr.for.fit$right==Inf] <- Inf
-    tm.v[lr.for.fit$right<Inf] <- (lr.for.fit$right[lr.for.fit$right<Inf]-lr.for.fit$left[lr.for.fit$right<Inf])/2
+    tm.v[lr.for.fit$right<Inf] <- (lr.for.fit$right[lr.for.fit$right<Inf]+lr.for.fit$left[lr.for.fit$right<Inf])/2
     x <- ifelse(tm.v<point,1,0)
     return(x)
   }
