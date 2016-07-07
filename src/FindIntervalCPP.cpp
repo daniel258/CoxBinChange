@@ -41,7 +41,7 @@ IntegerVector FindIntervalCPP(double point, NumericMatrix w) {
           CondLocation = false;
           }
         } else if (j==ncol) {
-        intervalW[i] = ncol;
+        intervalW[i] = ncol+1;
         CondLocation = false;}
       j += 1;
       }
