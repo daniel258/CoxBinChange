@@ -1,5 +1,5 @@
 #### CalcNpmlePX function
-## June 08 2016
+## July 18 2016
 ### Daniel Nevo
 ## The function takes the following
 ## w - a matrix. Each row is observation and each column is questioniire time in the interval. w equal to Inf once
@@ -17,15 +17,18 @@
 # CalcAuxatPoint 
 CalcNpmleRiskSetP <- function(w, w.res, point, obs.tm)
 {
-  calc.lr <- CalcAuxAtPoint(w,w.res,point = point)
-  df.lr <- calc.lr$df.lr
-  df.lr.risk.set <- df.lr[obs.tm>=point,] # risksetca
-  fit.npmple <- ic_np(cbind(left,right)~0,data = df.lr.risk.set)
-  a.point <- calc.lr$a.point
-  p.point <- calc.lr$x.one
-  prob.at.point <- 1-CalcSurvFromNPMLE(probs = fit.npmple$p_hat, Tbull = fit.npmple$T_bull_Intervals,
+  lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
+  colnames(lr.for.fit) <- c("left","right")
+  lr.for.fit[lr.for.fit==Inf] <- 200
+  lr.for.fit[lr.for.fit==0] <- 0.0001
+  lr.for.fit <- lr.for.fit[obs.tm>point,] # Keep only observations in the risk set
+  fit.npmple.rs <- ic_np(cbind(left,right)~0,data = lr.for.fit)
+  lr.for.lik <- CalcAuxAtPoint(w,w.res,point = point)
+    a.point <- lr.for.lik$a.point
+  p.point <- lr.for.lik$x.one
+  prob.at.point <- 1-CalcSurvFromNPMLE(probs = fit.npmple.rs$p_hat, Tbull = fit.npmple.rs$T_bull_Intervals,
                                        points = point)
-  prob.at.a.point <- 1-CalcSurvFromNPMLE(probs = fit.npmple$p_hat, Tbull = fit.npmple$T_bull_Intervals,
+  prob.at.a.point <- 1-CalcSurvFromNPMLE(probs = fit.npmple.rs$p_hat, Tbull = fit.npmple.rs$T_bull_Intervals,
                                          points = a.point[p.point==0])
   p.point[p.point==0] <- (prob.at.point - prob.at.a.point)/(1-prob.at.a.point)
   return(p.point)
