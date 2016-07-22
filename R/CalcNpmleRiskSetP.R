@@ -23,13 +23,17 @@ CalcNpmleRiskSetP <- function(w, w.res, point, obs.tm)
   lr.for.fit[lr.for.fit==0] <- 0.0001
   lr.for.fit <- lr.for.fit[obs.tm>point,] # Keep only observations in the risk set
   fit.npmple.rs <- ic_np(cbind(left,right)~0,data = lr.for.fit)
-  lr.for.lik <- CalcAuxAtPoint(w,w.res,point = point)
+    lr.for.lik <- CalcAuxAtPoint(w,w.res,point = point)
     a.point <- lr.for.lik$a.point
   p.point <- lr.for.lik$x.one
   prob.at.point <- 1-CalcSurvFromNPMLE(probs = fit.npmple.rs$p_hat, Tbull = fit.npmple.rs$T_bull_Intervals,
                                        points = point)
   prob.at.a.point <- 1-CalcSurvFromNPMLE(probs = fit.npmple.rs$p_hat, Tbull = fit.npmple.rs$T_bull_Intervals,
                                          points = a.point[p.point==0])
+  # If the support of the estimated distriubtion ends before someones last available questionnire, the we get a contradiction
+  # because \hat{F}(a)=1 but X(a)=0. In this rare case, we just do carry forward the zero.
+  prob.at.a.point[prob.at.a.point==1] <-  -prob.at.point
+  # If the last questionnire result was X(a)=1 then no problem caused above since p.point==1
   p.point[p.point==0] <- (prob.at.point - prob.at.a.point)/(1-prob.at.a.point)
   return(p.point)
 }
