@@ -17,7 +17,7 @@ CalcWeibullRiskSetP <- function(w, w.res, point, obs.tm)
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
   colnames(lr.for.fit) <- c("left","right")
-  lr.for.fit[lr.for.fit==Inf] <- 200
+  lr.for.fit[lr.for.fit==Inf] <- 20
   lr.for.fit[lr.for.fit==0] <- 0.0001
   lr.for.fit <- lr.for.fit[obs.tm>point,]  # Keep only observations in the risk set
   fit.weib <- tryCatch(fitdistcens(censdata = lr.for.fit, distr = "weibull"),   error=function(e) {e})
