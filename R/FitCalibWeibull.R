@@ -7,8 +7,11 @@ lr.for.fit[lr.for.fit==0] <- 0.0001
 #df.cln <- lr.for.fit[apply(lr.for.fit,1,function(x)  sum(is.na(x)))<2,]
 fit.weib <- tryCatch(fitdistcens(censdata = lr.for.fit, distr = "weibull"),   error=function(e) {e})
 if (inherits(fit.weib, "error")) { 
-  return(c(NA,NA)) 
-} else if (fit.weib$estimate[1]> 20 | fit.weib$estimate[2] < 1/1000)
+  fit.weib <- tryCatch(fitdistcens(censdata = lr.for.fit, distr = "weibull", lower = c(0, 0)),   error=function(e) {e})
+  if (inherits(fit.weib, "error")) { 
+  return(c(NA,NA)) }
+} 
+if (fit.weib$estimate[1]> 20 | fit.weib$estimate[2] < 1/1000)
 {
   return(c(NA,NA)) 
 }
