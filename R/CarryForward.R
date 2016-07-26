@@ -1,5 +1,4 @@
-#### CarryFow function
-## June 08 2016
+#### CarryForward function
 ### Daniel Nevo
 ## The function takes the following
 ## w - a matrix. Each row is observation and each column is questioniire time in the interval. w equal to Inf once
@@ -9,7 +8,7 @@
 ## point - scalar. The time of the risk set in the main analysis. In terms of the paper, t.
 ###
 # The function returns a vector
-# x.carry - vector of x(a(t))
+# x.carry - vector of x(a(t)).
 CarryForward <- function(w, w.res, point) {
   n.sample <- nrow(w)
   interval.w <-   FindIntervalCPP(point = point, w =w)

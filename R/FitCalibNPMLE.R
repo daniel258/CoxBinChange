@@ -1,3 +1,12 @@
+#### FitCalibNpmle function
+### Daniel Nevo
+## The function takes the following
+## w - a matrix. Each row is observation and each column is questionnaire time in the interval. w equal to Inf once
+# an observation is censore/had the event
+## w.res - a matrix of the same dimensions as w. Equal to the x(t) at time w. For example second column is 
+# second questionnaire result for all participents.
+###
+# The function returns the fit of NPMLE for interval-censored time to event data.
 FitCalibNpmle <- function(w,w.res)
 {
 lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))

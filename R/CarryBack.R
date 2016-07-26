@@ -1,15 +1,14 @@
-#### Carry Back function
-## July 20 2016
+#### CarryBack function
 ### Daniel Nevo
 ## The function takes the following
-## w - a matrix. Each row is observation and each column is questioniire time in the interval. w equal to Inf once
-# an observation is censore/had the main event
+## w - a matrix. Each row is observation and each column is questionnaire time in the interval. w equal to Inf once
+# an observation is censore/had the event
 ## w.res - a matrix of the same dimensions as w. Equal to the x(t) at time w. For example second column is 
-# second questioniire result for all participents.
+# second questionnaire result for all participents.
 ## point - scalar. The time of the risk set in the main analysis. In terms of the paper, t.
 ###
-# The function returns a vector
-# x.carry - vector of x(a(t))
+# The function returns a vector: x.carry - vector of x(b(t)), where b is the first questionnaire after t.
+# This was an internal functions for simulations and should not be used in practice (this method is bad)
 CarryBack <- function(w, w.res, point) {
   n.sample <- nrow(w)
   n.intervals <- ncol(w)
@@ -41,5 +40,5 @@ CarryBack <- function(w, w.res, point) {
    #   }
    # return(cbind(left.for.surv,right.for.surv))
    return(x.carry)
-  return(interval.w)
+  #return(interval.w)
 }

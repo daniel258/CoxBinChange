@@ -1,17 +1,13 @@
-#### CalcAuxAtPoint function
-## June 08 2016
+#### MidPoint function
 ### Daniel Nevo
 ## The function takes the following
-## w - a matrix. Each row is observation and each column is questioniire time in the interval. w equal to Inf once
-# an observation is censore/had the main event
+## w - a matrix. Each row is observation and each column is questionnaire time in the interval. w equal to Inf once
+# an observation is censore/had the event
 ## w.res - a matrix of the same dimensions as w. Equal to the x(t) at time w. For example second column is 
-# second questioniire result for all participents.
+# second questionnaire result for all participents.
 ## point - scalar. The time of the risk set in the main analysis. In terms of the paper, t.
 ###
-# The function returns a list with theree objects:
-# df.lr: a data frame of the intervals which the evnet (aspirin takin is contianed)
-# x.one : one/zero. Equals to iff X(point)=1
-# a.point: time of ast questionnire, i.e., a(t) in terms of the paper
+# The function returns x(t), where x(t) is predicted by assuming the changepoint is the middle of the observed interval.
 MidPoint <- function(w, w.res, point) 
   {
     lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
