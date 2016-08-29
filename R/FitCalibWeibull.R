@@ -10,6 +10,7 @@
 FitCalibWeibull <- function(w,w.res)
 {
 lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
+lr.for.fit <- lr.for.fit[!(lr.for.fit[,1]==0 & lr.for.fit[,2]==Inf),]
 colnames(lr.for.fit) <- c("left","right")
 lr.for.fit[lr.for.fit==Inf] <- 200
 lr.for.fit[lr.for.fit==0] <- 0.0001
@@ -26,3 +27,4 @@ if (fit.weib$estimate[1]> 20 | fit.weib$estimate[2] < 1/1000)
 }
 return(fit.weib$estimate)
 }
+
