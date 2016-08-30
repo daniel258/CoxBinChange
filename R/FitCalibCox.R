@@ -7,7 +7,7 @@
 # second questionnaire result for all participents.
 ###
 # The function returns the fit of NPMLE for interval-censored time to event data.
-FitCalibCox <- function(w,w.res,Z)
+FitCalibCox <- function(w, w.res, Z, t.seq)
 {
 lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
 Z <- Z[!(lr.for.fit[,1]==0 & lr.for.fit[,2]==Inf),]
@@ -18,7 +18,7 @@ colnames(lr.for.fit) <- c("left","right")
 n.s <- nrow(lr.for.fit)
 fit.cox <- fast.PH.ICsurv.EM(d1 = rep(0,n.s), d2 = rep(1,n.s), d3 = rep(0,n.s),Li = lr.for.fit[,1],
                        Ri = lr.for.fit[,2], n.int = 10, order = 2,  Xp = Z, g0 =rep(1,12), b0 = c(0,2),
-                       t.seq = case.times, tol = 0.001)
+                       t.seq = t.seq, tol = 0.001)
 if (inherits(fit.cox, "error")) { 
   return(NA) 
 } else {
