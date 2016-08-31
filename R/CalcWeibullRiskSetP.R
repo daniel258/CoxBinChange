@@ -31,11 +31,13 @@ CalcWeibullRiskSetP <- function(w, w.res, point, obs.tm)
     weib.params <- FitCalibWeibull(w,w.res)
     warning(paste("In point", point, "Calibration was used instead of risk set calibration"))
   } else   {    weib.params <- fit.weib$estimate}
+  weib.shape <- weib.params[1]
+  weib.scale <- weib.params[2]
   lr.for.lik <- CalcAuxAtPoint(w,w.res,point = point)
   a.point <- lr.for.lik$a.point
   p.point <- lr.for.lik$x.one
-  prob.at.point <- pweibull(point, shape = weib.params[1],scale = weib.params[2])
-  prob.at.a.point <- pweibull(a.point[p.point==0], shape = weib.params[1],scale = weib.params[2])
+  prob.at.point <- pweibull(point, shape = weib.shape, scale = weib.scale)
+  prob.at.a.point <- pweibull(a.point[p.point==0], shape = weib.shape, scale = weib.scale)
   p.point[p.point==0] <- (prob.at.point - prob.at.a.point)/(1-prob.at.a.point)
   return(p.point)
 }
