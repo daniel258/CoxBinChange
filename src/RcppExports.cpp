@@ -5,6 +5,20 @@
 
 using namespace Rcpp;
 
+// Calcb
+NumericVector Calcb(double beta, NumericVector tm, LogicalVector event, NumericMatrix ps);
+RcppExport SEXP CoxBinChange_Calcb(SEXP betaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type tm(tmSEXP);
+    Rcpp::traits::input_parameter< LogicalVector >::type event(eventSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type ps(psSEXP);
+    __result = Rcpp::wrap(Calcb(beta, tm, event, ps));
+    return __result;
+END_RCPP
+}
 // CalcSurvFromNPMLE
 NumericVector CalcSurvFromNPMLE(NumericVector probs, NumericVector points, NumericMatrix Tbull);
 RcppExport SEXP CoxBinChange_CalcSurvFromNPMLE(SEXP probsSEXP, SEXP pointsSEXP, SEXP TbullSEXP) {
@@ -15,6 +29,36 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type points(pointsSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type Tbull(TbullSEXP);
     __result = Rcpp::wrap(CalcSurvFromNPMLE(probs, points, Tbull));
+    return __result;
+END_RCPP
+}
+// CalcUbetabeeta
+double CalcUbetabeeta(double beta, NumericVector tm, LogicalVector event, NumericMatrix ps, NumericMatrix psDeriv);
+RcppExport SEXP CoxBinChange_CalcUbetabeeta(SEXP betaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP psDerivSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type tm(tmSEXP);
+    Rcpp::traits::input_parameter< LogicalVector >::type event(eventSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type ps(psSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type psDeriv(psDerivSEXP);
+    __result = Rcpp::wrap(CalcUbetabeeta(beta, tm, event, ps, psDeriv));
+    return __result;
+END_RCPP
+}
+// CalcUbetabeetaRS
+NumericVector CalcUbetabeetaRS(double beta, NumericVector tm, LogicalVector event, NumericMatrix ps, NumericMatrix psDeriv);
+RcppExport SEXP CoxBinChange_CalcUbetabeetaRS(SEXP betaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP psDerivSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type tm(tmSEXP);
+    Rcpp::traits::input_parameter< LogicalVector >::type event(eventSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type ps(psSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type psDeriv(psDerivSEXP);
+    __result = Rcpp::wrap(CalcUbetabeetaRS(beta, tm, event, ps, psDeriv));
     return __result;
 END_RCPP
 }
@@ -53,6 +97,20 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< LogicalVector >::type event(eventSEXP);
     Rcpp::traits::input_parameter< NumericMatrix >::type ps(psSEXP);
     __result = Rcpp::wrap(myF(beta, tm, event, ps));
+    return __result;
+END_RCPP
+}
+// myFmyHess
+double myFmyHess(double beta, NumericVector tm, LogicalVector event, NumericMatrix ps);
+RcppExport SEXP CoxBinChange_myFmyHess(SEXP betaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type tm(tmSEXP);
+    Rcpp::traits::input_parameter< LogicalVector >::type event(eventSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type ps(psSEXP);
+    __result = Rcpp::wrap(myFmyHess(beta, tm, event, ps));
     return __result;
 END_RCPP
 }
