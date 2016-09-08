@@ -64,7 +64,7 @@ CalcVarNpmle <- function(tm, event, w, w.res, BS = 100)
     beta.np.calib.bs[j] <- optimize(f = myF,  tm = tm.bs, event = event.bs, ps = px.np.bs, 
                              interval = c(-50,50), maximum = T)$maximum
   }
-  v.hat.npmle <- var(beta.np.calib.bs)
+  v.hat.npmle <- var(beta.np.calib.bs[beta.np.calib.bs< 5])
   return(v.hat.npmle)
 }
 CalcVarNpmleRS <- function(tm, event, w, w.res, BS = 100)
@@ -84,6 +84,6 @@ CalcVarNpmleRS <- function(tm, event, w, w.res, BS = 100)
     beta.np.calib.rs.bs[j] <- optimize(f = myF,  tm = tm.bs, event = event.bs, ps = px.np.rs.bs, 
                                     interval = c(-50,50), maximum = T)$maximum
   }
-  v.hat.npmle <- var(beta.np.calib.bs)
-  return(v.hat.npmle)
+  v.hat.npmle.rs <- var(beta.np.calib.rs.bs[beta.np.calib.rs.bs < 5])
+  return(v.hat.npmle.rs)
 }
