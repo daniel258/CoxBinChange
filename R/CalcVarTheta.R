@@ -46,7 +46,7 @@ CalcVarEta <- function(etas,  w, w.res)
   var.eta <-  solve(hess.etas.l.v)%*%(grad.eta)%*%solve(hess.etas.l.v)
     return(var.eta)
 }
-CalcVarNpmle <- function(tm, event, w, w.res, BS = 100)
+CalcVarNpmle <- function(tm, event, w, w.res, BS = 100, CI = T)
 {
   n <- length(tm)
   beta.np.calib.bs <- vector(length = BS)
@@ -65,9 +65,15 @@ CalcVarNpmle <- function(tm, event, w, w.res, BS = 100)
                              interval = c(-50,50), maximum = T)$maximum
   }
   v.hat.npmle <- var(beta.np.calib.bs[beta.np.calib.bs< 5])
-  return(v.hat.npmle)
-}
-CalcVarNpmleRS <- function(tm, event, w, w.res, BS = 100)
+  if (CI ==T)
+  {
+    ci.l <- quantile(x = beta.np.calib.bs[beta.np.calib.bs< 5], probs = 0.025)
+    ci.h <- quantile(x = beta.np.calib.bs[beta.np.calib.bs< 5], probs = 0.975)
+    return(list(v = v.hat.npmle, ci = c(ci.l, ci.h)))
+  } else{
+    return(list(v = v.hat.npmle))
+}}
+CalcVarNpmleRS <- function(tm, event, w, w.res, BS = 100, CI =T)
 {
   n <- length(tm)
   beta.np.calib.rs.bs <- vector(length = BS)
@@ -84,6 +90,12 @@ CalcVarNpmleRS <- function(tm, event, w, w.res, BS = 100)
     beta.np.calib.rs.bs[j] <- optimize(f = myF,  tm = tm.bs, event = event.bs, ps = px.np.rs.bs, 
                                     interval = c(-50,50), maximum = T)$maximum
   }
-  v.hat.npmle.rs <- var(beta.np.calib.rs.bs[beta.np.calib.rs.bs < 5])
-  return(v.hat.npmle.rs)
-}
+  v.hat.npmle.rs <- var(beta.np.calib.rs.bs[beta.np.calib.rs.bs< 5])
+  if (CI ==T)
+  {
+    ci.l <- quantile(x = beta.np.calib.rs.bs[beta.np.calib.rs.bs< 5], probs = 0.025)
+    ci.h <- quantile(x = beta.np.calib.rs.bs[beta.np.calib.rs.bs< 5], probs = 0.975)
+    return(list(v = v.hat.npmle.rs, ci = c(ci.l, ci.h)))
+  } else{
+    return(list(v = v.hat.npmle.rs))
+}}
