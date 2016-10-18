@@ -62,6 +62,21 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// CoxLogLikCpp
+double CoxLogLikCpp(double beta, NumericVector tm, LogicalVector event, NumericMatrix ps, NumericVector Qgamma);
+RcppExport SEXP CoxBinChange_CoxLogLikCpp(SEXP betaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP QgammaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type tm(tmSEXP);
+    Rcpp::traits::input_parameter< LogicalVector >::type event(eventSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type ps(psSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type Qgamma(QgammaSEXP);
+    __result = Rcpp::wrap(CoxLogLikCpp(beta, tm, event, ps, Qgamma));
+    return __result;
+END_RCPP
+}
 // FindIntervalCalibCPP
 NumericMatrix FindIntervalCalibCPP(NumericMatrix w, NumericMatrix wres);
 RcppExport SEXP CoxBinChange_FindIntervalCalibCPP(SEXP wSEXP, SEXP wresSEXP) {

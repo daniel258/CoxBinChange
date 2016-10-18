@@ -17,6 +17,10 @@ CalcUbetabeetaRS <- function(beta, tm, event, ps, psDeriv) {
     .Call('CoxBinChange_CalcUbetabeetaRS', PACKAGE = 'CoxBinChange', beta, tm, event, ps, psDeriv)
 }
 
+CoxLogLikCpp <- function(beta, tm, event, ps, Qgamma) {
+    .Call('CoxBinChange_CoxLogLikCpp', PACKAGE = 'CoxBinChange', beta, tm, event, ps, Qgamma)
+}
+
 FindIntervalCalibCPP <- function(w, wres) {
     .Call('CoxBinChange_FindIntervalCalibCPP', PACKAGE = 'CoxBinChange', w, wres)
 }
