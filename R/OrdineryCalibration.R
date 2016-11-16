@@ -63,6 +63,9 @@ FitCalibCox <- function(w, w.res, Z, hz.times, n.int = 10, order = 3 )
   if (inherits(fit.cox, "error")) { 
     return(NA) 
   } else {
+    ti <- c(lr.for.fit[d1 == 0,1], lr.for.fit[d3 == 0,2])
+    fit.cox$knots <-   seq(min(ti) - 1e-05,  max(ti) + 1e-05, length.out = (n.int + 2))
+    fit.cox$order <- order
     return(fit.cox)
   }
 }
