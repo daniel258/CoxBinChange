@@ -5,6 +5,18 @@ Calcb <- function(beta, tm, event, ps) {
     .Call('CoxBinChange_Calcb', PACKAGE = 'CoxBinChange', beta, tm, event, ps)
 }
 
+CalcbQ <- function(theta, tm, event, ps, Q) {
+    .Call('CoxBinChange_CalcbQ', PACKAGE = 'CoxBinChange', theta, tm, event, ps, Q)
+}
+
+CalcNablabeetaUbeta <- function(theta, tm, event, ps, Q, psDeriv) {
+    .Call('CoxBinChange_CalcNablabeetaUbeta', PACKAGE = 'CoxBinChange', theta, tm, event, ps, Q, psDeriv)
+}
+
+CalcNablabeetaUgamma <- function(theta, tm, event, ps, Q, psDeriv) {
+    .Call('CoxBinChange_CalcNablabeetaUgamma', PACKAGE = 'CoxBinChange', theta, tm, event, ps, Q, psDeriv)
+}
+
 CalcSurvFromNPMLE <- function(probs, points, Tbull) {
     .Call('CoxBinChange_CalcSurvFromNPMLE', PACKAGE = 'CoxBinChange', probs, points, Tbull)
 }
@@ -17,8 +29,16 @@ CalcUbetabeetaRS <- function(beta, tm, event, ps, psDeriv) {
     .Call('CoxBinChange_CalcUbetabeetaRS', PACKAGE = 'CoxBinChange', beta, tm, event, ps, psDeriv)
 }
 
-CoxLogLikCpp <- function(beta, tm, event, ps, Qgamma) {
-    .Call('CoxBinChange_CoxLogLikCpp', PACKAGE = 'CoxBinChange', beta, tm, event, ps, Qgamma)
+CoxLogLik <- function(betagamma, tm, event, ps, Q) {
+    .Call('CoxBinChange_CoxLogLik', PACKAGE = 'CoxBinChange', betagamma, tm, event, ps, Q)
+}
+
+CoxLogLikGrad <- function(theta, tm, event, ps, Q) {
+    .Call('CoxBinChange_CoxLogLikGrad', PACKAGE = 'CoxBinChange', theta, tm, event, ps, Q)
+}
+
+CoxLogLikHess <- function(betagamma, tm, event, ps, Q) {
+    .Call('CoxBinChange_CoxLogLikHess', PACKAGE = 'CoxBinChange', betagamma, tm, event, ps, Q)
 }
 
 FindIntervalCalibCPP <- function(w, wres) {
