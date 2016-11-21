@@ -44,7 +44,7 @@ CalcVarParam <- function(theta, eta.g, eta.b, tm, event, Z, Q, ps, ps.deriv, w, 
     MM[,,j] <- r.mat[j,]%*%t(r.mat[j,])
   } 
   meat <- apply(MM,c(1,2),mean)
-  bread <- solve(CoxLogLikHess(betagamma = theta, tm = tm, event = event, ps = ps, Q = Q))
+  bread <- solve(CoxLogLikHess(theta = theta, tm = tm, event = event, ps = ps, Q = Q))
   v.hat <- n*bread%*%meat%*%bread
   if(max(v.hat)>1) {
     for (j in 1:nrow(b.mat))
