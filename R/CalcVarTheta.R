@@ -5,7 +5,7 @@
 # ps - the usual probabilties matrix
 # ps.deriv - array of derivatives of ps with respect to eta. First dim is for eta, second cor case number, third for observation.
 # beta, w, wres, event,tm - as ususl
-CalcVarParam <- function(theta, eta.g, eta.b, tm, event, Z, Q, ps, ps.deriv, w, wres, fit.cox)
+CalcVarParam <- function(theta, eta.g, eta.b, tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.cox)
 {
   n <- length(tm)
   n.theta <- length(theta) 

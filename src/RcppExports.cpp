@@ -141,17 +141,17 @@ BEGIN_RCPP
 END_RCPP
 }
 // CoxLogLikHess
-arma::mat CoxLogLikHess(arma::vec betagamma, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Q);
-RcppExport SEXP CoxBinChange_CoxLogLikHess(SEXP betagammaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP QSEXP) {
+arma::mat CoxLogLikHess(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Q);
+RcppExport SEXP CoxBinChange_CoxLogLikHess(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP QSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< arma::vec >::type betagamma(betagammaSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type theta(thetaSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type tm(tmSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type event(eventSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type ps(psSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type Q(QSEXP);
-    __result = Rcpp::wrap(CoxLogLikHess(betagamma, tm, event, ps, Q));
+    __result = Rcpp::wrap(CoxLogLikHess(theta, tm, event, ps, Q));
     return __result;
 END_RCPP
 }
