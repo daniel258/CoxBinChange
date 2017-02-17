@@ -12,7 +12,7 @@
 # For observations with X(a(t))=1 the above probability is 1 by definition and this is what the
 # function returns for them.
 #### The following package is needed: fitdistrplus
-#### The following functions are used: CalcAuxatPoint (R function), CalcSurvFromNPMLE (cpp function)
+#### The following functions are used: CalcAuxatPoint (R function)
 CalcCoxCalibP <- function(w, w.res, point, fit.cox, hz.times,  Z)
 {
   lr.for.lik <- CalcAuxAtPoint(w,w.res,point = point)

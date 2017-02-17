@@ -40,7 +40,7 @@ arma::mat CalcNablabeetaUgamma(arma::vec theta, arma::vec tm, arma::vec event, a
   arma::mat nu = 1 + ps*(exp(beta)-1);
 
 
-  // First a loop to calculate all sums (e.g., S1 and S1) that do not involve psDeriv
+  // First a loop to calculate all sums (e.g., S0 and S1) that do not involve psDeriv
   for (int i = 0; i < n; ++i) {
     if (event[i]) {
       iCaseNum += 1;
