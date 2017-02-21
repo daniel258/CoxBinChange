@@ -6,7 +6,7 @@ using namespace Rcpp;
 // tm - event time
 // event - censoring indicator (1 event 0 no event)
 // ps - probabilities
-// beta- a value
+// theta- a vector of coefficients, the first is beta
 
 //data is not assumed to be sorted by time
 
