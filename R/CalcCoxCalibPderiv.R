@@ -1,4 +1,4 @@
-#### CalcWeibullCalibP function
+#### CalcCoxCalibPderiv function
 ### NEED TO WRITE EXPLANATION
 ### Daniel Nevo
 ## The function takes the following
@@ -15,7 +15,7 @@
 # The function calculates prediction for all observations, even though predictions for observations outside 
 # the risk set are not used
 #### The following function is used: CalcAuxatPoint (R function)
-CalcCoxPderiv <- function(w, w.res, point, fit.cox, hz.times, Z)
+CalcCoxCalibPderiv <- function(w, w.res, point, fit.cox, hz.times, Z)
 {
   eta.b <- fit.cox$b
   eta.g <- fit.cox$g
@@ -49,6 +49,52 @@ CalcCoxPderiv <- function(w, w.res, point, fit.cox, hz.times, Z)
   deriv.eta[p.point==0,(ncol(Z)+1):ncol(deriv.eta)] <- (S.at.point/S.at.a.point)*(as.vector(b.point)-b.a.point)*exp.Zb[p.point==0]
   return(deriv.eta)
 }
+
+
+CalcCoxCalibPderivRSInsts <- function(w, w.res, point, fit.cox.rs.ints, hz.times, Z,  pts.for.ints, tm)
+{
+  interval <- findInterval(point, pts.for.ints)
+  fit.cox.int <- fit.cox.rs.ints[[interval]]
+  eta.b <- fit.cox.int$b
+  eta.g <- fit.cox.int$g
+  knots <- fit.cox.int$knots
+  order <- fit.cox.int$order
+  in.risk.set <- tm >= point
+  lr.for.lik <- CalcAuxAtPoint(w,w.res,point = point)
+  a.point <- lr.for.lik$a.point
+  p.point <- lr.for.lik$x.one
+  hz <- fit.cox.int$hz
+  Zb <- Z%*%eta.b
+  exp.Zb <- exp(Zb)
+  ## Calculate hazard for the point, first baseline hazard, then add covariates:
+  interval.point <- FindIntervalCPP(point = point, w = t(as.matrix(hz.times)))
+  if (interval.point==1) {base.hz.point <- hz[1]*point/hz.times[1] } else {
+    if(interval.point==length(hz.times)+1) {base.hz.point <- hz[length(hz.times)]
+    } else {
+      base.hz.point <- hz[interval.point-1] +  (hz[interval.point]-hz[interval.point-1])*(point-hz.times[interval.point-1])/
+        (hz.times[interval.point]-hz.times[interval.point-1])#Extrapolation
+    }}
+  
+  H.point <- base.hz.point*exp.Zb[p.point==0 & in.risk.set]
+  S.at.point <- exp(-H.point)
+  S.at.a.point <- CalcSurvFromCox(fit.cox = fit.cox.int,Zb = Zb[p.point==0 & in.risk.set,], points = a.point[p.point==0 & in.risk.set], 
+                                  hz.times = hz.times)
+  H.a.point <- -log(S.at.a.point)
+  
+  b.point <- t(Ispline(x = point, order = order, knots = knots))
+  b.a.point <- t(Ispline(x = a.point[p.point==0 & in.risk.set], order = order, knots = knots))
+  
+  deriv.eta.ints <- matrix(nr = length(p.point), nc = length(eta.b) + length(eta.g),0) 
+  deriv.eta.ints[p.point==0 & in.risk.set, 1:ncol(Z)] <- (S.at.point/S.at.a.point)*(H.point-H.a.point)*Z[p.point==0 & in.risk.set,]
+  deriv.eta.ints[p.point==0 & in.risk.set, (ncol(Z)+1):ncol(deriv.eta.ints)] <- (S.at.point/S.at.a.point)*(as.vector(b.point)-b.a.point)*
+                                                                                exp.Zb[p.point==0  & in.risk.set]
+  
+  deriv.eta <- matrix(nr = length(p.point), nc = (length(eta.b) + length(eta.g))*length(fit.cox.rs.ints),0) 
+  deriv.eta[,((interval-1)*(length(eta.b) + length(eta.g))+1):(interval*(length(eta.b) + length(eta.g)))] <- deriv.eta.ints
+  
+  return(deriv.eta)
+}
+
 
 
 # CalcCoxPderiv <- function(w, w.res, ps, fit.cox, Z)
