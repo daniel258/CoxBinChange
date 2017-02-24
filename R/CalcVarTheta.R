@@ -1,11 +1,8 @@
 ###
-# ps.deriv is an array
-# beta - logHR exposure effect
-# gamma, a vector. logHRs of Z its length is the same as ncol(Z)
 # ps - the usual probabilties matrix
-# ps.deriv - array of derivatives of ps with respect to eta. First dim is for eta, second cor case number, third for observation.
-# beta, w, wres, event,tm - as ususl
-CalcVarParam <- function(theta, eta.g, eta.b, tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.cox)
+# ps.deriv - array of derivatives of ps with respect to eta. First dim is for eta, second for case number, third for observation.
+# beta, w, wres, event,tm - as usual
+CalcVarParam <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.cox)
 {
   n <- length(tm)
   n.theta <- length(theta) 
@@ -15,47 +12,137 @@ CalcVarParam <- function(theta, eta.g, eta.b, tm, event, Z, Q, ps, ps.deriv, w, 
   order <- fit.cox$order
   knots <- fit.cox$knots
   n.eta <- length(eta.b) + length(eta.g)
-  nabla.eta.Ubeta <- matrix(nr = n.theta, nc = n.eta, 0)
+  nabla.eta.Utheta <- matrix(nr = n.theta, nc = n.eta, 0)
   for (i in 1:n.eta)
   {
-    nabla.eta.Ubeta[1,i] <- CalcNablabeetaUbeta(theta = theta, tm = tm, event = event, ps = ps, Q = Q, psDeriv = t(ps.deriv[,i,]) )
-    nabla.eta.Ubeta[2:n.theta,i] <- CalcNablabeetaUgamma(theta = theta, tm = tm, event = event, ps = ps, Q = Q, psDeriv = t(ps.deriv[,i,]))
+    nabla.eta.Utheta[1,i] <- CalcNablabeetaUbeta(theta = theta, tm = tm, event = event, ps = ps, Q = Q, psDeriv = t(ps.deriv[,i,]) )
+    nabla.eta.Utheta[2:n.theta,i] <- CalcNablabeetaUgamma(theta = theta, tm = tm, event = event, ps = ps, Q = Q, psDeriv = t(ps.deriv[,i,]))
   }
-  nabla.eta.Ubeta <- nabla.eta.Ubeta/n
+  nabla.eta.Utheta <- nabla.eta.Utheta/n
   ### Prep for calculating gradient of eta
   
   lr.for.fit.raw <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
-  Zinter <- Z[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf),]
-  lr.for.fit <- lr.for.fit.raw[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf),]
+  Zinter <- Z[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ]
+  lr.for.fit <- lr.for.fit.raw[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ]
   d1 <- lr.for.fit[,1]==0
   d3 <- lr.for.fit[,2]==Inf
   d2 <- 1 - d1 - d3
   
   ######
   grad.eta.pers.mat <- matrix(nr = n, nc = n.eta,0)
-  grad.eta.pers.mat[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf),] <- CalcGradEtaPers(d1 = d1, d2 = d2, d3 = d3, Li = lr.for.fit[,1],
+  grad.eta.pers.mat[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ] <- CalcGradEtaPers(d1 = d1, d2 = d2, d3 = d3, Li = lr.for.fit[,1],
                                        Ri = lr.for.fit[,2], knots = knots, order = order, eta.g = eta.g, eta.b = eta.b, Z = Zinter)
-  
   b.mat <- CalcbQ(theta = theta, tm = tm, event = event, ps = ps, Q = Q)
-  r.mat <- b.mat - t(nabla.eta.Ubeta%*%ginv(hessian.eta)%*%t(grad.eta.pers.mat))
+  r.mat <- b.mat - t(nabla.eta.Utheta%*%ginv(hessian.eta)%*%t(grad.eta.pers.mat))
   MM <- array(dim = c(ncol(r.mat),ncol(r.mat),nrow(r.mat)),0)
   for (j in 1:nrow(r.mat))
   {
     MM[,,j] <- r.mat[j,]%*%t(r.mat[j,])
   } 
-  meat <- apply(MM,c(1,2),mean)
+  meat <- apply(MM, c(1,2), mean)
   bread <- solve(CoxLogLikHess(theta = theta, tm = tm, event = event, ps = ps, Q = Q))
   v.hat <- n*bread%*%meat%*%bread
   if(max(v.hat)>1) {
     for (j in 1:nrow(b.mat))
     {
-      MM[,,j] <- b.mat[j,]%*%t(b.mat[j,])
+      MM[,,j] <- b.mat[j, ]%*%t(b.mat[j, ])
     } 
   }
   meat <- apply(MM,c(1,2),mean)
   v.hat <- n*bread%*%meat%*%bread
   return(v.hat)
 }
+
+CalcVarParamRSInts <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res,  fit.cox.rs.ints,  pts.for.ints, n.etas.per.fit)
+{
+  n <- length(tm)
+  n.theta <- length(theta) 
+  n.fits <- length(fit.cox.rs.ints)
+  #fit.cox.int.one <- fit.cox.rs.ints[[1]]
+  #eta.b.one <- fit.cox.int.one$b
+  #eta.g.one <- fit.cox.int.one$g
+  #n.g <- length(eta.g.one)
+  #n.b <- length(eta.b.one)
+  n.eta <- sum(n.etas.per.fit)
+  # eta.b <- fit.cox$b
+  # eta.g <- fit.cox$g
+  # hessian.eta <- fit.cox$Hessian
+  # order <- fit.cox$order
+  #knots <- fit.cox$knots
+  hessian.eta <- matrix(nr = n.eta, nc = n.eta, 0)
+  nabla.eta.Utheta <- matrix(nr = n.theta, nc = n.eta, 0)
+  for (j in 1:n.fits)
+  {
+    point <- pts.for.ints[j]
+    n.pars.ints <- n.etas.per.fit[j]
+    fit.temp.ints <- fit.cox.rs.ints[[j]]
+    if (j > 1)
+    {hessian.eta[(sum(n.etas.per.fit[1:(j-1)]) + 1):(sum(n.etas.per.fit[1:j])), 
+                (sum(n.etas.per.fit[1:(j-1)]) + 1):(sum(n.etas.per.fit[1:j]))] <- fit.temp.ints$Hessian
+    } else {
+      hessian.eta[1:n.etas.per.fit[j], 1:n.etas.per.fit[j]] <- fit.temp.ints$Hessian
+    }
+    
+    in.risk.set <- tm >= point
+    tm.ints <- tm[in.risk.set]
+    event.ints <- event[in.risk.set]
+    ps.ints <- ps[ ,in.risk.set]
+    Q.ints <- Q[in.risk.set,]
+    ps.deriv.ints <- ps.deriv[in.risk.set,,]
+    for (i in 1:n.pars.ints)
+    {
+      if (j>1) {param.index <- sum(n.etas.per.fit[1:(j-1)]) + i} else {param.index <- i}
+      nabla.eta.Utheta[1, param.index] <- CalcNablabeetaUbeta(theta = theta, tm = tm.ints, event = event.ints, ps = ps.ints, Q = Q.ints, 
+                                                   psDeriv = t(ps.deriv.ints[, param.index, ]) )
+      nabla.eta.Utheta[2:n.theta, param.index] <- CalcNablabeetaUgamma(theta = theta, tm = tm.ints, event = event.ints, ps = ps.ints, 
+                                                                       Q = Q.ints, psDeriv = t(ps.deriv.ints[, param.index, ]))  
+    }
+    
+  }
+  nabla.eta.Utheta <- nabla.eta.Utheta/n
+  ### Prep for calculating gradient of eta
+  
+  lr.for.fit.raw <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
+  Zinter <- Z[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ]
+  tm.inter <- tm[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf)] 
+  lr.for.fit <- lr.for.fit.raw[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ]
+  d1 <- lr.for.fit[,1]==0
+  d3 <- lr.for.fit[,2]==Inf
+  d2 <- 1 - d1 - d3
+  
+  ######
+  grad.eta.pers.mat <- matrix(nr = n, nc = n.eta,0)
+  grad.eta.pers.mat[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ] <- CalcGradEtaPersRSInts(d1 = d1, d2 = d2, d3 = d3, 
+                                                                                                   Li = lr.for.fit[,1], Ri = lr.for.fit[,2], 
+                                                                                                   Z = Zinter, 
+                                                                                                   fit.cox.rs.ints = fit.cox.rs.ints,
+                                                                                                   pts.for.ints = pts.for.ints, tm = tm.inter, 
+                                                                                                   n.etas.per.fit = n.etas.per.fit)
+    #CalcGradEtaPersRSInts(d1 = d1, d2 = d2, d3 = d3, Li = lr.for.fit[,1], Ri = lr.for.fit[,2], knots = knots, 
+    #order = order, eta.g = eta.g, eta.b = eta.b, Z = Zinter)
+  b.mat <- CalcbQ(theta = theta, tm = tm, event = event, ps = ps, Q = Q)
+  r.mat <- b.mat - t(nabla.eta.Utheta%*%ginv(hessian.eta)%*%t(grad.eta.pers.mat))
+  MM <- array(dim = c(ncol(r.mat),ncol(r.mat),nrow(r.mat)),0)
+  for (j in 1:nrow(r.mat))
+  {
+    MM[,,j] <- r.mat[j,]%*%t(r.mat[j,])
+  } 
+  meat <- apply(MM, c(1,2), mean)
+  bread <- solve(CoxLogLikHess(theta = theta, tm = tm, event = event, ps = ps, Q = Q))
+  v.hat <- n*bread%*%meat%*%bread
+  if(max(v.hat)>1) {
+    for (j in 1:nrow(b.mat))
+    {
+      MM[,,j] <- b.mat[j, ]%*%t(b.mat[j, ])
+    } 
+  }
+  meat <- apply(MM,c(1,2),mean)
+  v.hat <- n*bread%*%meat%*%bread
+  return(v.hat)
+}
+
+
+## Weibull, no extra covariates ###
 CalcVarThetaWeib <- function(beta, etas, tm, event, ps, ps.deriv.shape, ps.deriv.scale, w, w.res)
 {
   n <- length(tm)
@@ -71,7 +158,6 @@ CalcVarThetaWeib <- function(beta, etas, tm, event, ps, ps.deriv.shape, ps.deriv
   var.beta <- (meat/(bread^2))/n
   return(var.beta)
 }
-
 CalcVarThetaWeibRS <- function(beta, etas.matrix, tm, event, ps.rs, ps.deriv.shape.rs, ps.deriv.scale.rs, w, w.res)
 {
   n <- length(tm)
@@ -155,35 +241,35 @@ CalcVarNpmleRS <- function(tm, event, w, w.res, BS = 100, CI =T)
     return(list(v = v.hat.npmle.rs))
 }}
 
-CalcVarThetaCox <- function(beta, etas, tm, event, ps, ps.deriv.shape, ps.deriv.scale, w, w.res)
-{
-  n <- length(tm)
-  b.vec <- Calcb(beta = beta, tm = tm, event = event, ps = ps)
-  nabla.eta.shape.Ubeta <- CalcUbetabeeta(beta = beta, tm = tm, event = event, ps = ps, psDeriv = ps.deriv.shape)
-  nabla.eta.scale.Ubeta <- CalcUbetabeeta(beta = beta, tm = tm, event = event, ps = ps, psDeriv = ps.deriv.scale)
-  nabla.eta.Ubeta <- c(nabla.eta.shape.Ubeta, nabla.eta.scale.Ubeta)/n
-  hess.etas.l.v <- (hessian(func = ICweibLik, x = etas, w = w, w.res = w.res))
-  grad.eta.pers <- ICweibGrad(etas = etas, w = w, w.res = w.res)
-  r.vec <- b.vec - nabla.eta.Ubeta%*%solve(hess.etas.l.v)%*%t(grad.eta.pers)
-  meat <- mean(r.vec^2)  # since beta is one-dimensional here 
-  bread <- myFmyHess(beta, tm, event, ps)/n
-  var.beta <- (meat/(bread^2))/n
-  return(var.beta)
-}
-
-CalcVarThetaCoxRS <- function(beta, etas.matrix, tm, event, ps.rs, ps.deriv.shape.rs, ps.deriv.scale.rs, w, w.res)
-{
-  n <- length(tm)
-  b.vec <- Calcb(beta = beta, tm = tm, event = event, ps = ps.rs)
-  nabla.etas.shape.Ubeta <- CalcUbetabeetaRS(beta = beta, tm = tm, event = event, ps = ps.rs, psDeriv = ps.deriv.shape.rs)
-  nabla.etas.scale.Ubeta <- CalcUbetabeetaRS(beta = beta, tm = tm, event = event, ps = ps.rs, psDeriv = ps.deriv.scale.rs)
-  nabla.etas.Ubeta <- c(rbind(nabla.etas.shape.Ubeta, nabla.etas.scale.Ubeta))/n
-  
-  hess.eta.inv <- ICweibHessSolvedRS(etas.matrix = etas.matrix, w = w, w.res = w.res, tm = tm, event = event)
-  grad.eta.pers <- ICweibGradRS(etas = etas.matrix, w = w, w.res = w.res,  tm = tm, event = event)
-  r.vec <- b.vec - nabla.etas.Ubeta%*%hess.eta.inv%*%t(grad.eta.pers)
-  meat <- mean(r.vec^2)  # since beta is one-dimensional here 
-  bread <- myFmyHess(beta, tm, event, ps.rs)/n
-  var.beta <- (meat/(bread^2))/n
-  return(var.beta)
-}
+# CalcVarThetaCox <- function(beta, etas, tm, event, ps, ps.deriv.shape, ps.deriv.scale, w, w.res)
+# {
+#   n <- length(tm)
+#   b.vec <- Calcb(beta = beta, tm = tm, event = event, ps = ps)
+#   nabla.eta.shape.Ubeta <- CalcUbetabeeta(beta = beta, tm = tm, event = event, ps = ps, psDeriv = ps.deriv.shape)
+#   nabla.eta.scale.Ubeta <- CalcUbetabeeta(beta = beta, tm = tm, event = event, ps = ps, psDeriv = ps.deriv.scale)
+#   nabla.eta.Ubeta <- c(nabla.eta.shape.Ubeta, nabla.eta.scale.Ubeta)/n
+#   hess.etas.l.v <- (hessian(func = ICweibLik, x = etas, w = w, w.res = w.res))
+#   grad.eta.pers <- ICweibGrad(etas = etas, w = w, w.res = w.res)
+#   r.vec <- b.vec - nabla.eta.Ubeta%*%solve(hess.etas.l.v)%*%t(grad.eta.pers)
+#   meat <- mean(r.vec^2)  # since beta is one-dimensional here 
+#   bread <- myFmyHess(beta, tm, event, ps)/n
+#   var.beta <- (meat/(bread^2))/n
+#   return(var.beta)
+# }
+# 
+# CalcVarThetaCoxRS <- function(beta, etas.matrix, tm, event, ps.rs, ps.deriv.shape.rs, ps.deriv.scale.rs, w, w.res)
+# {
+#   n <- length(tm)
+#   b.vec <- Calcb(beta = beta, tm = tm, event = event, ps = ps.rs)
+#   nabla.etas.shape.Ubeta <- CalcUbetabeetaRS(beta = beta, tm = tm, event = event, ps = ps.rs, psDeriv = ps.deriv.shape.rs)
+#   nabla.etas.scale.Ubeta <- CalcUbetabeetaRS(beta = beta, tm = tm, event = event, ps = ps.rs, psDeriv = ps.deriv.scale.rs)
+#   nabla.etas.Ubeta <- c(rbind(nabla.etas.shape.Ubeta, nabla.etas.scale.Ubeta))/n
+#   
+#   hess.eta.inv <- ICweibHessSolvedRS(etas.matrix = etas.matrix, w = w, w.res = w.res, tm = tm, event = event)
+#   grad.eta.pers <- ICweibGradRS(etas = etas.matrix, w = w, w.res = w.res,  tm = tm, event = event)
+#   r.vec <- b.vec - nabla.etas.Ubeta%*%hess.eta.inv%*%t(grad.eta.pers)
+#   meat <- mean(r.vec^2)  # since beta is one-dimensional here 
+#   bread <- myFmyHess(beta, tm, event, ps.rs)/n
+#   var.beta <- (meat/(bread^2))/n
+#   return(var.beta)
+# }

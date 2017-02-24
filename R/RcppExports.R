@@ -13,6 +13,10 @@ CalcNablabeetaUbeta <- function(theta, tm, event, ps, Q, psDeriv) {
     .Call('CoxBinChange_CalcNablabeetaUbeta', PACKAGE = 'CoxBinChange', theta, tm, event, ps, Q, psDeriv)
 }
 
+CalcNablabeetaUbetaRS <- function(theta, tm, event, ps, Q, psDeriv) {
+    .Call('CoxBinChange_CalcNablabeetaUbetaRS', PACKAGE = 'CoxBinChange', theta, tm, event, ps, Q, psDeriv)
+}
+
 CalcNablabeetaUgamma <- function(theta, tm, event, ps, Q, psDeriv) {
     .Call('CoxBinChange_CalcNablabeetaUgamma', PACKAGE = 'CoxBinChange', theta, tm, event, ps, Q, psDeriv)
 }

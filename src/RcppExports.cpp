@@ -51,6 +51,22 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// CalcNablabeetaUbetaRS
+double CalcNablabeetaUbetaRS(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Q, arma::mat psDeriv);
+RcppExport SEXP CoxBinChange_CalcNablabeetaUbetaRS(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP QSEXP, SEXP psDerivSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< arma::vec >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type tm(tmSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type event(eventSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type ps(psSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type Q(QSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type psDeriv(psDerivSEXP);
+    __result = Rcpp::wrap(CalcNablabeetaUbetaRS(theta, tm, event, ps, Q, psDeriv));
+    return __result;
+END_RCPP
+}
 // CalcNablabeetaUgamma
 arma::mat CalcNablabeetaUgamma(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Q, arma::mat psDeriv);
 RcppExport SEXP CoxBinChange_CalcNablabeetaUgamma(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP QSEXP, SEXP psDerivSEXP) {

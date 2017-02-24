@@ -51,7 +51,7 @@ CalcCoxCalibPderiv <- function(w, w.res, point, fit.cox, hz.times, Z)
 }
 
 
-CalcCoxCalibPderivRSInsts <- function(w, w.res, point, fit.cox.rs.ints, hz.times, Z,  pts.for.ints, tm)
+CalcCoxCalibPderivRSInsts <- function(w, w.res, point, fit.cox.rs.ints, hz.times, Z,  pts.for.ints, tm, n.etas.per.fit)
 {
   interval <- findInterval(point, pts.for.ints)
   fit.cox.int <- fit.cox.rs.ints[[interval]]
@@ -84,13 +84,17 @@ CalcCoxCalibPderivRSInsts <- function(w, w.res, point, fit.cox.rs.ints, hz.times
   b.point <- t(Ispline(x = point, order = order, knots = knots))
   b.a.point <- t(Ispline(x = a.point[p.point==0 & in.risk.set], order = order, knots = knots))
   
-  deriv.eta.ints <- matrix(nr = length(p.point), nc = length(eta.b) + length(eta.g),0) 
+  deriv.eta.ints <- matrix(nr = length(p.point), nc = n.etas.per.fit[interval], 0) 
   deriv.eta.ints[p.point==0 & in.risk.set, 1:ncol(Z)] <- (S.at.point/S.at.a.point)*(H.point-H.a.point)*Z[p.point==0 & in.risk.set,]
   deriv.eta.ints[p.point==0 & in.risk.set, (ncol(Z)+1):ncol(deriv.eta.ints)] <- (S.at.point/S.at.a.point)*(as.vector(b.point)-b.a.point)*
                                                                                 exp.Zb[p.point==0  & in.risk.set]
   
-  deriv.eta <- matrix(nr = length(p.point), nc = (length(eta.b) + length(eta.g))*length(fit.cox.rs.ints),0) 
-  deriv.eta[,((interval-1)*(length(eta.b) + length(eta.g))+1):(interval*(length(eta.b) + length(eta.g)))] <- deriv.eta.ints
+  deriv.eta <- matrix(nr = length(p.point), nc = sum(n.etas.per.fit),0) 
+  if (interval > 1) {
+  deriv.eta[, (sum(n.etas.per.fit[1:(interval-1)])+1):sum(n.etas.per.fit[1:interval])] <- deriv.eta.ints
+  } else {
+    deriv.eta[, 1:n.etas.per.fit[1]] <- deriv.eta.ints
+  }
   
   return(deriv.eta)
 }

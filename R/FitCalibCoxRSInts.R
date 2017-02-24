@@ -32,17 +32,17 @@ for (j in 1:r)
   d3 <- lr.for.fit[,2]==Inf
   d2 <- 1 - d1 - d3
   fit.cox.point <- tryCatch(fast.PH.ICsurv.EM(d1 = d1, d2 = d2, d3 = d3,Li = lr.for.fit[,1],
-                                        Ri = lr.for.fit[,2], n.int = n.int, order = order,  Xp = Z, g0 =rep(1,n.int + order), b0 = rep(0,ncol(Z)),
+                                        Ri = lr.for.fit[,2], n.int = n.int, order = order,  Xp = Z, g0 =rep(0.1,n.int + order), b0 = rep(0.5,ncol(Z)),
                                         t.seq = hz.times, tol = 0.001), error = function(e){e})
-  # while(inherits(fit.cox.point, "error") & n.int >= 2) { 
-  #   n.int <- n.int - 1
-  #   fit.cox.point <- tryCatch(fast.PH.ICsurv.EM(d1 = d1, d2 = d2, d3 = d3,Li = lr.for.fit[,1],
-  #                                         Ri = lr.for.fit[,2], n.int = n.int, order = order,  Xp = Z, g0 =rep(1,n.int + order), b0 = rep(0,ncol(Z)),
-  #                                         t.seq = hz.times, tol = 0.001), error = function(e){e})
-  # }
+   while(inherits(fit.cox.point, "error") & n.int >= 2) { 
+     n.int <- n.int - 1
+     fit.cox.point <- tryCatch(fast.PH.ICsurv.EM(d1 = d1, d2 = d2, d3 = d3,Li = lr.for.fit[,1],
+                                           Ri = lr.for.fit[,2], n.int = n.int, order = order,  Xp = Z, g0 =rep(1,n.int + order), b0 = rep(0,ncol(Z)),
+                                           t.seq = hz.times, tol = 0.001), error = function(e){e})
+   }
   if (inherits(fit.cox.point, "error")) {
-    fit.cox.point <- FitCalibCox(w = w, w.res = w.res, Z = Z, hz.times = hz.times, n.int = n.int, order = order)
-    warning(paste("In point", point, "Calibration was used instead of risk set calibration"))
+    fit.cox.point <- FitCalibCox(w = w, w.res = w.res, Z = Z.all, hz.times = hz.times, n.int = n.int, order = order)
+    warning(paste("In point", point, "Calibration was used instead of risk set calibration"),immediate. = T)
   }   else {
     ti <- c(lr.for.fit[d1 == 0,1], lr.for.fit[d3 == 0,2])
     fit.cox.point$knots <-   seq(min(ti) - 1e-05,  max(ti) + 1e-05, length.out = (n.int + 2))
