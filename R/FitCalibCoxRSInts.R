@@ -1,4 +1,4 @@
-#### FitCalibCoxRSInts function
+  #### FitCalibCoxRSInts function
 # Unlike FitCalibCoxRS, this function only estimate the survival in certain number of points
 ### Daniel Nevo
 ## The function takes the following
@@ -11,6 +11,7 @@
 # The function returns a list of cox fits for interval-censored time to event data, one for each risk set.
 FitCalibCoxRSInts<- function(w, w.res, Z, hz.times, n.int = 5, order = 2 , tm, event, pts.for.ints)
 {
+n.int.org <- n.int
 if (pts.for.ints[1] != 0) {pts.for.ints <- c(0, pts.for.ints)}
 r <- length(pts.for.ints)
 event.index <- which(event==1)
@@ -19,6 +20,7 @@ Z.all <- Z
 all.fit.cox.res <- list()
 for (j in 1:r)
 {
+  n.int <- n.int.org
   point <- pts.for.ints[j]
   # Keep only observations in the risk set
   lr.for.fit <- lr.for.fit.all[tm>=point,]  
@@ -32,7 +34,7 @@ for (j in 1:r)
   d3 <- lr.for.fit[,2]==Inf
   d2 <- 1 - d1 - d3
   fit.cox.point <- tryCatch(fast.PH.ICsurv.EM(d1 = d1, d2 = d2, d3 = d3,Li = lr.for.fit[,1],
-                                        Ri = lr.for.fit[,2], n.int = n.int, order = order,  Xp = Z, g0 =rep(0.1,n.int + order), b0 = rep(0.5,ncol(Z)),
+                                        Ri = lr.for.fit[,2], n.int = n.int, order = order,  Xp = Z, g0 =rep(1,n.int + order), b0 = rep(0,ncol(Z)),
                                         t.seq = hz.times, tol = 0.001), error = function(e){e})
    while(inherits(fit.cox.point, "error") & n.int >= 2) { 
      n.int <- n.int - 1
@@ -41,7 +43,7 @@ for (j in 1:r)
                                            t.seq = hz.times, tol = 0.001), error = function(e){e})
    }
   if (inherits(fit.cox.point, "error")) {
-    fit.cox.point <- FitCalibCox(w = w, w.res = w.res, Z = Z.all, hz.times = hz.times, n.int = n.int, order = order)
+    fit.cox.point <- FitCalibCox(w = w, w.res = w.res, Z = Z.all, hz.times = hz.times, n.int = n.int.org, order = order)
     warning(paste("In point", point, "Calibration was used instead of risk set calibration"),immediate. = T)
   }   else {
     ti <- c(lr.for.fit[d1 == 0,1], lr.for.fit[d3 == 0,2])
