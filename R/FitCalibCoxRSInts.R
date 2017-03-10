@@ -46,10 +46,15 @@ for (j in 1:r)
     fit.cox.point <- FitCalibCox(w = w, w.res = w.res, Z = Z.all, hz.times = hz.times, n.int = n.int.org, order = order)
     warning(paste("In point", point, "Calibration was used instead of risk set calibration"),immediate. = T)
   }   else {
+    if (max(abs(fit.cox.point$b)) > 3.5)
+    {
+      fit.cox.point <- FitCalibCox(w = w, w.res = w.res, Z = Z.all, hz.times = hz.times, n.int = n.int.org, order = order)
+      warning(paste("In point", point, "Calibration was used instead of risk set calibration"),immediate. = T)
+    } else {
     ti <- c(lr.for.fit[d1 == 0,1], lr.for.fit[d3 == 0,2])
     fit.cox.point$knots <-   seq(min(ti) - 1e-05,  max(ti) + 1e-05, length.out = (n.int + 2))
     fit.cox.point$order <- order
-  }
+  }}
   all.fit.cox.res[[j]] <- fit.cox.point
 }
 return(all.fit.cox.res)
