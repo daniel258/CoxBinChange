@@ -45,6 +45,10 @@ FindIntervalCalibCPP <- function(w, wres) {
     .Call('CoxBinChange_FindIntervalCalibCPP', PACKAGE = 'CoxBinChange', w, wres)
 }
 
+FindIntervalCalibCPPvec <- function(w, wres) {
+    .Call('CoxBinChange_FindIntervalCalibCPPvec', PACKAGE = 'CoxBinChange', w, wres)
+}
+
 FindIntervalCPP <- function(point, w) {
     .Call('CoxBinChange_FindIntervalCPP', PACKAGE = 'CoxBinChange', point, w)
 }

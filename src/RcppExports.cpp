@@ -167,6 +167,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// FindIntervalCalibCPPvec
+NumericVector FindIntervalCalibCPPvec(NumericVector w, NumericVector wres);
+RcppExport SEXP CoxBinChange_FindIntervalCalibCPPvec(SEXP wSEXP, SEXP wresSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type w(wSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type wres(wresSEXP);
+    rcpp_result_gen = Rcpp::wrap(FindIntervalCalibCPPvec(w, wres));
+    return rcpp_result_gen;
+END_RCPP
+}
 // FindIntervalCPP
 IntegerVector FindIntervalCPP(double point, NumericMatrix w);
 RcppExport SEXP CoxBinChange_FindIntervalCPP(SEXP pointSEXP, SEXP wSEXP) {
