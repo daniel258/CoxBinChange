@@ -41,6 +41,10 @@ CoxLogLikHess <- function(theta, tm, event, ps, Q) {
     .Call('CoxBinChange_CoxLogLikHess', PACKAGE = 'CoxBinChange', theta, tm, event, ps, Q)
 }
 
+CoxLogLikNoBeta <- function(gamma, tm, event, Q) {
+    .Call('CoxBinChange_CoxLogLikNoBeta', PACKAGE = 'CoxBinChange', gamma, tm, event, Q)
+}
+
 FindIntervalCalibCPP <- function(w, wres) {
     .Call('CoxBinChange_FindIntervalCalibCPP', PACKAGE = 'CoxBinChange', w, wres)
 }

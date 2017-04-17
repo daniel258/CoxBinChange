@@ -155,6 +155,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// CoxLogLikNoBeta
+double CoxLogLikNoBeta(arma::vec gamma, arma::vec tm, arma::vec event, arma::mat Q);
+RcppExport SEXP CoxBinChange_CoxLogLikNoBeta(SEXP gammaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP QSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type gamma(gammaSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type tm(tmSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type event(eventSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type Q(QSEXP);
+    rcpp_result_gen = Rcpp::wrap(CoxLogLikNoBeta(gamma, tm, event, Q));
+    return rcpp_result_gen;
+END_RCPP
+}
 // FindIntervalCalibCPP
 NumericMatrix FindIntervalCalibCPP(NumericMatrix w, NumericMatrix wres);
 RcppExport SEXP CoxBinChange_FindIntervalCalibCPP(SEXP wSEXP, SEXP wresSEXP) {
