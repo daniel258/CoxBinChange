@@ -22,7 +22,7 @@ CalcVarParam <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.co
   ### Prep for calculating gradient of eta
   
   lr.for.fit.raw <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
-  Zinter <- Z[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ]
+  Zinter <- as.matrix(Z[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ])
   lr.for.fit <- lr.for.fit.raw[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ]
   d1 <- lr.for.fit[,1]==0
   d3 <- lr.for.fit[,2]==Inf
@@ -103,7 +103,7 @@ CalcVarParamRSInts <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, 
   ### Prep for calculating gradient of eta
   
   lr.for.fit.raw <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
-  Zinter <- Z[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ]
+  Zinter <- as.matrix(Z[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ])
   tm.inter <- tm[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf)] 
   lr.for.fit <- lr.for.fit.raw[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ]
   d1 <- lr.for.fit[,1]==0
