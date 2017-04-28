@@ -48,7 +48,7 @@ FitCalibNpmle <- function(w,w.res)
 FitCalibCox <- function(w, w.res, Z, hz.times, n.int = 5, order = 2 )
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
-  Z <- Z[!(lr.for.fit[,1]==0 & lr.for.fit[,2]==Inf),]
+  Z <- as.matrix(Z[!(lr.for.fit[,1]==0 & lr.for.fit[,2]==Inf),])
   lr.for.fit <- lr.for.fit[!(lr.for.fit[,1]==0 & lr.for.fit[,2]==Inf),]
   #lr.for.fit[lr.for.fit==Inf] <- 200
   #lr.for.fit[lr.for.fit==0] <- 0.0001
