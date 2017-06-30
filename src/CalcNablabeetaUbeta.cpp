@@ -11,7 +11,7 @@ using namespace Rcpp;
 //
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
-double CalcNablabeetaUbeta(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Q, arma::mat psDeriv) {
+double CalcNablabeetaUbeta(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z, arma::mat psDeriv) {
   int n = tm.size();
   int sumD = sum(event);
   int nPars = theta.size();
@@ -30,8 +30,8 @@ double CalcNablabeetaUbeta(arma::vec theta, arma::vec tm, arma::vec event, arma:
   arma::vec gamma = theta.subvec(1,nPars-1);
   arma::vec Szero =  arma::zeros(sumD);
   arma::vec a =  arma::zeros(sumD);
-  arma::vec ExpGamQ = exp(Q * gamma);
-  arma::vec ExpGamQbeta = exp(Q * gamma + beta);
+  arma::vec ExpGamZ = exp(Z * gamma);
+  arma::vec ExpGamZbeta = exp(Z * gamma + beta);
   
   arma::mat Sone = arma::zeros(sumD,nPars);
   arma::mat StwoGammaBeta =  arma::zeros(sumD,nPars-1);
@@ -45,12 +45,12 @@ double CalcNablabeetaUbeta(arma::vec theta, arma::vec tm, arma::vec event, arma:
   for (int i = 0; i < n; ++i) {
     if (event[i]) {
       iCaseNum += 1;
-      Szero[iCaseNum] += nu(iCaseNum,i)*ExpGamQ[i];
-      a[iCaseNum] += nua(iCaseNum,i)*ExpGamQ[i];
+      Szero[iCaseNum] += nu(iCaseNum,i)*ExpGamZ[i];
+      a[iCaseNum] += nua(iCaseNum,i)*ExpGamZ[i];
       for(int j = 0; j < n; ++j) {
         if (tm[j]>tm[i]) {
-          Szero[iCaseNum] += nu(iCaseNum,j)*ExpGamQ[j];
-          a[iCaseNum] += nua(iCaseNum,j)*ExpGamQ[j];
+          Szero[iCaseNum] += nu(iCaseNum,j)*ExpGamZ[j];
+          a[iCaseNum] += nua(iCaseNum,j)*ExpGamZ[j];
         }
       }
     }
@@ -68,10 +68,10 @@ double CalcNablabeetaUbeta(arma::vec theta, arma::vec tm, arma::vec event, arma:
     for (int j = 0; j < n; ++j) {
     if (event[j]) {
       jCaseNum += 1;
-      SderivEta[jCaseNum] +=  psDerivEta(jCaseNum,j)*ExpGamQbeta[j];
+      SderivEta[jCaseNum] +=  psDerivEta(jCaseNum,j)*ExpGamZbeta[j];
       for(int k = 0; k < n; ++k) {
         if (tm[k]>tm[j]) {
-          SderivEta[jCaseNum] +=  psDerivEta(jCaseNum,k)*ExpGamQbeta[k];
+          SderivEta[jCaseNum] +=  psDerivEta(jCaseNum,k)*ExpGamZbeta[k];
         }
       }
     }
@@ -105,11 +105,4 @@ double CalcNablabeetaUbeta(arma::vec theta, arma::vec tm, arma::vec event, arma:
   }
 
 
-// You can include R code blocks in C++ files processed with sourceCpp
-// (useful for testing and development). The R code will be automatically
-// run after the compilation.
-//
 
-// /*** R
-// timesTwo(42)
-// */

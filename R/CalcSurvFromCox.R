@@ -1,4 +1,4 @@
-CalcSurvFromCox <- function(fit.cox, Zb, points, hz.times)
+CalcSurvFromCox <- function(fit.cox, Qb, points, hz.times)
 {
   n.points <- length(points)
   hz <- fit.cox$hz
@@ -16,6 +16,6 @@ CalcSurvFromCox <- function(fit.cox, Zb, points, hz.times)
                                                                         (hz.times[intervals[i]]-hz.times[intervals[i]-1]))#Extrapolation
       }
   }
-  surv.probs <- exp(-base*exp(Zb))
+  surv.probs <- exp(-base*exp(Qb))
   
 }

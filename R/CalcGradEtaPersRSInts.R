@@ -1,6 +1,6 @@
 ## Daniel Nevo 
-#CalcGradEtaPersRSInts <- function(d1, d2, d3, Li, Ri,  knots, order, eta.g, eta.b, Z, pts.for.ints)
-CalcGradEtaPersRSInts <- function(d1, d2, d3, Li, Ri, Z, fit.cox.rs.ints, pts.for.ints, tm, n.etas.per.fit)
+#CalcGradEtaPersRSInts <- function(d1, d2, d3, Li, Ri,  knots, order, eta.g, eta.b, Q, pts.for.ints)
+CalcGradEtaPersRSInts <- function(d1, d2, d3, Li, Ri, Q, fit.cox.rs.ints, pts.for.ints, tm, n.etas.per.fit)
 {
   n <- length(Ri)
   n.fits <- length(pts.for.ints)
@@ -28,8 +28,8 @@ CalcGradEtaPersRSInts <- function(d1, d2, d3, Li, Ri, Z, fit.cox.rs.ints, pts.fo
   d1.int <- d1[in.risk.set]
   d2.int <- d2[in.risk.set]
   d3.int <- d3[in.risk.set]
-  Z.int <- Z[in.risk.set,]
-  expZb <- as.vector(exp(Z.int%*%eta.b))
+  Q.int <- Q[in.risk.set,]
+  expQb <- as.vector(exp(Q.int%*%eta.b))
   # Portion of the code are taken from the ICsurv package
   ti <- c(Li.int[d1.int == 0], Ri.int[d3.int == 0])
   ti.max <- max(ti) + 1e-05
@@ -38,20 +38,20 @@ CalcGradEtaPersRSInts <- function(d1, d2, d3, Li, Ri, Z, fit.cox.rs.ints, pts.fo
   bLi <- t(Ispline(x = Li.int, order = order, knots = knots))
   GRi <- as.vector(bRi %*% eta.g)
   GLi <- as.vector(bLi %*% eta.g)
-  HRi <-  as.vector(GRi*expZb)
-  HLi <-  as.vector(GLi*expZb) 
+  HRi <-  as.vector(GRi*expQb)
+  HLi <-  as.vector(GLi*expQb) 
   SRi <- exp(-HRi)
   SLi <- exp(-HLi)
   FRi <- 1-SRi
   FLi <- 1-SLi
   
-  term.deriv.etab.d1 <- Z.int*(SRi*HRi/FRi)
-  term.deriv.etab.d2 <- Z.int*(SRi*HRi -SLi*HLi)/(SLi-SRi)
-  term.deriv.etab.d3 <- -Z.int*HLi
+  term.deriv.etab.d1 <- Q.int*(SRi*HRi/FRi)
+  term.deriv.etab.d2 <- Q.int*(SRi*HRi -SLi*HLi)/(SLi-SRi)
+  term.deriv.etab.d3 <- -Q.int*HLi
   
-  term.deriv.etag.d1 <- bRi*(SRi*expZb/FRi)
-  term.deriv.etag.d2 <- expZb*(SRi*bRi -SLi*bLi)/(SLi-SRi)
-  term.deriv.etag.d3 <- -bLi*expZb
+  term.deriv.etag.d1 <- bRi*(SRi*expQb/FRi)
+  term.deriv.etag.d2 <- expQb*(SRi*bRi -SLi*bLi)/(SLi-SRi)
+  term.deriv.etag.d3 <- -bLi*expQb
   
   deriv.ell.etag.int <- matrix(nr = n.set, nc =  n.g)
   deriv.ell.etab.int <- matrix(nr = n.set, nc =  n.b)

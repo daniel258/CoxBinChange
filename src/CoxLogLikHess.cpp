@@ -13,7 +13,7 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
-arma::mat CoxLogLikHess(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Q) {
+arma::mat CoxLogLikHess(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z) {
   int n = tm.size();
   int sumD = sum(event);
   int nPars = theta.size();
@@ -27,8 +27,8 @@ arma::mat CoxLogLikHess(arma::vec theta, arma::vec tm, arma::vec event, arma::ma
   arma::vec gamma = theta.subvec(1,nPars-1);
   arma::vec Szero =  arma::zeros(sumD);
   arma::vec a =  arma::zeros(sumD);
-  arma::vec GamQ = Q * gamma;
-  arma::vec ExpGamQ = exp(Q * gamma);
+  arma::vec GamZ = Z * gamma;
+  arma::vec ExpGamZ = exp(Z * gamma);
   
   arma::mat Sone = arma::zeros(sumD,nPars);
   arma::mat StwoGammaBeta =  arma::zeros(sumD,nPars-1);
@@ -50,22 +50,22 @@ arma::mat CoxLogLikHess(arma::vec theta, arma::vec tm, arma::vec event, arma::ma
   for (int i = 0; i < n; ++i) {
     if (event[i]) {
      iCaseNum += 1;
-     Szero[iCaseNum] += nu(iCaseNum,i)*ExpGamQ[i];
-     Sone(iCaseNum,0) += nuDerivBeta(iCaseNum,i)*ExpGamQ[i];
-     a[iCaseNum] += nua(iCaseNum,i)*ExpGamQ[i];
-     arma::mat Qi = Q(i,arma::span::all);
-     StwoGammaBeta(iCaseNum,arma::span::all) +=  Qi*ExpGamQ[i]*nuDerivBeta(iCaseNum,i);
-     StwoGamma.slice(iCaseNum) += Qi.t() * Qi * Szero[iCaseNum];
-     Sone(iCaseNum, arma::span(1,nPars-1)) +=   nu(iCaseNum,i)*ExpGamQ[i]*Qi;
+     Szero[iCaseNum] += nu(iCaseNum,i)*ExpGamZ[i];
+     Sone(iCaseNum,0) += nuDerivBeta(iCaseNum,i)*ExpGamZ[i];
+     a[iCaseNum] += nua(iCaseNum,i)*ExpGamZ[i];
+     arma::mat Zi = Z(i,arma::span::all);
+     StwoGammaBeta(iCaseNum,arma::span::all) +=  Zi*ExpGamZ[i]*nuDerivBeta(iCaseNum,i);
+     StwoGamma.slice(iCaseNum) += Zi.t() * Zi * Szero[iCaseNum];
+     Sone(iCaseNum, arma::span(1,nPars-1)) +=   nu(iCaseNum,i)*ExpGamZ[i]*Zi;
      for(int j = 0; j < n; ++j) {
        if (tm[j]>tm[i]) {
-        Szero[iCaseNum] += nu(iCaseNum,j)*ExpGamQ[j];
-        Sone(iCaseNum,0) += nuDerivBeta(iCaseNum,j)*ExpGamQ[j];
-        a[iCaseNum] += nua(iCaseNum,j)*ExpGamQ[j];
-        arma::mat Qj = Q(j,arma::span::all);
-        StwoGammaBeta(iCaseNum,arma::span::all) +=  Qj*ExpGamQ[j]*nuDerivBeta(iCaseNum,j);
-        StwoGamma.slice(iCaseNum) += Qj.t() * Qj * nu(iCaseNum,j)*ExpGamQ[j];
-        Sone(iCaseNum, arma::span(1,nPars-1)) +=   nu(iCaseNum,j)*ExpGamQ[j]*Qj;
+        Szero[iCaseNum] += nu(iCaseNum,j)*ExpGamZ[j];
+        Sone(iCaseNum,0) += nuDerivBeta(iCaseNum,j)*ExpGamZ[j];
+        a[iCaseNum] += nua(iCaseNum,j)*ExpGamZ[j];
+        arma::mat Zj = Z(j,arma::span::all);
+        StwoGammaBeta(iCaseNum,arma::span::all) +=  Zj*ExpGamZ[j]*nuDerivBeta(iCaseNum,j);
+        StwoGamma.slice(iCaseNum) += Zj.t() * Zj * nu(iCaseNum,j)*ExpGamZ[j];
+        Sone(iCaseNum, arma::span(1,nPars-1)) +=   nu(iCaseNum,j)*ExpGamZ[j]*Zj;
        }
       }
     }

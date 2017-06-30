@@ -20,7 +20,7 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
-arma::vec CoxLogLikGrad(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Q) {
+arma::vec CoxLogLikGrad(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z) {
   int n = tm.size();
   int sumD = sum(event);
   int nPars = theta.size();
@@ -32,8 +32,8 @@ arma::vec CoxLogLikGrad(arma::vec theta, arma::vec tm, arma::vec event, arma::ma
   double beta = theta[0];
   arma::vec gamma = theta.subvec(1,nPars-1);
   arma::mat contrib=1 + ps*(exp(beta)-1);
-  arma::vec GamQ = Q * gamma;
-  arma::vec ExpGamQ = exp(Q * gamma);
+  arma::vec GamZ = Z * gamma;
+  arma::vec ExpGamZ = exp(Z * gamma);
   
   arma::mat nu = 1 + ps*(exp(beta)-1);
   arma::mat nuDerivBeta= ps*exp(beta);
@@ -45,17 +45,17 @@ arma::vec CoxLogLikGrad(arma::vec theta, arma::vec tm, arma::vec event, arma::ma
   for (int i = 0; i < n; ++i) {
     if (event[i]) {
      iCaseNum += 1;
-     Szero[iCaseNum] += nu(iCaseNum,i)*ExpGamQ[i];
-     Sone(iCaseNum,0) += nuDerivBeta(iCaseNum,i)*ExpGamQ[i];
+     Szero[iCaseNum] += nu(iCaseNum,i)*ExpGamZ[i];
+     Sone(iCaseNum,0) += nuDerivBeta(iCaseNum,i)*ExpGamZ[i];
      for(int iGam = 1; iGam < nPars; ++iGam) {
-       Sone(iCaseNum,iGam) += nu(iCaseNum,i)*ExpGamQ[i]*Q(i,iGam-1);
+       Sone(iCaseNum,iGam) += nu(iCaseNum,i)*ExpGamZ[i]*Z(i,iGam-1);
       }
      for(int j = 0; j < n; ++j) {
        if (tm[j]>tm[i]) {
-        Szero[iCaseNum] += nu(iCaseNum,j)*ExpGamQ[j];
-        Sone(iCaseNum,0) += nuDerivBeta(iCaseNum,j)*ExpGamQ[j];
+        Szero[iCaseNum] += nu(iCaseNum,j)*ExpGamZ[j];
+        Sone(iCaseNum,0) += nuDerivBeta(iCaseNum,j)*ExpGamZ[j];
         for(int jGam = 1; jGam < nPars; ++jGam) {
-          Sone(iCaseNum,jGam) += nu(iCaseNum,j)*ExpGamQ[j]*Q(j,jGam-1);
+          Sone(iCaseNum,jGam) += nu(iCaseNum,j)*ExpGamZ[j]*Z(j,jGam-1);
         }
        }
       }
@@ -67,7 +67,7 @@ arma::vec CoxLogLikGrad(arma::vec theta, arma::vec tm, arma::vec event, arma::ma
        jCaseNum += 1;
        grad[0] += nuDerivBeta(jCaseNum,k)/nu(jCaseNum,k) - Sone(jCaseNum,0)/Szero[jCaseNum];
        for (int kGam = 1; kGam < nPars; ++kGam) {
-         grad[kGam] += Q(k,kGam-1) - Sone(jCaseNum,kGam)/Szero[jCaseNum];
+         grad[kGam] += Z(k,kGam-1) - Sone(jCaseNum,kGam)/Szero[jCaseNum];
        }
      }
    }

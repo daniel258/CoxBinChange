@@ -20,9 +20,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// CalcbQ
-arma::mat CalcbQ(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Q);
-RcppExport SEXP CoxBinChange_CalcbQ(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP QSEXP) {
+// CalcbZ
+arma::mat CalcbZ(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z);
+RcppExport SEXP CoxBinChange_CalcbZ(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -30,14 +30,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type tm(tmSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type event(eventSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type ps(psSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type Q(QSEXP);
-    rcpp_result_gen = Rcpp::wrap(CalcbQ(theta, tm, event, ps, Q));
+    Rcpp::traits::input_parameter< arma::mat >::type Z(ZSEXP);
+    rcpp_result_gen = Rcpp::wrap(CalcbZ(theta, tm, event, ps, Z));
     return rcpp_result_gen;
 END_RCPP
 }
 // CalcNablabeetaUbeta
-double CalcNablabeetaUbeta(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Q, arma::mat psDeriv);
-RcppExport SEXP CoxBinChange_CalcNablabeetaUbeta(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP QSEXP, SEXP psDerivSEXP) {
+double CalcNablabeetaUbeta(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z, arma::mat psDeriv);
+RcppExport SEXP CoxBinChange_CalcNablabeetaUbeta(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP, SEXP psDerivSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -45,15 +45,15 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type tm(tmSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type event(eventSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type ps(psSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type Q(QSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type Z(ZSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type psDeriv(psDerivSEXP);
-    rcpp_result_gen = Rcpp::wrap(CalcNablabeetaUbeta(theta, tm, event, ps, Q, psDeriv));
+    rcpp_result_gen = Rcpp::wrap(CalcNablabeetaUbeta(theta, tm, event, ps, Z, psDeriv));
     return rcpp_result_gen;
 END_RCPP
 }
 // CalcNablabeetaUgamma
-arma::mat CalcNablabeetaUgamma(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Q, arma::mat psDeriv);
-RcppExport SEXP CoxBinChange_CalcNablabeetaUgamma(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP QSEXP, SEXP psDerivSEXP) {
+arma::mat CalcNablabeetaUgamma(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z, arma::mat psDeriv);
+RcppExport SEXP CoxBinChange_CalcNablabeetaUgamma(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP, SEXP psDerivSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -61,9 +61,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type tm(tmSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type event(eventSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type ps(psSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type Q(QSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type Z(ZSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type psDeriv(psDerivSEXP);
-    rcpp_result_gen = Rcpp::wrap(CalcNablabeetaUgamma(theta, tm, event, ps, Q, psDeriv));
+    rcpp_result_gen = Rcpp::wrap(CalcNablabeetaUgamma(theta, tm, event, ps, Z, psDeriv));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -111,8 +111,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // CoxLogLik
-double CoxLogLik(arma::vec betagamma, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Q);
-RcppExport SEXP CoxBinChange_CoxLogLik(SEXP betagammaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP QSEXP) {
+double CoxLogLik(arma::vec betagamma, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z);
+RcppExport SEXP CoxBinChange_CoxLogLik(SEXP betagammaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -120,14 +120,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type tm(tmSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type event(eventSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type ps(psSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type Q(QSEXP);
-    rcpp_result_gen = Rcpp::wrap(CoxLogLik(betagamma, tm, event, ps, Q));
+    Rcpp::traits::input_parameter< arma::mat >::type Z(ZSEXP);
+    rcpp_result_gen = Rcpp::wrap(CoxLogLik(betagamma, tm, event, ps, Z));
     return rcpp_result_gen;
 END_RCPP
 }
 // CoxLogLikGrad
-arma::vec CoxLogLikGrad(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Q);
-RcppExport SEXP CoxBinChange_CoxLogLikGrad(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP QSEXP) {
+arma::vec CoxLogLikGrad(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z);
+RcppExport SEXP CoxBinChange_CoxLogLikGrad(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -135,14 +135,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type tm(tmSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type event(eventSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type ps(psSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type Q(QSEXP);
-    rcpp_result_gen = Rcpp::wrap(CoxLogLikGrad(theta, tm, event, ps, Q));
+    Rcpp::traits::input_parameter< arma::mat >::type Z(ZSEXP);
+    rcpp_result_gen = Rcpp::wrap(CoxLogLikGrad(theta, tm, event, ps, Z));
     return rcpp_result_gen;
 END_RCPP
 }
 // CoxLogLikHess
-arma::mat CoxLogLikHess(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Q);
-RcppExport SEXP CoxBinChange_CoxLogLikHess(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP QSEXP) {
+arma::mat CoxLogLikHess(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z);
+RcppExport SEXP CoxBinChange_CoxLogLikHess(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -150,22 +150,22 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::vec >::type tm(tmSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type event(eventSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type ps(psSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type Q(QSEXP);
-    rcpp_result_gen = Rcpp::wrap(CoxLogLikHess(theta, tm, event, ps, Q));
+    Rcpp::traits::input_parameter< arma::mat >::type Z(ZSEXP);
+    rcpp_result_gen = Rcpp::wrap(CoxLogLikHess(theta, tm, event, ps, Z));
     return rcpp_result_gen;
 END_RCPP
 }
 // CoxLogLikNoBeta
-double CoxLogLikNoBeta(arma::vec gamma, arma::vec tm, arma::vec event, arma::mat Q);
-RcppExport SEXP CoxBinChange_CoxLogLikNoBeta(SEXP gammaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP QSEXP) {
+double CoxLogLikNoBeta(arma::vec gamma, arma::vec tm, arma::vec event, arma::mat Z);
+RcppExport SEXP CoxBinChange_CoxLogLikNoBeta(SEXP gammaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP ZSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::vec >::type gamma(gammaSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type tm(tmSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type event(eventSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type Q(QSEXP);
-    rcpp_result_gen = Rcpp::wrap(CoxLogLikNoBeta(gamma, tm, event, Q));
+    Rcpp::traits::input_parameter< arma::mat >::type Z(ZSEXP);
+    rcpp_result_gen = Rcpp::wrap(CoxLogLikNoBeta(gamma, tm, event, Z));
     return rcpp_result_gen;
 END_RCPP
 }

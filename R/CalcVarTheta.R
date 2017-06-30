@@ -15,14 +15,14 @@ CalcVarParam <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.co
   nabla.eta.Utheta <- matrix(nr = n.theta, nc = n.eta, 0)
   for (i in 1:n.eta)
   {
-    nabla.eta.Utheta[1,i] <- CalcNablabeetaUbeta(theta = theta, tm = tm, event = event, ps = ps, Q = Q, psDeriv = t(ps.deriv[,i,]) )
-    nabla.eta.Utheta[2:n.theta,i] <- CalcNablabeetaUgamma(theta = theta, tm = tm, event = event, ps = ps, Q = Q, psDeriv = t(ps.deriv[,i,]))
+    nabla.eta.Utheta[1,i] <- CalcNablabeetaUbeta(theta = theta, tm = tm, event = event, ps = ps, Z = Z, psDeriv = t(ps.deriv[,i,]) )
+    nabla.eta.Utheta[2:n.theta,i] <- CalcNablabeetaUgamma(theta = theta, tm = tm, event = event, ps = ps, Z = Z, psDeriv = t(ps.deriv[,i,]))
   }
   nabla.eta.Utheta <- nabla.eta.Utheta/n
   ### Prep for calculating gradient of eta
   
   lr.for.fit.raw <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
-  Zinter <- as.matrix(Z[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ])
+  Qinter <- as.matrix(Q[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ])
   lr.for.fit <- lr.for.fit.raw[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ]
   d1 <- lr.for.fit[,1]==0
   d3 <- lr.for.fit[,2]==Inf
@@ -31,8 +31,8 @@ CalcVarParam <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.co
   ######
   grad.eta.pers.mat <- matrix(nr = n, nc = n.eta,0)
   grad.eta.pers.mat[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ] <- CalcGradEtaPers(d1 = d1, d2 = d2, d3 = d3, Li = lr.for.fit[,1],
-                                       Ri = lr.for.fit[,2], knots = knots, order = order, eta.g = eta.g, eta.b = eta.b, Z = Zinter)
-  b.mat <- CalcbQ(theta = theta, tm = tm, event = event, ps = ps, Q = Q)
+                                       Ri = lr.for.fit[,2], knots = knots, order = order, eta.g = eta.g, eta.b = eta.b, Q = Qinter)
+  b.mat <- CalcbZ(theta = theta, tm = tm, event = event, ps = ps, Z = Z)
   r.mat <- b.mat - t(nabla.eta.Utheta%*%ginv(hessian.eta)%*%t(grad.eta.pers.mat))
   MM <- array(dim = c(ncol(r.mat),ncol(r.mat),nrow(r.mat)),0)
   for (j in 1:nrow(r.mat))
@@ -40,7 +40,7 @@ CalcVarParam <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.co
     MM[,,j] <- r.mat[j,]%*%t(r.mat[j,])
   } 
   meat <- apply(MM, c(1,2), mean)
-  bread <- solve(CoxLogLikHess(theta = theta, tm = tm, event = event, ps = ps, Q = Q))
+  bread <- solve(CoxLogLikHess(theta = theta, tm = tm, event = event, ps = ps, Z = Z))
   v.hat <- n*bread%*%meat%*%bread
   if(max(v.hat)>1) {
     for (j in 1:nrow(b.mat))
@@ -87,15 +87,15 @@ CalcVarParamRSInts <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, 
     tm.ints <- tm[in.risk.set]
     event.ints <- event[in.risk.set]
     ps.ints <- ps[ ,in.risk.set]
-    Q.ints <- Q[in.risk.set,]
+    Z.ints <- Z[in.risk.set,]
     ps.deriv.ints <- ps.deriv[in.risk.set,,]
     for (i in 1:n.pars.ints)
     {
       if (j>1) {param.index <- sum(n.etas.per.fit[1:(j-1)]) + i} else {param.index <- i}
-      nabla.eta.Utheta[1, param.index] <- CalcNablabeetaUbeta(theta = theta, tm = tm.ints, event = event.ints, ps = ps.ints, Q = Q.ints, 
+      nabla.eta.Utheta[1, param.index] <- CalcNablabeetaUbeta(theta = theta, tm = tm.ints, event = event.ints, ps = ps.ints, Z = Z.ints, 
                                                    psDeriv = t(ps.deriv.ints[, param.index, ]) )
       nabla.eta.Utheta[2:n.theta, param.index] <- CalcNablabeetaUgamma(theta = theta, tm = tm.ints, event = event.ints, ps = ps.ints, 
-                                                                       Q = Q.ints, psDeriv = t(ps.deriv.ints[, param.index, ]))  
+                                                                       Z = Z.ints, psDeriv = t(ps.deriv.ints[, param.index, ]))  
     }
     
   }
@@ -103,7 +103,7 @@ CalcVarParamRSInts <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, 
   ### Prep for calculating gradient of eta
   
   lr.for.fit.raw <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
-  Zinter <- as.matrix(Z[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ])
+  Qinter <- as.matrix(Q[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ])
   tm.inter <- tm[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf)] 
   lr.for.fit <- lr.for.fit.raw[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ]
   d1 <- lr.for.fit[,1]==0
@@ -114,13 +114,13 @@ CalcVarParamRSInts <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, 
   grad.eta.pers.mat <- matrix(nr = n, nc = n.eta,0)
   grad.eta.pers.mat[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ] <- CalcGradEtaPersRSInts(d1 = d1, d2 = d2, d3 = d3, 
                                                                                                    Li = lr.for.fit[,1], Ri = lr.for.fit[,2], 
-                                                                                                   Z = Zinter, 
+                                                                                                   Q = Qinter, 
                                                                                                    fit.cox.rs.ints = fit.cox.rs.ints,
                                                                                                    pts.for.ints = pts.for.ints, tm = tm.inter, 
                                                                                                    n.etas.per.fit = n.etas.per.fit)
     #CalcGradEtaPersRSInts(d1 = d1, d2 = d2, d3 = d3, Li = lr.for.fit[,1], Ri = lr.for.fit[,2], knots = knots, 
     #order = order, eta.g = eta.g, eta.b = eta.b, Z = Zinter)
-  b.mat <- CalcbQ(theta = theta, tm = tm, event = event, ps = ps, Q = Q)
+  b.mat <- CalcbZ(theta = theta, tm = tm, event = event, ps = ps, Z = Z)
   r.mat <- b.mat - t(nabla.eta.Utheta%*%ginv(hessian.eta)%*%t(grad.eta.pers.mat))
   MM <- array(dim = c(ncol(r.mat),ncol(r.mat),nrow(r.mat)),0)
   for (j in 1:nrow(r.mat))
@@ -128,7 +128,7 @@ CalcVarParamRSInts <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, 
     MM[,,j] <- r.mat[j,]%*%t(r.mat[j,])
   } 
   meat <- apply(MM, c(1,2), mean)
-  bread <- solve(CoxLogLikHess(theta = theta, tm = tm, event = event, ps = ps, Q = Q))
+  bread <- solve(CoxLogLikHess(theta = theta, tm = tm, event = event, ps = ps, Z = Z))
   v.hat <- n*bread%*%meat%*%bread
   if(max(v.hat)>1) {
     for (j in 1:nrow(b.mat))

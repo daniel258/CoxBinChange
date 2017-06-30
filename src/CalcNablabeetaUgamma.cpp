@@ -11,7 +11,7 @@ using namespace Rcpp;
 //
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
-arma::mat CalcNablabeetaUgamma(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Q, arma::mat psDeriv) {
+arma::mat CalcNablabeetaUgamma(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z, arma::mat psDeriv) {
   int n = tm.size();
   int sumD = sum(event);
   int nPars = theta.size();
@@ -30,8 +30,8 @@ arma::mat CalcNablabeetaUgamma(arma::vec theta, arma::vec tm, arma::vec event, a
   arma::vec gamma = theta.subvec(1,nPars-1);
   arma::vec Szero =  arma::zeros(sumD);
   arma::vec a =  arma::zeros(sumD);
-  arma::vec ExpGamQ = exp(Q * gamma);
-  arma::vec ExpGamQbeta = exp(Q * gamma + beta);
+  arma::vec ExpGamZ = exp(Z * gamma);
+  arma::vec ExpGamZbeta = exp(Z * gamma + beta);
   arma::mat deriv = arma::zeros(1,nPars-1);
   arma::mat SecondTermNumer = arma::zeros(1,nPars-1);
   arma::mat SzeroEta = arma::zeros(sumD,nPars-1);
@@ -44,18 +44,18 @@ arma::mat CalcNablabeetaUgamma(arma::vec theta, arma::vec tm, arma::vec event, a
   for (int i = 0; i < n; ++i) {
     if (event[i]) {
       iCaseNum += 1;
-      Szero[iCaseNum] += nu(iCaseNum,i)*ExpGamQ[i];
-      arma::mat Qi = Q(i,arma::span::all);
-      SzeroEta(iCaseNum, arma::span::all) +=   nu(iCaseNum,i)*ExpGamQbeta[i];
-     SoneEta(iCaseNum, arma::span::all) +=   psDeriv(iCaseNum,i)*ExpGamQ[i]*Qi;
-  StwoGammaBeta(iCaseNum,arma::span::all) +=  Qi*ExpGamQbeta[i]*psDeriv(iCaseNum,i);
+      Szero[iCaseNum] += nu(iCaseNum,i)*ExpGamZ[i];
+      arma::mat Zi = Z(i,arma::span::all);
+      SzeroEta(iCaseNum, arma::span::all) +=   nu(iCaseNum,i)*ExpGamZbeta[i];
+     SoneEta(iCaseNum, arma::span::all) +=   psDeriv(iCaseNum,i)*ExpGamZ[i]*Zi;
+  StwoGammaBeta(iCaseNum,arma::span::all) +=  Zi*ExpGamZbeta[i]*psDeriv(iCaseNum,i);
   for(int j = 0; j < n; ++j) {
     if (tm[j]>tm[i]) {
-      Szero[iCaseNum] += nu(iCaseNum,j)*ExpGamQ[j];
-      arma::mat Qj = Q(j,arma::span::all);
-    SzeroEta(iCaseNum, arma::span::all) +=   nu(iCaseNum,j)*ExpGamQbeta[j];
-    SoneEta(iCaseNum, arma::span::all) +=   psDeriv(iCaseNum,j)*ExpGamQ[j]*Qj;
-      StwoGammaBeta(iCaseNum,arma::span::all) +=  Qj*ExpGamQbeta[j]*psDeriv(iCaseNum,j);
+      Szero[iCaseNum] += nu(iCaseNum,j)*ExpGamZ[j];
+      arma::mat Zj = Z(j,arma::span::all);
+    SzeroEta(iCaseNum, arma::span::all) +=   nu(iCaseNum,j)*ExpGamZbeta[j];
+    SoneEta(iCaseNum, arma::span::all) +=   psDeriv(iCaseNum,j)*ExpGamZ[j]*Zj;
+      StwoGammaBeta(iCaseNum,arma::span::all) +=  Zj*ExpGamZbeta[j]*psDeriv(iCaseNum,j);
     }
    }
     }

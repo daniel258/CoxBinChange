@@ -45,10 +45,10 @@ FitCalibNpmle <- function(w,w.res)
 }
 ################################################################################################################
 ################### Cox ####################################################################################################
-FitCalibCox <- function(w, w.res, Z, hz.times, n.int = 5, order = 2 )
+FitCalibCox <- function(w, w.res, Q, hz.times, n.int = 5, order = 2 )
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
-  Z <- as.matrix(Z[!(lr.for.fit[,1]==0 & lr.for.fit[,2]==Inf),])
+  Q <- as.matrix(Q[!(lr.for.fit[,1]==0 & lr.for.fit[,2]==Inf),])
   lr.for.fit <- lr.for.fit[!(lr.for.fit[,1]==0 & lr.for.fit[,2]==Inf),]
   #lr.for.fit[lr.for.fit==Inf] <- 200
   #lr.for.fit[lr.for.fit==0] <- 0.0001
@@ -58,12 +58,12 @@ FitCalibCox <- function(w, w.res, Z, hz.times, n.int = 5, order = 2 )
   d3 <- lr.for.fit[,2]==Inf
   d2 <- 1 - d1 - d3
   fit.cox <- tryCatch(fast.PH.ICsurv.EM(d1 = d1, d2 = d2, d3 = d3,Li = lr.for.fit[,1],
-                               Ri = lr.for.fit[,2], n.int = n.int, order = order,  Xp = Z, g0 =rep(1,n.int + order), b0 = rep(0,ncol(Z)),
+                               Ri = lr.for.fit[,2], n.int = n.int, order = order,  Xp = Q, g0 =rep(1,n.int + order), b0 = rep(0,ncol(Q)),
                                t.seq = hz.times, tol = 0.001), error = function(e){e})
   while(inherits(fit.cox, "error") & n.int >= 2) { 
     n.int <- n.int - 1
     fit.cox <- tryCatch(fast.PH.ICsurv.EM(d1 = d1, d2 = d2, d3 = d3,Li = lr.for.fit[,1],
-                                 Ri = lr.for.fit[,2], n.int = n.int, order = order,  Xp = Z, g0 =rep(1,n.int + order), b0 = rep(0,ncol(Z)),
+                                 Ri = lr.for.fit[,2], n.int = n.int, order = order,  Xp = Q, g0 =rep(1,n.int + order), b0 = rep(0,ncol(Q)),
                                  t.seq = hz.times, tol = 0.001), error = function(e){e})
   }
   if (n.int<2) {return(NA)}   else {

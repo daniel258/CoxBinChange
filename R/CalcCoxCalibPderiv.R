@@ -15,7 +15,7 @@
 # The function calculates prediction for all observations, even though predictions for observations outside 
 # the risk set are not used
 #### The following function is used: CalcAuxatPoint (R function)
-CalcCoxCalibPderiv <- function(w, w.res, point, fit.cox, hz.times, Z)
+CalcCoxCalibPderiv <- function(w, w.res, point, fit.cox, hz.times, Q)
 {
   eta.b <- fit.cox$b
   eta.g <- fit.cox$g
@@ -25,8 +25,8 @@ CalcCoxCalibPderiv <- function(w, w.res, point, fit.cox, hz.times, Z)
   a.point <- lr.for.lik$a.point
   p.point <- lr.for.lik$x.one
   hz <- fit.cox$hz
-  Zb <- Z%*%eta.b
-  exp.Zb <- exp(Zb)
+  Qb <- Q%*%eta.b
+  exp.Qb <- exp(Qb)
   ## Calculate hazard for the point, first baseline hazard, then add covariates:
   interval.point <- FindIntervalCPP(point = point, w = t(as.matrix(hz.times)))
   if (interval.point==1) {base.hz.point <- hz[1]*point/hz.times[1] } else {
@@ -36,22 +36,22 @@ CalcCoxCalibPderiv <- function(w, w.res, point, fit.cox, hz.times, Z)
         (hz.times[interval.point]-hz.times[interval.point-1])#Extrapolation
     }}
   
-  H.point <- base.hz.point*exp.Zb[p.point==0]
+  H.point <- base.hz.point*exp.Qb[p.point==0]
   S.at.point <- exp(-H.point)
-  S.at.a.point <- CalcSurvFromCox(fit.cox = fit.cox,Zb = Zb[p.point==0,], points = a.point[p.point==0], hz.times = hz.times)
+  S.at.a.point <- CalcSurvFromCox(fit.cox = fit.cox,Qb = Qb[p.point==0,], points = a.point[p.point==0], hz.times = hz.times)
   H.a.point <- -log(S.at.a.point)
   
   b.point <- t(Ispline(x = point, order = order, knots = knots))
   b.a.point <- t(Ispline(x = a.point[p.point==0], order = order, knots = knots))
   
   deriv.eta <- matrix(nr = length(p.point), nc = length(eta.b) + length(eta.g),0) 
-  deriv.eta[p.point==0,1:ncol(Z)] <- (S.at.point/S.at.a.point)*(H.point-H.a.point)*Z[p.point==0,]
-  deriv.eta[p.point==0,(ncol(Z)+1):ncol(deriv.eta)] <- (S.at.point/S.at.a.point)*(as.vector(b.point)-b.a.point)*exp.Zb[p.point==0]
+  deriv.eta[p.point==0,1:ncol(Q)] <- (S.at.point/S.at.a.point)*(H.point-H.a.point)*Q[p.point==0,]
+  deriv.eta[p.point==0,(ncol(Q)+1):ncol(deriv.eta)] <- (S.at.point/S.at.a.point)*(as.vector(b.point)-b.a.point)*exp.Qb[p.point==0]
   return(deriv.eta)
 }
 
 
-CalcCoxCalibPderivRSInsts <- function(w, w.res, point, fit.cox.rs.ints, hz.times, Z,  pts.for.ints, tm, n.etas.per.fit)
+CalcCoxCalibPderivRSInsts <- function(w, w.res, point, fit.cox.rs.ints, hz.times, Q,  pts.for.ints, tm, n.etas.per.fit)
 {
   interval <- findInterval(point, pts.for.ints)
   fit.cox.int <- fit.cox.rs.ints[[interval]]
@@ -64,8 +64,8 @@ CalcCoxCalibPderivRSInsts <- function(w, w.res, point, fit.cox.rs.ints, hz.times
   a.point <- lr.for.lik$a.point
   p.point <- lr.for.lik$x.one
   hz <- fit.cox.int$hz
-  Zb <- Z%*%eta.b
-  exp.Zb <- exp(Zb)
+  Qb <- Q%*%eta.b
+  exp.Qb <- exp(Qb)
   ## Calculate hazard for the point, first baseline hazard, then add covariates:
   interval.point <- FindIntervalCPP(point = point, w = t(as.matrix(hz.times)))
   if (interval.point==1) {base.hz.point <- hz[1]*point/hz.times[1] } else {
@@ -75,9 +75,9 @@ CalcCoxCalibPderivRSInsts <- function(w, w.res, point, fit.cox.rs.ints, hz.times
         (hz.times[interval.point]-hz.times[interval.point-1])#Extrapolation
     }}
   
-  H.point <- base.hz.point*exp.Zb[p.point==0 & in.risk.set]
+  H.point <- base.hz.point*exp.Qb[p.point==0 & in.risk.set]
   S.at.point <- exp(-H.point)
-  S.at.a.point <- CalcSurvFromCox(fit.cox = fit.cox.int,Zb = Zb[p.point==0 & in.risk.set,], points = a.point[p.point==0 & in.risk.set], 
+  S.at.a.point <- CalcSurvFromCox(fit.cox = fit.cox.int,Qb = Qb[p.point==0 & in.risk.set,], points = a.point[p.point==0 & in.risk.set], 
                                   hz.times = hz.times)
   H.a.point <- -log(S.at.a.point)
   
@@ -85,9 +85,9 @@ CalcCoxCalibPderivRSInsts <- function(w, w.res, point, fit.cox.rs.ints, hz.times
   b.a.point <- t(Ispline(x = a.point[p.point==0 & in.risk.set], order = order, knots = knots))
   
   deriv.eta.ints <- matrix(nr = length(p.point), nc = n.etas.per.fit[interval], 0) 
-  deriv.eta.ints[p.point==0 & in.risk.set, 1:ncol(Z)] <- (S.at.point/S.at.a.point)*(H.point-H.a.point)*Z[p.point==0 & in.risk.set,]
-  deriv.eta.ints[p.point==0 & in.risk.set, (ncol(Z)+1):ncol(deriv.eta.ints)] <- (S.at.point/S.at.a.point)*(as.vector(b.point)-b.a.point)*
-                                                                                exp.Zb[p.point==0  & in.risk.set]
+  deriv.eta.ints[p.point==0 & in.risk.set, 1:ncol(Q)] <- (S.at.point/S.at.a.point)*(H.point-H.a.point)*Q[p.point==0 & in.risk.set,]
+  deriv.eta.ints[p.point==0 & in.risk.set, (ncol(Q)+1):ncol(deriv.eta.ints)] <- (S.at.point/S.at.a.point)*(as.vector(b.point)-b.a.point)*
+                                                                                exp.Qb[p.point==0  & in.risk.set]
   
   deriv.eta <- matrix(nr = length(p.point), nc = sum(n.etas.per.fit),0) 
   if (interval > 1) {
@@ -101,15 +101,15 @@ CalcCoxCalibPderivRSInsts <- function(w, w.res, point, fit.cox.rs.ints, hz.times
 
 
 
-# CalcCoxPderiv <- function(w, w.res, ps, fit.cox, Z)
+# CalcCoxPderiv <- function(w, w.res, ps, fit.cox, Q)
 # {
 #   eta.b <- fit.cox$b
 #   eta.g <- fit.cox$g
-#   exp.Zb <- exp(Z%*%eta.b)
+#   exp.Qb <- exp(Q%*%eta.b)
 #   lr.for.lik <- CalcAuxAtPoint(w,w.res,point = point)
 #   a.point <- lr.for.lik$a.point
 #   p.point <- lr.for.lik$x.one
-#   surv.at.point <- exp(-bpoint*exp.Zb)
+#   surv.at.point <- exp(-bpoint*exp.Qb)
 #     pweibull(point, shape = weib.shape,scale = weib.scale, lower.tail = F)
 #   surv.at.a.point <- pweibull(a.point[p.point==0], shape = weib.shape, scale = weib.scale, lower.tail = F)
 #   deriv <- vector(length=length(p.point))

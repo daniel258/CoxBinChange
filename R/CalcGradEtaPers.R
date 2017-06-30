@@ -1,10 +1,10 @@
 ## Daniel Nevo 
-CalcGradEtaPers <- function(d1, d2, d3, Li, Ri,  knots, order, eta.g, eta.b, Z)
+CalcGradEtaPers <- function(d1, d2, d3, Li, Ri,  knots, order, eta.g, eta.b, Q)
 {
   n <- length(Ri)
   n.g <- length(eta.g)
   n.b <- length(eta.b)
-  expZb <- as.vector(exp(Z%*%eta.b))
+  expQb <- as.vector(exp(Q%*%eta.b))
   
   # Portion of the code are taken from the ICsurv package
   ti <- c(Li[d1 == 0], Ri[d3 == 0])
@@ -14,20 +14,20 @@ CalcGradEtaPers <- function(d1, d2, d3, Li, Ri,  knots, order, eta.g, eta.b, Z)
   bLi <- t(Ispline(x = Li, order = order, knots = knots))
   GRi <- as.vector(bRi %*% eta.g)
   GLi <- as.vector(bLi %*% eta.g)
-  HRi <-  as.vector(GRi*expZb )
-  HLi <-  as.vector(GLi*expZb) 
+  HRi <-  as.vector(GRi*expQb )
+  HLi <-  as.vector(GLi*expQb) 
   SRi <- exp(-HRi)
   SLi <- exp(-HLi)
   FRi <- 1-SRi
   FLi <- 1-SLi
   
-  term.deriv.etab.d1 <- Z*(SRi*HRi/FRi)
-  term.deriv.etab.d2 <- Z*(SRi*HRi -SLi*HLi)/(SLi-SRi)
-  term.deriv.etab.d3 <- -Z*HLi
+  term.deriv.etab.d1 <- Q*(SRi*HRi/FRi)
+  term.deriv.etab.d2 <- Q*(SRi*HRi -SLi*HLi)/(SLi-SRi)
+  term.deriv.etab.d3 <- -Q*HLi
   
-  term.deriv.etag.d1 <- bRi*(SRi*expZb/FRi)
-  term.deriv.etag.d2 <- expZb*(SRi*bRi -SLi*bLi)/(SLi-SRi)
-  term.deriv.etag.d3 <- -bLi*expZb
+  term.deriv.etag.d1 <- bRi*(SRi*expQb/FRi)
+  term.deriv.etag.d2 <- expQb*(SRi*bRi -SLi*bLi)/(SLi-SRi)
+  term.deriv.etag.d3 <- -bLi*expQb
   
   deriv.ell.etag <- matrix(nr = n, nc =  n.g)
   deriv.ell.etab <- matrix(nr = n, nc =  n.b)

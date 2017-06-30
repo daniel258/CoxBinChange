@@ -20,24 +20,24 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
-double CoxLogLikNoBeta(arma::vec gamma, arma::vec tm, arma::vec event, arma::mat Q) {
+double CoxLogLikNoBeta(arma::vec gamma, arma::vec tm, arma::vec event, arma::mat Z) {
   int n = tm.size();
   double denom=0;
   double logDenom=0;
   double logNumer=0;
   double logLik=0;
   int iCaseNum=-1;
-  arma::vec GamQ = Q * gamma;
-  arma::vec ExpGamQ = exp(Q * gamma);
+  arma::vec GamZ = Z * gamma;
+  arma::vec ExpGamZ = exp(Z * gamma);
   for (int i = 0; i < n; ++i)
   {
     if (event[i]) {
       iCaseNum += 1;
-      logNumer += GamQ[i];
-      denom = ExpGamQ[i];
+      logNumer += GamZ[i];
+      denom = ExpGamZ[i];
       for(int j = 0; j < n; ++j) {
        if (tm[j]>tm[i]) {
-        denom += ExpGamQ[j];
+        denom += ExpGamZ[j];
         }
         }
      logDenom += log(denom);

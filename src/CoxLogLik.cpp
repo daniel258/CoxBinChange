@@ -20,7 +20,7 @@ using namespace Rcpp;
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::export]]
 
-double CoxLogLik(arma::vec betagamma, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Q) {
+double CoxLogLik(arma::vec betagamma, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z) {
   int n = tm.size();
   int nGamma = betagamma.size()-1;
   double denom=0;
@@ -31,17 +31,17 @@ double CoxLogLik(arma::vec betagamma, arma::vec tm, arma::vec event, arma::mat p
   double beta = betagamma[0];
   arma::vec gamma = betagamma.subvec(1,nGamma);
   arma::mat contrib=1 + ps*(exp(beta)-1);
-  arma::vec GamQ = Q * gamma;
-  arma::vec ExpGamQ = exp(Q * gamma);
+  arma::vec GamZ = Z * gamma;
+  arma::vec ExpGamZ = exp(Z * gamma);
   for (int i = 0; i < n; ++i)
   {
     if (event[i]) {
       iCaseNum += 1;
-      logNumer += log(contrib(iCaseNum,i)) + GamQ[i];
-      denom = contrib(iCaseNum,i)*ExpGamQ[i];
+      logNumer += log(contrib(iCaseNum,i)) + GamZ[i];
+      denom = contrib(iCaseNum,i)*ExpGamZ[i];
       for(int j = 0; j < n; ++j) {
        if (tm[j]>tm[i]) {
-        denom += contrib(iCaseNum,j)*ExpGamQ[j];
+        denom += contrib(iCaseNum,j)*ExpGamZ[j];
         }
         }
      logDenom += log(denom);
