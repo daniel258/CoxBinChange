@@ -1,6 +1,7 @@
 LVCFdata <- function(w, w.res, obs.tm, delta, Z)
 {
-  new.data <- matrix(nr = 2*length(obs.tm), nc = ncol(Z) + 5) # 5:1 for ID,  2 for (start,stop) time, one for X and one for delta
+  n.sample <- length(obs.tm)
+  new.data <- matrix(nr = 2*n.sample, nc = ncol(Z) + 5) # 5:1 for ID,  2 for (start,stop) time, one for X and one for delta
   colnames(new.data) <- c("ID", "start.time", "stop.time", "delta", "X", paste0("Z", 1:ncol(Z)))
   first.one <- apply(w.res, 1, function(x) Position(function(y) y==1, x))  # Find for each observation the first time w.res==1
   k <- 1
@@ -20,5 +21,5 @@ LVCFdata <- function(w, w.res, obs.tm, delta, Z)
       }
   }
   new.data <- as.data.frame(new.data[1:(k - 1), ]) # k + 1 was the last row, but then we added +2 to k
-  return(new.data)
+  return(as.data.frame(new.data)) # return a data.frame
 }
