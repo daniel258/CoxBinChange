@@ -18,8 +18,8 @@ CalcNpmleRiskSetP <- function(w, w.res, point, obs.tm)
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
   colnames(lr.for.fit) <- c("left","right")
-  lr.for.fit[lr.for.fit==Inf] <- 20
-  lr.for.fit[lr.for.fit==0] <- 0.0001
+  #lr.for.fit[lr.for.fit==Inf] <- 20
+  #lr.for.fit[lr.for.fit==0] <- 0.001
   lr.for.fit <- lr.for.fit[obs.tm>point,] # Keep only observations in the risk set
   fit.npmple.rs <-  tryCatch(ic_np(cbind(left,right)~0,data = lr.for.fit),   error=function(e) {e})
   if (inherits(fit.npmple.rs, "error")) { 
