@@ -193,7 +193,6 @@ CalcVarNpmle <- function(tm, event, w, w.res, BS = 100, CI = T)
   beta.np.calib.bs <- vector(length = BS)
   for (j in 1:BS)
   {
-  #  cat("j = ", j)
     indices <- sample.int(n = n, size = n, replace = T)
     tm.bs <- tm[indices]
     event.bs <- event[indices]
@@ -202,14 +201,15 @@ CalcVarNpmle <- function(tm, event, w, w.res, BS = 100, CI = T)
     w.res.bs <- w.res[indices,]
     fit.npmle.bs <- FitCalibNpmle(w = w.bs, w.res = w.res.bs)
     px.np.bs <- t(sapply(case.times.bs, CalcNpmleCalibP, w = w.bs, w.res =  w.res.bs, fit.npmle = fit.npmle.bs))
+    px.np.bs[is.na(px.np.bs)] <- 0 # To avoid very rare errors
     beta.np.calib.bs[j] <- optimize(f = myF,  tm = tm.bs, event = event.bs, ps = px.np.bs, 
                              interval = c(-50,50), maximum = T)$maximum
   }
-  v.hat.npmle <- var(beta.np.calib.bs[beta.np.calib.bs< 5])
+  v.hat.npmle <- var(beta.np.calib.bs[abs(beta.np.calib.bs) < 5])
   if (CI ==T)
   {
-    ci.l <- quantile(x = beta.np.calib.bs[beta.np.calib.bs< 5], probs = 0.025)
-    ci.h <- quantile(x = beta.np.calib.bs[beta.np.calib.bs< 5], probs = 0.975)
+    ci.l <- quantile(x = beta.np.calib.bs[abs(beta.np.calib.bs) < 5], probs = 0.025)
+    ci.h <- quantile(x = beta.np.calib.bs[abs(beta.np.calib.bs) < 5], probs = 0.975)
     return(list(v = v.hat.npmle, ci = c(ci.l, ci.h)))
   } else{
     return(list(v = v.hat.npmle))
@@ -228,14 +228,15 @@ CalcVarNpmleRS <- function(tm, event, w, w.res, BS = 100, CI =T)
     w.bs <- w[indices,]
     w.res.bs <- w.res[indices,]
     px.np.rs.bs <- t(sapply(case.times.bs, CalcNpmleRiskSetP, w = w.bs, w.res =  w.res.bs, obs.tm = tm.bs))
+    px.np.rs.bs[is.na(px.np.rs.bs)] <- 0 # To avoid very rare errors
     beta.np.calib.rs.bs[j] <- optimize(f = myF,  tm = tm.bs, event = event.bs, ps = px.np.rs.bs, 
                                     interval = c(-50,50), maximum = T)$maximum
   }
-  v.hat.npmle.rs <- var(beta.np.calib.rs.bs[beta.np.calib.rs.bs< 5])
+  v.hat.npmle.rs <- var(beta.np.calib.rs.bs[abs(beta.np.calib.rs.bs) < 5])
   if (CI ==T)
   {
-    ci.l <- quantile(x = beta.np.calib.rs.bs[beta.np.calib.rs.bs< 5], probs = 0.025)
-    ci.h <- quantile(x = beta.np.calib.rs.bs[beta.np.calib.rs.bs< 5], probs = 0.975)
+    ci.l <- quantile(x = beta.np.calib.rs.bs[abs(beta.np.calib.rs.bs) < 5], probs = 0.025)
+    ci.h <- quantile(x = beta.np.calib.rs.bs[abs(beta.np.calib.rs.bs) < 5], probs = 0.975)
     return(list(v = v.hat.npmle.rs, ci = c(ci.l, ci.h)))
   } else{
     return(list(v = v.hat.npmle.rs))
