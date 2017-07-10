@@ -14,9 +14,8 @@
   package, including the most important functions.
 }
 \author{
-Your Name, email optional.
 
-Maintainer: Your Name <your@email.com>
+Maintainer: Daniel Nevo <danielnevo@email.com>
 }
 \references{
   This optional section can contain literature or other references for
