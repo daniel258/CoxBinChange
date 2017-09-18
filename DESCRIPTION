@@ -1,7 +1,7 @@
 Package: CoxBinChange
 Type: Package
 Title: Fitting a Cox model with interval-censored starting time of a covariate
-Version: 1.0.001
+Version: 1.0.002
 Date: 2017-07-10
 Author: Daniel Nevo
 Maintainer: Daniel Nevo <danielnevo@email.com>
