@@ -124,7 +124,7 @@ for (j in 1:r)
   lr.for.fit <- lr.for.fit.all[tm>=point,]  # Keep only observations in the risk set
   L <- lr.for.fit[,1]
   R <- lr.for.fit[,2]
-  hess.etas.solved[(2*j-1):(2*j),(2*j-1):(2*j)] <- solve(hessian(func = ICweibLikLR, x = weib.param, L = L, R =R))
+  hess.etas.solved[(2*j-1):(2*j),(2*j-1):(2*j)] <- solve(numDeriv::hessian(func = ICweibLikLR, x = weib.param, L = L, R =R))
 }
  return(hess.etas.solved) 
 }

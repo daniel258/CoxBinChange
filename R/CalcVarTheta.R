@@ -150,7 +150,7 @@ CalcVarThetaWeib <- function(beta, etas, tm, event, ps, ps.deriv.shape, ps.deriv
   nabla.eta.shape.Ubeta <- CalcUbetabeeta(beta = beta, tm = tm, event = event, ps = ps, psDeriv = ps.deriv.shape)
   nabla.eta.scale.Ubeta <- CalcUbetabeeta(beta = beta, tm = tm, event = event, ps = ps, psDeriv = ps.deriv.scale)
   nabla.eta.Ubeta <- c(nabla.eta.shape.Ubeta, nabla.eta.scale.Ubeta)/n
-  hess.etas.l.v <- (hessian(func = ICweibLik, x = etas, w = w, w.res = w.res))
+  hess.etas.l.v <- (numDeriv::hessian(func = ICweibLik, x = etas, w = w, w.res = w.res))
   grad.eta.pers <- ICweibGrad(etas = etas, w = w, w.res = w.res)
   r.vec <- b.vec - nabla.eta.Ubeta%*%solve(hess.etas.l.v)%*%t(grad.eta.pers)
   meat <- mean(r.vec^2)  # since beta is one-dimensional here 
@@ -177,7 +177,7 @@ CalcVarThetaWeibRS <- function(beta, etas.matrix, tm, event, ps.rs, ps.deriv.sha
 CalcVarEta <- function(etas,  w, w.res)
 {
   n <- nrow(w)
-  hess.etas.l.v <- (hessian(func = ICweibLik, x = etas, w = w, w.res = w.res))
+  hess.etas.l.v <- (numDeriv::hessian(func = ICweibLik, x = etas, w = w, w.res = w.res))
   grad.eta.pers <- ICweibGrad(etas = etas, w = w, w.res = w.res)
   grad.eta <- 0
   for (j in 1:nrow(grad.eta.pers))
