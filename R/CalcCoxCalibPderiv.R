@@ -48,31 +48,6 @@ CalcCoxCalibPderiv <- function(w, w.res, point, fit.cox, hz.times, Q)
   return(deriv.eta)
 }
 
-
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param w PARAM_DESCRIPTION
-#' @param w.res PARAM_DESCRIPTION
-#' @param point PARAM_DESCRIPTION
-#' @param fit.cox.rs.ints PARAM_DESCRIPTION
-#' @param hz.times PARAM_DESCRIPTION
-#' @param Q PARAM_DESCRIPTION
-#' @param pts.for.ints PARAM_DESCRIPTION
-#' @param tm PARAM_DESCRIPTION
-#' @param n.etas.per.fit PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @seealso 
-#'  \code{\link[ICsurv]{Ispline}}
-#' @rdname CalcCoxCalibPderivRSInsts
-#' @export 
-#' @importFrom ICsurv Ispline
 CalcCoxCalibPderivRSInsts <- function(w, w.res, point, fit.cox.rs.ints, hz.times, Q,  pts.for.ints, tm, n.etas.per.fit)
 {
   interval <- findInterval(point, pts.for.ints)

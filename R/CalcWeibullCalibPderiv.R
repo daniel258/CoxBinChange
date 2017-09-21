@@ -29,25 +29,7 @@ CalcWeibullCalibPderivScale <- function(w, w.res, point, weib.params)
   deriv.scale[p.point>0] <- 0
   return(deriv.scale)
 }
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param w PARAM_DESCRIPTION
-#' @param w.res PARAM_DESCRIPTION
-#' @param point PARAM_DESCRIPTION
-#' @param weib.params PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @seealso 
-#'  \code{\link[stats]{pweibull}}
-#' @rdname CalcWeibullCalibPderivShape
-#' @export 
-#' @importFrom stats pweibull
+
 CalcWeibullCalibPderivShape <- function(w, w.res, point, weib.params)
 {
   weib.shape <- weib.params[1]
@@ -67,26 +49,6 @@ CalcWeibullCalibPderivShape <- function(w, w.res, point, weib.params)
 
 
 #########################################################################################################################
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param w PARAM_DESCRIPTION
-#' @param w.res PARAM_DESCRIPTION
-#' @param obs.tm PARAM_DESCRIPTION
-#' @param event PARAM_DESCRIPTION
-#' @param weib.rs.params PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @seealso 
-#'  \code{\link[stats]{pweibull}}
-#' @rdname CalcWeibullCalibPderivShapeRS
-#' @export 
-#' @importFrom stats pweibull
 CalcWeibullCalibPderivShapeRS <- function(w, w.res, obs.tm, event, weib.rs.params)
 {
   r <- sum(event)
@@ -117,27 +79,6 @@ CalcWeibullCalibPderivShapeRS <- function(w, w.res, obs.tm, event, weib.rs.param
 
 #########################################################################################################################
 
-
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param w PARAM_DESCRIPTION
-#' @param w.res PARAM_DESCRIPTION
-#' @param obs.tm PARAM_DESCRIPTION
-#' @param event PARAM_DESCRIPTION
-#' @param weib.rs.params PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @seealso 
-#'  \code{\link[stats]{pweibull}}
-#' @rdname CalcWeibullCalibPderivScaleRS
-#' @export 
-#' @importFrom stats pweibull
 CalcWeibullCalibPderivScaleRS <- function(w, w.res, obs.tm, event, weib.rs.params)
 {
   r <- sum(event)
