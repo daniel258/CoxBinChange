@@ -1,5 +1,4 @@
-#### CalcNpmleRiskSetP function
-### Daniel Nevo
+#### CalcNpmleRSP function
 ## The function takes the following
 ## The function takes the following
 ## w - a matrix. Each row is observation and each column is questionnaire time in the interval. w equal to Inf once
@@ -12,24 +11,39 @@
 # The function returns a vector with individual predictions for P(X(t)=1|history(time t)). 
 # For observations with X(a(t))=1 the above probability is 1 by definition and this is what the
 # function returns for them.
-#### The following package is needed: fitdistrplus
-#### The following functions are used: CalcAuxatPoint (R function), FindIntervalCalibCPP, CalcSurvFromNPMLE (cpp functions)
-CalcNpmleRiskSetP <- function(w, w.res, point, obs.tm)
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param point PARAM_DESCRIPTION
+#' @param obs.tm PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[icenReg]{ic_np}}
+#' @rdname CalcNpmleRSP
+#' @export 
+#' @importFrom icenReg ic_np
+CalcNpmleRSP <- function(w, w.res, point, obs.tm)
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
   colnames(lr.for.fit) <- c("left","right")
-  #lr.for.fit[lr.for.fit==Inf] <- 20
-  #lr.for.fit[lr.for.fit==0] <- 0.001
-  lr.for.fit <- lr.for.fit[obs.tm>point,] # Keep only observations in the risk set
-  fit.npmple.rs <-  tryCatch(ic_np(cbind(left,right)~0,data = lr.for.fit),   error=function(e) {e})
+  lr.for.fit <- lr.for.fit[obs.tm > point,] # Keep only observations in the risk set
+  fit.npmple.rs <-  tryCatch(icenReg::ic_np(cbind(left,right) ~ 0, data = lr.for.fit),   error=function(e) {e})
   if (inherits(fit.npmple.rs, "error")) { 
     fit.npmle <- FitCalibNpmle(w = w, w.res = w.res)
     p.point <- CalcNpmleCalibP(w = w, w.res = w.res, point = point, fit.npmle = fit.npmle)
     warning(paste("In point", point, "Calibration was used instead of risk set calibration"))
     return(p.point)
     }
-    lr.for.lik <- CalcAuxAtPoint(w,w.res,point = point)
-    a.point <- lr.for.lik$a.point
+  lr.for.lik <- CalcAuxAtPoint(w,w.res,point = point)
+  a.point <- lr.for.lik$a.point
   p.point <- lr.for.lik$x.one
   prob.at.point <- 1-CalcSurvFromNPMLE(probs = fit.npmple.rs$p_hat, Tbull = fit.npmple.rs$T_bull_Intervals,
                                        points = point)
