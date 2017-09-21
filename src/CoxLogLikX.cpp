@@ -1,23 +1,12 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-// This is a simple example of exporting a C++ function to R. You can
-// source this function into an R session using the Rcpp::sourceCpp 
-// function (or via the Source button on the editor toolbar). Learn
-// more about Rcpp at:
-//
-//   http://www.rcpp.org/
-//   http://adv-r.had.co.nz/Rcpp.html
-//   http://gallery.rcpp.org/
-//
 // tm - event time
 // event - censoring indicator (1 event 0 no event)
 // ps - probabilities
 // beta- a value
-
-//data is not assumed to be sorted by time
 // [[Rcpp::export]]
-double myF(double beta, NumericVector tm, LogicalVector event, NumericMatrix ps) {
+double CoxLogLikX(double beta, NumericVector tm, LogicalVector event, NumericMatrix ps) {
   int n = tm.size();
   double denom=0;
   double logDenom=0;
