@@ -15,7 +15,6 @@
 # The function calculates prediction for all observations, even though predictions for observations outside 
 # the risk set are not used
 #### The following functions is used: CalcAuxatPoint (R function)
-
 CalcWeibullCalibPderivScale <- function(w, w.res, point, weib.params)
 {
   lr.for.lik <- CalcAuxAtPoint(w,w.res,point = point)
@@ -23,14 +22,32 @@ CalcWeibullCalibPderivScale <- function(w, w.res, point, weib.params)
   weib.scale <- weib.params[2]
   a.point <- lr.for.lik$a.point
   p.point <- lr.for.lik$x.one
-  surv.at.point <- pweibull(point, shape = weib.shape,scale = weib.scale, lower.tail = F)
-  surv.at.a.point <- pweibull(a.point[p.point==0], shape = weib.shape, scale = weib.scale, lower.tail = F)
+  surv.at.point <- stats::pweibull(point, shape = weib.shape,scale = weib.scale, lower.tail = F)
+  surv.at.a.point <- stats::pweibull(a.point[p.point==0], shape = weib.shape, scale = weib.scale, lower.tail = F)
   deriv.scale <- vector(length=length(p.point))
   deriv.scale[p.point==0] <- -(weib.shape/(weib.scale^(weib.shape + 1))) * (point^weib.shape - a.point[p.point==0]^weib.shape) * (surv.at.point/surv.at.a.point)
   deriv.scale[p.point>0] <- 0
-  #deriv.scale[a.point==0] <- 0
   return(deriv.scale)
 }
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param point PARAM_DESCRIPTION
+#' @param weib.params PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[stats]{pweibull}}
+#' @rdname CalcWeibullCalibPderivShape
+#' @export 
+#' @importFrom stats pweibull
 CalcWeibullCalibPderivShape <- function(w, w.res, point, weib.params)
 {
   weib.shape <- weib.params[1]
@@ -38,8 +55,8 @@ CalcWeibullCalibPderivShape <- function(w, w.res, point, weib.params)
   lr.for.lik <- CalcAuxAtPoint(w,w.res,point = point)
   a.point <- lr.for.lik$a.point
   p.point <- lr.for.lik$x.one
-  surv.at.point <- pweibull(point, shape = weib.shape,scale = weib.scale, lower.tail = F)
-  surv.at.a.point <- pweibull(a.point[p.point==0], shape = weib.shape, scale = weib.scale, lower.tail = F)
+  surv.at.point <- stats::pweibull(point, shape = weib.shape,scale = weib.scale, lower.tail = F)
+  surv.at.a.point <- stats::pweibull(a.point[p.point==0], shape = weib.shape, scale = weib.scale, lower.tail = F)
   deriv.shape <- vector(length=length(p.point))
   deriv.shape[p.point==0] <- (1/(weib.scale^weib.shape)) * (log(a.point[p.point==0]/weib.scale)*a.point[p.point==0]^weib.shape - 
                                                              log(point/weib.scale)*point^weib.shape ) * (surv.at.point/surv.at.a.point)
@@ -50,6 +67,26 @@ CalcWeibullCalibPderivShape <- function(w, w.res, point, weib.params)
 
 
 #########################################################################################################################
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param obs.tm PARAM_DESCRIPTION
+#' @param event PARAM_DESCRIPTION
+#' @param weib.rs.params PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[stats]{pweibull}}
+#' @rdname CalcWeibullCalibPderivShapeRS
+#' @export 
+#' @importFrom stats pweibull
 CalcWeibullCalibPderivShapeRS <- function(w, w.res, obs.tm, event, weib.rs.params)
 {
   r <- sum(event)
@@ -65,8 +102,8 @@ CalcWeibullCalibPderivShapeRS <- function(w, w.res, obs.tm, event, weib.rs.param
   lr.for.lik <- CalcAuxAtPoint(w, w.res, point = point)
   a.point <- lr.for.lik$a.point
   p.point <- lr.for.lik$x.one
-  surv.at.point <- pweibull(point, shape = weib.rs.shape, scale = weib.rs.scale, lower.tail = F)
-  surv.at.a.point <- pweibull(a.point[p.point==0 & in.risk.set], shape = weib.rs.shape, scale = weib.rs.scale, lower.tail = F)
+  surv.at.point <- stats::pweibull(point, shape = weib.rs.shape, scale = weib.rs.scale, lower.tail = F)
+  surv.at.a.point <- stats::pweibull(a.point[p.point==0 & in.risk.set], shape = weib.rs.shape, scale = weib.rs.scale, lower.tail = F)
   deriv.shape[p.point==0 & in.risk.set, j] <- (1/(weib.rs.scale^weib.rs.shape)) * (log(a.point[p.point==0 & in.risk.set]/weib.rs.scale) * 
                                                 a.point[p.point==0 & in.risk.set]^weib.rs.shape - 
                                                   log(point/weib.rs.scale)*point^weib.rs.shape ) *
@@ -81,6 +118,26 @@ CalcWeibullCalibPderivShapeRS <- function(w, w.res, obs.tm, event, weib.rs.param
 #########################################################################################################################
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param obs.tm PARAM_DESCRIPTION
+#' @param event PARAM_DESCRIPTION
+#' @param weib.rs.params PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[stats]{pweibull}}
+#' @rdname CalcWeibullCalibPderivScaleRS
+#' @export 
+#' @importFrom stats pweibull
 CalcWeibullCalibPderivScaleRS <- function(w, w.res, obs.tm, event, weib.rs.params)
 {
   r <- sum(event)
@@ -96,14 +153,12 @@ CalcWeibullCalibPderivScaleRS <- function(w, w.res, obs.tm, event, weib.rs.param
     lr.for.lik <- CalcAuxAtPoint(w, w.res, point = point)
     a.point <- lr.for.lik$a.point
     p.point <- lr.for.lik$x.one
-    surv.at.point <- pweibull(point, shape = weib.rs.shape,scale = weib.rs.scale, lower.tail = F)
-    surv.at.a.point <- pweibull(a.point[p.point==0 & in.risk.set], shape = weib.rs.shape, scale = weib.rs.scale, lower.tail = F)
+    surv.at.point <- stats::pweibull(point, shape = weib.rs.shape,scale = weib.rs.scale, lower.tail = F)
+    surv.at.a.point <- stats::pweibull(a.point[p.point==0 & in.risk.set], shape = weib.rs.shape, scale = weib.rs.scale, lower.tail = F)
     deriv.scale[p.point==0 & in.risk.set, j] <- -(weib.rs.shape/(weib.rs.scale^(weib.rs.shape + 1))) * 
     (point^weib.rs.shape - a.point[p.point==0 & in.risk.set]^weib.rs.shape) * (surv.at.point/surv.at.a.point)
     deriv.scale[p.point>0 , j] <- 0
-   # deriv.scale[a.point==0 , j] <- 0
     deriv.scale[!in.risk.set, j] <- 0
-  #deriv.eta1[a.point==0] <- 0
   }
   return(t(deriv.scale))
 }

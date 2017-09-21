@@ -1,8 +1,8 @@
-Package: CoxBinChange
+Package: ICcalib
 Type: Package
 Title: Fitting a Cox model with interval-censored starting time of a covariate
-Version: 1.0.002
-Date: 2017-07-10
+Version: 1.0.003
+Date: 2017-09-21
 Author: Daniel Nevo
 Maintainer: Daniel Nevo <danielnevo@email.com>
 Description: One paragraph description of what the package does as one or

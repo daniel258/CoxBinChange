@@ -40,17 +40,39 @@ CalcCoxCalibPderiv <- function(w, w.res, point, fit.cox, hz.times, Q)
   S.at.point <- exp(-H.point)
   S.at.a.point <- CalcSurvFromCox(fit.cox = fit.cox,Qb = Qb[p.point==0,], points = a.point[p.point==0], hz.times = hz.times)
   H.a.point <- -log(S.at.a.point)
-  
-  b.point <- t(Ispline(x = point, order = order, knots = knots))
-  b.a.point <- t(Ispline(x = a.point[p.point==0], order = order, knots = knots))
-  
+  b.point <- t(ICsurv::Ispline(x = point, order = order, knots = knots))
+  b.a.point <- t(ICsurv::Ispline(x = a.point[p.point==0], order = order, knots = knots))
   deriv.eta <- matrix(nr = length(p.point), nc = length(eta.b) + length(eta.g),0) 
   deriv.eta[p.point==0,1:ncol(Q)] <- (S.at.point/S.at.a.point)*(H.point-H.a.point)*Q[p.point==0,]
-  deriv.eta[p.point==0,(ncol(Q)+1):ncol(deriv.eta)] <- (S.at.point/S.at.a.point)*(as.vector(b.point)-b.a.point)*exp.Qb[p.point==0]
+  deriv.eta[p.point==0, (ncol(Q) + 1):ncol(deriv.eta)] <- (S.at.point/S.at.a.point)*(as.vector(b.point)-b.a.point)*exp.Qb[p.point==0]
   return(deriv.eta)
 }
 
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param point PARAM_DESCRIPTION
+#' @param fit.cox.rs.ints PARAM_DESCRIPTION
+#' @param hz.times PARAM_DESCRIPTION
+#' @param Q PARAM_DESCRIPTION
+#' @param pts.for.ints PARAM_DESCRIPTION
+#' @param tm PARAM_DESCRIPTION
+#' @param n.etas.per.fit PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[ICsurv]{Ispline}}
+#' @rdname CalcCoxCalibPderivRSInsts
+#' @export 
+#' @importFrom ICsurv Ispline
 CalcCoxCalibPderivRSInsts <- function(w, w.res, point, fit.cox.rs.ints, hz.times, Q,  pts.for.ints, tm, n.etas.per.fit)
 {
   interval <- findInterval(point, pts.for.ints)
@@ -81,8 +103,8 @@ CalcCoxCalibPderivRSInsts <- function(w, w.res, point, fit.cox.rs.ints, hz.times
                                   hz.times = hz.times)
   H.a.point <- -log(S.at.a.point)
   
-  b.point <- t(Ispline(x = point, order = order, knots = knots))
-  b.a.point <- t(Ispline(x = a.point[p.point==0 & in.risk.set], order = order, knots = knots))
+  b.point <- t(ICsurv::Ispline(x = point, order = order, knots = knots))
+  b.a.point <- t(ICsurv::Ispline(x = a.point[p.point==0 & in.risk.set], order = order, knots = knots))
   
   deriv.eta.ints <- matrix(nr = length(p.point), nc = n.etas.per.fit[interval], 0) 
   deriv.eta.ints[p.point==0 & in.risk.set, 1:ncol(Q)] <- (S.at.point/S.at.a.point)*(H.point-H.a.point)*Q[p.point==0 & in.risk.set,]

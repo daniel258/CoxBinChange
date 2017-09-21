@@ -32,7 +32,6 @@ for (j in 1:n.sample)
     x.one[j] <- 1
     a.point[j] <- Inf 
   } else
-    # if (any(w[j,1:interval.w[j]]==Inf))
   {
     right.for.surv[j] <- Inf
     left.for.surv[j] <- ifelse(w[j,1]==Inf, 0, 
@@ -40,12 +39,6 @@ for (j in 1:n.sample)
     a.point[j] <- left.for.surv[j]
                               
   }} 
-#   else
-#   {
-#     right.for.surv[j] <- w[j,ncol(w)]
-#     left.for.surv[j] <- w[j,ncol(w)-1]
-#   }
-# return(cbind(left.for.surv,right.for.surv))
 ret.list <- list(df.lr = data.frame(left = left.for.surv, right = right.for.surv), x.one = x.one, a.point= a.point)
  return(ret.list)
 }

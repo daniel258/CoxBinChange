@@ -1,17 +1,17 @@
 ## Daniel Nevo 
+# Based on ICsurv:::fast.PH.ICsurv.EM
 CalcGradEtaPers <- function(d1, d2, d3, Li, Ri,  knots, order, eta.g, eta.b, Q)
 {
   n <- length(Ri)
   n.g <- length(eta.g)
   n.b <- length(eta.b)
   expQb <- as.vector(exp(Q%*%eta.b))
-  
-  # Portion of the code are taken from the ICsurv package
+  # Portions of the code are taken from the ICsurv package
   ti <- c(Li[d1 == 0], Ri[d3 == 0])
   ti.max <- max(ti) + 1e-05
   ti.min <- min(ti) - 1e-05
-  bRi <- t(Ispline(x = Ri, order = order, knots = knots))
-  bLi <- t(Ispline(x = Li, order = order, knots = knots))
+  bRi <- t(ICsurv::Ispline(x = Ri, order = order, knots = knots))
+  bLi <- t(ICsurv::Ispline(x = Li, order = order, knots = knots))
   GRi <- as.vector(bRi %*% eta.g)
   GLi <- as.vector(bLi %*% eta.g)
   HRi <-  as.vector(GRi*expQb )

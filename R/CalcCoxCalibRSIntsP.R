@@ -19,7 +19,6 @@ CalcCoxCalibRSIntsP <- function(w, w.res, point, fit.cox.rs.ints, hz.times,  Q, 
   a.point <- lr.for.lik$a.point
   p.point <- lr.for.lik$x.one
   fit.cox.int <- fit.cox.rs.ints[[findInterval(point, pts.for.ints)]]
-  
   hz <- fit.cox.int$hz
   Qb <- Q%*%fit.cox.int$b
   ## Calculate hazard for the point, first baseline hazard, then add covariates:
@@ -30,11 +29,8 @@ CalcCoxCalibRSIntsP <- function(w, w.res, point, fit.cox.rs.ints, hz.times,  Q, 
       base.hz.point <- hz[interval.point-1] +  (hz[interval.point]-hz[interval.point-1])*(point-hz.times[interval.point-1])/
                     (hz.times[interval.point]-hz.times[interval.point-1])#Extrapolation
     }}
-  #base.hz.point <- fit.cox$hz[case.times==point]
   prob.at.point <- 1-exp(-base.hz.point*exp(Qb[p.point==0,]))
   prob.at.a.point <- 1-CalcSurvFromCox(fit.cox = fit.cox.int,Qb = Qb[p.point==0,], points = a.point[p.point==0], hz.times = hz.times)
- #   probs = fit.cox$p_hat, Tbull = fit.cox$T_bull_Intervals,
-  #                                       points = a.point[p.point==0])
-  p.point[p.point==0] <- (prob.at.point - prob.at.a.point)/(1-prob.at.a.point)
+  p.point[p.point==0] <- (prob.at.point - prob.at.a.point)/(1 - prob.at.a.point)
   return(p.point)
 }

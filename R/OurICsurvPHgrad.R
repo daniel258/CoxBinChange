@@ -1,6 +1,5 @@
-#### OurICsurvPHgrad calculates the gradient of the survival likleihood under the I-spline model of Wnag et al. (2016) 
+#### OurICsurvPHgrad calculates the gradient of the survival likleihood under the I-spline model of Wang et al. (2016) 
 # The code heavily uses code from fast.PH.ICsurv.EM function in ICsurv. See also  OurICsurvPH
-#### 
 OurICsurvPHgrad <- function (Li, Ri, Xp, n.int, order, g1, b1, tol, t.seq, equal = TRUE) 
 {
   P <- length(b0)

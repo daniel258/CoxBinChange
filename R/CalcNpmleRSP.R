@@ -1,6 +1,5 @@
 #### CalcNpmleRSP function
 ## The function takes the following
-## The function takes the following
 ## w - a matrix. Each row is observation and each column is questionnaire time in the interval. w equal to Inf once
 # an observation is censore/had the event
 ## w.res - a matrix of the same dimensions as w. Equal to the x(t) at time w. For example second column is 
@@ -11,25 +10,6 @@
 # The function returns a vector with individual predictions for P(X(t)=1|history(time t)). 
 # For observations with X(a(t))=1 the above probability is 1 by definition and this is what the
 # function returns for them.
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param w PARAM_DESCRIPTION
-#' @param w.res PARAM_DESCRIPTION
-#' @param point PARAM_DESCRIPTION
-#' @param obs.tm PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @seealso 
-#'  \code{\link[icenReg]{ic_np}}
-#' @rdname CalcNpmleRSP
-#' @export 
-#' @importFrom icenReg ic_np
 CalcNpmleRSP <- function(w, w.res, point, obs.tm)
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))

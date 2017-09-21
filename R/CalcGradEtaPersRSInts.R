@@ -1,15 +1,9 @@
 ## Daniel Nevo 
-#CalcGradEtaPersRSInts <- function(d1, d2, d3, Li, Ri,  knots, order, eta.g, eta.b, Q, pts.for.ints)
+# Based on ICsurv:::fast.PH.ICsurv.EM
 CalcGradEtaPersRSInts <- function(d1, d2, d3, Li, Ri, Q, fit.cox.rs.ints, pts.for.ints, tm, n.etas.per.fit)
 {
   n <- length(Ri)
   n.fits <- length(pts.for.ints)
-  #fit.cox.int.one <- fit.cox.rs.ints[[1]]
-  #eta.b.one <- fit.cox.int.one$b
-  #eta.g.one <- fit.cox.int.one$g
-  #n.g <- length(eta.g.one)
-  #n.b <- length(eta.b.one)
-  #n.pars.ints <- n.b + n.g
   deriv.ell.etas <- matrix(nr = n, nc = sum(n.etas.per.fit), 0)
   for (j in 1:n.fits)
   {
@@ -30,12 +24,12 @@ CalcGradEtaPersRSInts <- function(d1, d2, d3, Li, Ri, Q, fit.cox.rs.ints, pts.fo
   d3.int <- d3[in.risk.set]
   Q.int <- Q[in.risk.set,]
   expQb <- as.vector(exp(Q.int%*%eta.b))
-  # Portion of the code are taken from the ICsurv package
+  # Portions of the code are taken from the ICsurv package
   ti <- c(Li.int[d1.int == 0], Ri.int[d3.int == 0])
   ti.max <- max(ti) + 1e-05
   ti.min <- min(ti) - 1e-05
-  bRi <- t(Ispline(x = Ri.int, order = order, knots = knots))
-  bLi <- t(Ispline(x = Li.int, order = order, knots = knots))
+  bRi <- t(ICsurv::Ispline(x = Ri.int, order = order, knots = knots))
+  bLi <- t(ICsurv::Ispline(x = Li.int, order = order, knots = knots))
   GRi <- as.vector(bRi %*% eta.g)
   GLi <- as.vector(bLi %*% eta.g)
   HRi <-  as.vector(GRi*expQb)

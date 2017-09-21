@@ -1,3 +1,4 @@
+
 CalcSurvFromCox <- function(fit.cox, Qb, points, hz.times)
 {
   n.points <- length(points)
@@ -17,5 +18,4 @@ CalcSurvFromCox <- function(fit.cox, Qb, points, hz.times)
       }
   }
   surv.probs <- exp(-base*exp(Qb))
-  
 }

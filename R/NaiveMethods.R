@@ -1,4 +1,5 @@
 #### Functions for the naive methods that do not perform calibration###
+# A new version is LVCFdata and MidIdata
 # On Sep 1, 2016, this file included three funcitons: CarryForward, CarryBack and MidPoint
 
 # All three functions take three arguments:
@@ -6,7 +7,7 @@
 # w.res: reult in each follow-up time: zero or one.
 # point: the point in which a value for X is needed (i.e., current risk.set)
 ################################################################################################################
-################### CarryForward ###############################################################################################
+################### CarryForward ###############################################################################
 CarryForward <- function(w, w.res, point) {
   n.sample <- nrow(w)
   interval.w <-   FindIntervalCPP(point = point, w =w)
@@ -28,7 +29,7 @@ CarryForward <- function(w, w.res, point) {
   return(interval.w)
 }
 ################################################################################################################
-################### CarryBack ###############################################################################################
+################### CarryBack ##################################################################################
 CarryBack <- function(w, w.res, point) {
   n.sample <- nrow(w)
   n.intervals <- ncol(w)
@@ -56,7 +57,7 @@ CarryBack <- function(w, w.res, point) {
   return(x.carry)
 }
 ################################################################################################################
-################### Midpoint ###############################################################################################
+################### Midpoint ###################################################################################
 MidPoint <- function(w, w.res, point) 
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))

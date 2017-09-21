@@ -1,6 +1,5 @@
   #### FitCalibCoxRSInts function
-# Unlike FitCalibCoxRS, this function only estimate the survival in certain number of points
-### Daniel Nevo
+# Unlike FitCalibCoxRS, this function only estimate the model in certain given number of points, and not in each risk set time
 ## The function takes the following
 ## w - a matrix. Each row is observation and each column is questionnaire time in the interval. w equal to Inf once
 # an observation is censore/had the event
@@ -9,6 +8,30 @@
 ## pts.for.ints: the points defining the intervals (first one has to be zero)  - should be sorted from zero up
 ###
 # The function returns a list of cox fits for interval-censored time to event data, one for each risk set.
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param Q PARAM_DESCRIPTION
+#' @param hz.times PARAM_DESCRIPTION
+#' @param n.int PARAM_DESCRIPTION, Default: 5
+#' @param order PARAM_DESCRIPTION, Default: 2
+#' @param tm PARAM_DESCRIPTION
+#' @param event PARAM_DESCRIPTION
+#' @param pts.for.ints PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[ICsurv]{fast.PH.ICsurv.EM}}
+#' @rdname FitCalibCoxRSInts
+#' @export 
+#' @importFrom ICsurv fast.PH.ICsurv.EM
 FitCalibCoxRSInts<- function(w, w.res, Q, hz.times, n.int = 5, order = 2 , tm, event, pts.for.ints)
 {
 n.int.org <- n.int
@@ -23,8 +46,8 @@ for (j in 1:r)
   n.int <- n.int.org
   point <- pts.for.ints[j]
   # Keep only observations in the risk set
-  lr.for.fit <- lr.for.fit.all[tm>=point,]  
-  Q <- Q.all[tm>=point,]
+  lr.for.fit <- lr.for.fit.all[tm>=point, ]  
+  Q <- Q.all[tm>=point, ]
   # Take out noninformative observations
   Q <- Q[!(lr.for.fit[,1]==0 & lr.for.fit[,2]==Inf),]
   lr.for.fit <- lr.for.fit[!(lr.for.fit[,1]==0 & lr.for.fit[,2]==Inf),]
@@ -33,12 +56,12 @@ for (j in 1:r)
   d1 <- lr.for.fit[,1]==0
   d3 <- lr.for.fit[,2]==Inf
   d2 <- 1 - d1 - d3
-  fit.cox.point <- tryCatch(fast.PH.ICsurv.EM(d1 = d1, d2 = d2, d3 = d3,Li = lr.for.fit[,1],
+  fit.cox.point <- tryCatch(ICsurv::fast.PH.ICsurv.EM(d1 = d1, d2 = d2, d3 = d3,Li = lr.for.fit[,1],
                                         Ri = lr.for.fit[,2], n.int = n.int, order = order,  Xp = Q, g0 =rep(1,n.int + order), b0 = rep(0,ncol(Q)),
                                         t.seq = hz.times, tol = 0.001), error = function(e){e})
    while(inherits(fit.cox.point, "error") & n.int >= 2) { 
      n.int <- n.int - 1
-     fit.cox.point <- tryCatch(fast.PH.ICsurv.EM(d1 = d1, d2 = d2, d3 = d3,Li = lr.for.fit[,1],
+     fit.cox.point <- tryCatch(ICsurv::fast.PH.ICsurv.EM(d1 = d1, d2 = d2, d3 = d3,Li = lr.for.fit[,1],
                                            Ri = lr.for.fit[,2], n.int = n.int, order = order,  Xp = Q, g0 =rep(1,n.int + order), b0 = rep(0,ncol(Q)),
                                            t.seq = hz.times, tol = 0.001), error = function(e){e})
    }

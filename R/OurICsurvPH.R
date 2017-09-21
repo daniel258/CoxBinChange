@@ -1,6 +1,6 @@
 #### OurICsurvPH is the same as fast.PH.ICsurv.EM in ICsurv with a couple of distinctions:
 #### 1)
-# All observations are assumed to ve interval-censored, hence d1,d2,d3 are not needed.
+# All observations are assumed to be interval-censored, hence d1,d2,d3 are not needed.
 # This is done for consistency with the other methods where zeros are replaced with a very small number and Inf 
 # are replaced with 200 (which did not effected the other methods when I took 2000 or 20000)
 #### 
@@ -23,9 +23,9 @@ OurICsurvPH <- function (d1, d2, d3, Li, Ri, Xp, n.int, order, g0, b0, tol,
     ti.min <- min(ti) - 1e-05
     knots <- c(ti.min, quantile(ti, id), ti.max)
   }
-  bRi <- t(Ispline(x = Ri, order = order, knots = knots))
-  bLi <- t(Ispline(x = Li, order = order, knots = knots))
-  bt <- t(Ispline(x = t.seq, order = order, knots = knots))
+  bRi <- t(ICsurv::Ispline(x = Ri, order = order, knots = knots))
+  bLi <- t(ICsurv::Ispline(x = Li, order = order, knots = knots))
+  bt <- t(ICsurv::Ispline(x = t.seq, order = order, knots = knots))
   Q1 <- function(b0, b1, g0, Xp, bRi, bLi, d1, d2, d3, L) {
     g1 <- rep(-99, L)
     xb0 <- Xp %*% b0

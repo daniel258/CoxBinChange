@@ -1,3 +1,5 @@
+#' @useDynLib ICcalib
+#' @importFrom Rcpp sourceCpp
 #### Functions for fitting ordinery calibration ###
 # On Sep 1, 2016, this file included three calibrations: Weibull, Nonparameteric and Cox. 
 # The Weibull calibrations return the shape and scale paramters
@@ -5,6 +7,26 @@
 # Sep 1, 2016: Only the Cox calibration function allows for covariates
 ################################################################################################################
 ################### Weibull ###############################################################################################
+#' @title FitCalibWeibull
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[fitdistrplus]{fitdistcens}}
+
+#'  \code{\link[fitdistrplus]{fitdistcens}}
+#' @rdname FitCalibWeibull
+#' @export 
+#' @importFrom fitdistrplus fitdistcens
+#' @importFrom fitdistrplus fitdistcens
 FitCalibWeibull <- function(w,w.res)
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
@@ -13,9 +35,9 @@ FitCalibWeibull <- function(w,w.res)
   lr.for.fit[lr.for.fit==Inf] <- NA
 #  lr.for.fit[lr.for.fit==0] <- 0.0001
   #df.cln <- lr.for.fit[apply(lr.for.fit,1,function(x)  sum(is.na(x)))<2,]
-  fit.weib <- tryCatch(fitdistcens(censdata = lr.for.fit, distr = "weibull"),   error=function(e) {e})
+  fit.weib <- tryCatch(fitdistrplus::fitdistcens(censdata = lr.for.fit, distr = "weibull"),   error=function(e) {e})
   if (inherits(fit.weib, "error")) { 
-    fit.weib <- tryCatch(fitdistcens(censdata = lr.for.fit, distr = "weibull", lower = c(0, 0)),   error=function(e) {e})
+    fit.weib <- tryCatch(fitdistrplus::fitdistcens(censdata = lr.for.fit, distr = "weibull", lower = c(0, 0)),   error=function(e) {e})
     if (inherits(fit.weib, "error")) { 
       return(c(NA,NA)) }
   } 
@@ -28,15 +50,28 @@ FitCalibWeibull <- function(w,w.res)
 
 ################################################################################################################
 ################### Nonparametric (NPMLE)#####################################################################################
+#' @title FitCalibNpmle
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[icenReg]{ic_np}}
+#' @rdname FitCalibNpmle
+#' @export 
+#' @importFrom icenReg ic_np
 FitCalibNpmle <- function(w,w.res)
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
-  #lr.for.fit <- lr.for.fit[!(lr.for.fit[,1]==0 & lr.for.fit[,2]==Inf),]
   colnames(lr.for.fit) <- c("left","right")
-  #lr.for.fit[lr.for.fit==Inf] <- 200
-  #lr.for.fit[lr.for.fit==0] <- 0.0001
-  #df.cln <- lr.for.fit[apply(lr.for.fit,1,function(x)  sum(is.na(x)))<2,]
-  fit.npmple <- ic_np(cbind(left,right)~0,data = lr.for.fit)
+  fit.npmple <- icenReg::ic_np(cbind(left,right)~0,data = lr.for.fit)
   if (inherits(fit.npmple, "error")) { 
     return(NA) 
   } else {
@@ -45,24 +80,43 @@ FitCalibNpmle <- function(w,w.res)
 }
 ################################################################################################################
 ################### Cox ####################################################################################################
+#' @title FitCalibCox
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param Q PARAM_DESCRIPTION
+#' @param hz.times PARAM_DESCRIPTION
+#' @param n.int PARAM_DESCRIPTION, Default: 5
+#' @param order PARAM_DESCRIPTION, Default: 2
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[ICsurv]{fast.PH.ICsurv.EM}}
+#' @rdname FitCalibCox
+#' @export 
+#' @importFrom ICsurv fast.PH.ICsurv.EM
 FitCalibCox <- function(w, w.res, Q, hz.times, n.int = 5, order = 2 )
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
   Q <- as.matrix(Q[!(lr.for.fit[,1]==0 & lr.for.fit[,2]==Inf),])
   lr.for.fit <- lr.for.fit[!(lr.for.fit[,1]==0 & lr.for.fit[,2]==Inf),]
-  #lr.for.fit[lr.for.fit==Inf] <- 200
-  #lr.for.fit[lr.for.fit==0] <- 0.0001
   colnames(lr.for.fit) <- c("left","right")
   n.s <- nrow(lr.for.fit)
   d1 <- lr.for.fit[,1]==0
   d3 <- lr.for.fit[,2]==Inf
   d2 <- 1 - d1 - d3
-  fit.cox <- tryCatch(fast.PH.ICsurv.EM(d1 = d1, d2 = d2, d3 = d3,Li = lr.for.fit[,1],
+  fit.cox <- tryCatch(ICsurv::fast.PH.ICsurv.EM(d1 = d1, d2 = d2, d3 = d3,Li = lr.for.fit[,1],
                                Ri = lr.for.fit[,2], n.int = n.int, order = order,  Xp = Q, g0 =rep(1,n.int + order), b0 = rep(0,ncol(Q)),
                                t.seq = hz.times, tol = 0.001), error = function(e){e})
   while(inherits(fit.cox, "error") & n.int >= 2) { 
     n.int <- n.int - 1
-    fit.cox <- tryCatch(fast.PH.ICsurv.EM(d1 = d1, d2 = d2, d3 = d3,Li = lr.for.fit[,1],
+    fit.cox <- tryCatch(ICsurv::fast.PH.ICsurv.EM(d1 = d1, d2 = d2, d3 = d3,Li = lr.for.fit[,1],
                                  Ri = lr.for.fit[,2], n.int = n.int, order = order,  Xp = Q, g0 =rep(1,n.int + order), b0 = rep(0,ncol(Q)),
                                  t.seq = hz.times, tol = 0.001), error = function(e){e})
   }

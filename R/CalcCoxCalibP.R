@@ -26,13 +26,10 @@ CalcCoxCalibP <- function(w, w.res, point, fit.cox, hz.times,  Q)
     if(interval.point==length(hz.times)+1) {base.hz.point <- hz[length(hz.times)]
     } else {
       base.hz.point <- hz[interval.point-1] +  (hz[interval.point]-hz[interval.point-1])*(point-hz.times[interval.point-1])/
-                    (hz.times[interval.point]-hz.times[interval.point-1])#Extrapolation
+                    (hz.times[interval.point]-hz.times[interval.point-1]) #Extrapolation
     }}
-  #base.hz.point <- fit.cox$hz[case.times==point]
   prob.at.point <- 1-exp(-base.hz.point*exp(Qb[p.point==0,]))
   prob.at.a.point <- 1-CalcSurvFromCox(fit.cox = fit.cox,Qb = Qb[p.point==0,], points = a.point[p.point==0], hz.times = hz.times)
- #   probs = fit.cox$p_hat, Tbull = fit.cox$T_bull_Intervals,
-  #                                       points = a.point[p.point==0])
   p.point[p.point==0] <- (prob.at.point - prob.at.a.point)/(1-prob.at.a.point)
   return(p.point)
 }

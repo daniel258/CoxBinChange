@@ -1,7 +1,4 @@
 ###
-# ps - the usual probabilties matrix
-# ps.deriv - array of derivatives of ps with respect to eta. First dim is for eta, second for case number, third for observation.
-# beta, w, wres, event,tm - as usual
 CalcVarParam <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.cox)
 {
   n <- length(tm)
@@ -58,17 +55,7 @@ CalcVarParamRSInts <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, 
   n <- length(tm)
   n.theta <- length(theta) 
   n.fits <- length(fit.cox.rs.ints)
-  #fit.cox.int.one <- fit.cox.rs.ints[[1]]
-  #eta.b.one <- fit.cox.int.one$b
-  #eta.g.one <- fit.cox.int.one$g
-  #n.g <- length(eta.g.one)
-  #n.b <- length(eta.b.one)
   n.eta <- sum(n.etas.per.fit)
-  # eta.b <- fit.cox$b
-  # eta.g <- fit.cox$g
-  # hessian.eta <- fit.cox$Hessian
-  # order <- fit.cox$order
-  #knots <- fit.cox$knots
   hessian.eta <- matrix(nr = n.eta, nc = n.eta, 0)
   nabla.eta.Utheta <- matrix(nr = n.theta, nc = n.eta, 0)
   for (j in 1:n.fits)
@@ -202,7 +189,7 @@ CalcVarNpmle <- function(tm, event, w, w.res, BS = 100, CI = T)
     fit.npmle.bs <- FitCalibNpmle(w = w.bs, w.res = w.res.bs)
     px.np.bs <- t(sapply(case.times.bs, CalcNpmleCalibP, w = w.bs, w.res =  w.res.bs, fit.npmle = fit.npmle.bs))
     px.np.bs[is.na(px.np.bs)] <- 0 # To avoid very rare errors
-    beta.np.calib.bs[j] <- optimize(f = myF,  tm = tm.bs, event = event.bs, ps = px.np.bs, 
+    beta.np.calib.bs[j] <- optimize(f = CoxLogLikX,  tm = tm.bs, event = event.bs, ps = px.np.bs, 
                              interval = c(-50,50), maximum = T)$maximum
   }
   v.hat.npmle <- var(beta.np.calib.bs[abs(beta.np.calib.bs) < 5])
@@ -227,9 +214,9 @@ CalcVarNpmleRS <- function(tm, event, w, w.res, BS = 100, CI =T)
     case.times.bs <- tm.bs[event.bs==1]
     w.bs <- w[indices,]
     w.res.bs <- w.res[indices,]
-    px.np.rs.bs <- t(sapply(case.times.bs, CalcNpmleRiskSetP, w = w.bs, w.res =  w.res.bs, obs.tm = tm.bs))
+    px.np.rs.bs <- t(sapply(case.times.bs, CalcNpmleRSP, w = w.bs, w.res =  w.res.bs, obs.tm = tm.bs))
     px.np.rs.bs[is.na(px.np.rs.bs)] <- 0 # To avoid very rare errors
-    beta.np.calib.rs.bs[j] <- optimize(f = myF,  tm = tm.bs, event = event.bs, ps = px.np.rs.bs, 
+    beta.np.calib.rs.bs[j] <- optimize(f = CoxLogLikX,  tm = tm.bs, event = event.bs, ps = px.np.rs.bs, 
                                     interval = c(-50,50), maximum = T)$maximum
   }
   v.hat.npmle.rs <- var(beta.np.calib.rs.bs[abs(beta.np.calib.rs.bs) < 5])

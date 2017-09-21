@@ -1,5 +1,3 @@
-## Auxiliry funcitons for Weibull calculations
-# eta.scale is always the scale parameter, eta.shape is the shape parameter
 
 ICweibLik <- function(etas,w,w.res)
 {
@@ -12,6 +10,7 @@ ICweibLik <- function(etas,w,w.res)
   s <- sum(pers)
   return(s)
 }
+ 
 ICweibGrad <- function(etas,w,w.res)
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
@@ -39,6 +38,7 @@ ICweibGrad <- function(etas,w,w.res)
 #  deriv.eta.shape <- sum(deriv.eta.shape.pers)
   return(cbind(deriv.eta.shape.pers,deriv.eta.scale.pers))
 }
+
 ICweibLikRS <- function(etas.matrix.in.vector, w, w.res, tm, event)
 {
   r <- sum(event)
@@ -61,8 +61,6 @@ ICweibLikRS <- function(etas.matrix.in.vector, w, w.res, tm, event)
   s <- sum(u.risk)
   return(s)
 }
-
-
 
 ICweibGradRS <- function(etas.matrix, w, w.res, tm, event)
 {
@@ -101,6 +99,7 @@ ICweibGradRS <- function(etas.matrix, w, w.res, tm, event)
   #return(cbind(mat.shape.back,mat.scale.back))
   return(mat.grad.back)
 }
+
 
 ICweibLikLR <- function(weib.params, L,R)
 {

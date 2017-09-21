@@ -1,3 +1,22 @@
+# Take data set in my usual form and return a data set under LVCF.
+# It returns it in the form of a data.frame called new.data
+#' @title LVCFdata
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param obs.tm PARAM_DESCRIPTION
+#' @param delta PARAM_DESCRIPTION
+#' @param Z PARAM_DESCRIPTION, Default: NULL
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname LVCFdata
+#' @export 
 LVCFdata <- function(w, w.res, obs.tm, delta, Z = NULL)
 {
   n.sample <- length(obs.tm)
