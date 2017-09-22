@@ -125,7 +125,7 @@ SimCoxIntervalCensSinglePexp <- function(n.sample, lambda = 0.25, alpha= NULL, b
 {
   ## Simulate changepoint time
   #v <- rweibull(n.sample, shape = weib.shape, scale = weib.scale)
-  v <- rpexp(n.sample, rate=rates, t=ts)
+  v <- msm::rpexp(n.sample, rate=rates, t=ts)
   #v <- ifelse(v < 0, 0, v)
   #v <- ifelse(v > 10, 10, v)
   #v <- runif(n.sample,0,10)
