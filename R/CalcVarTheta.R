@@ -30,7 +30,7 @@ CalcVarParam <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.co
   grad.eta.pers.mat[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ] <- CalcGradEtaPers(d1 = d1, d2 = d2, d3 = d3, Li = lr.for.fit[,1],
                                        Ri = lr.for.fit[,2], knots = knots, order = order, eta.g = eta.g, eta.b = eta.b, Q = Qinter)
   b.mat <- CalcbZ(theta = theta, tm = tm, event = event, ps = ps, Z = Z)
-  r.mat <- b.mat - t(nabla.eta.Utheta%*%ginv(hessian.eta)%*%t(grad.eta.pers.mat))
+  r.mat <- b.mat - t(nabla.eta.Utheta%*%MASS::ginv(hessian.eta)%*%t(grad.eta.pers.mat))
   MM <- array(dim = c(ncol(r.mat),ncol(r.mat),nrow(r.mat)),0)
   for (j in 1:nrow(r.mat))
   {
@@ -108,7 +108,7 @@ CalcVarParamRSInts <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, 
     #CalcGradEtaPersRSInts(d1 = d1, d2 = d2, d3 = d3, Li = lr.for.fit[,1], Ri = lr.for.fit[,2], knots = knots, 
     #order = order, eta.g = eta.g, eta.b = eta.b, Z = Zinter)
   b.mat <- CalcbZ(theta = theta, tm = tm, event = event, ps = ps, Z = Z)
-  r.mat <- b.mat - t(nabla.eta.Utheta%*%ginv(hessian.eta)%*%t(grad.eta.pers.mat))
+  r.mat <- b.mat - t(nabla.eta.Utheta%*%MASS::ginv(hessian.eta)%*%t(grad.eta.pers.mat))
   MM <- array(dim = c(ncol(r.mat),ncol(r.mat),nrow(r.mat)),0)
   for (j in 1:nrow(r.mat))
   {
