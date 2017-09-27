@@ -14,7 +14,7 @@ CalcNpmleRSP <- function(w, w.res, point, obs.tm)
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
   colnames(lr.for.fit) <- c("left","right")
-  lr.for.fit <- lr.for.fit[obs.tm > point,] # Keep only observations in the risk set
+  lr.for.fit <- lr.for.fit[obs.tm >= point,] # Keep only observations in the risk set
   fit.npmple.rs <-  tryCatch(icenReg::ic_np(cbind(left,right) ~ 0, data = lr.for.fit),   error=function(e) {e})
   if (inherits(fit.npmple.rs, "error")) { 
     fit.npmle <- FitCalibNpmle(w = w, w.res = w.res)
