@@ -1,10 +1,3 @@
-#### CalcWeibullCalibP function
-### Daniel Nevo
-## The function takes the following
-## w - a matrix. Each row is observation and each column is questionnaire time in the interval. w equal to Inf once
-# an observation is censore/had the event
-## w.res - a matrix of the same dimensions as w. Equal to the x(t) at time w. For example second column is 
-# second questionnaire result for all participents.
 ## point - scalar. The time of the risk set in the main analysis. In terms of the paper, t.
 ## weib.params - the shape and scale parameters from the Weibull calibration fitting to the interval-cenosed time to exposure/treatment
 ###
@@ -14,6 +7,25 @@
 # The function calculates prediction for all observations, even though predictions for observations outside 
 # the risk set are not used
 #### The following functions is used: CalcAuxatPoint (R function)
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @param point PARAM_DESCRIPTION
+#' @param weib.params A bivariate vector. Shape and scale paramters of the Weibull calibration model.  
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[stats]{pweibull}}
+#' @rdname CalcWeibullCalibP
+#' @export 
+#' @importFrom stats pweibull
 CalcWeibullCalibP <- function(w, w.res, point, weib.params)
 {
   weib.shape <- weib.params[1]

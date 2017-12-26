@@ -1,18 +1,21 @@
-#### CalcCoxCalibP function
-### Daniel Nevo
-## The function takes the following
-## w - a matrix. Each row is observation and each column is questionnaire time in the interval. w equal to Inf once
-# an observation is censore/had the event
-## w.res - a matrix of the same dimensions as w. Equal to the x(t) at time w. For example second column is 
-# second questionnaire result for all participents.
-## point - scalar. The time of the risk set in the main analysis. In terms of the paper, t.
-## fit.cox - the result of icenReg::ic_sp on the whole data. This used for the actual calibration
-###
-# The function returns a vector with individual predictions for P(X(t)=1|history(time t)). 
-# For observations with X(a(t))=1 the above probability is 1 by definition and this is what the
-# function returns for them.
-#### The following package is needed: fitdistrplus
-#### The following functions are used: CalcAuxatPoint (R function)
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @param point PARAM_DESCRIPTION
+#' @param fit.cox The result of \code{icenReg::ic_sp} on the interval-censored data
+#' @param hz.times Times used for calculating the baseline hazard function from PH calibartion model
+#' @param Q Matrix of covariates for PH calibration model
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname CalcCoxCalibP
+#' @export 
 CalcCoxCalibP <- function(w, w.res, point, fit.cox, hz.times,  Q)
 {
   lr.for.lik <- CalcAuxAtPoint(w,w.res,point = point)

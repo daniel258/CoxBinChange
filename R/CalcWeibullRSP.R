@@ -13,6 +13,25 @@
 # The function calculate prediction for all observations, even though predictions for observations outside 
 # the risk set are not used 
 #### The following functions is used: CalcAuxatPoint (R function), FindIntervalCalibCPP (cpp function)
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @param point PARAM_DESCRIPTION
+#' @param weib.params A bivariate vector. Shape and scale paramters of the Weibull calibration model.  
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[stats]{pweibull}}
+#' @rdname CalcWeibullRSP
+#' @export 
+#' @importFrom stats pweibull
 CalcWeibullRSP <- function(w, w.res, point, weib.params)
 {
   weib.shape <- weib.params[1]

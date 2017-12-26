@@ -2,11 +2,11 @@
 # It returns it in the form of a data.frame called new.data
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
-#' @param w PARAM_DESCRIPTION
-#' @param w.res PARAM_DESCRIPTION
-#' @param obs.tm PARAM_DESCRIPTION
-#' @param delta PARAM_DESCRIPTION
-#' @param Z PARAM_DESCRIPTION, Default: NULL
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @param obs.tm Vector of observed main event time or censoring time
+#' @param delta Vector of censoring indicators. \code{1} for event \code{0} for censored
+#' @param Z Additional variables for the main model other than the binary covaraite, Default: NULL
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
 #' @examples 

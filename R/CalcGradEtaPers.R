@@ -1,5 +1,28 @@
-## Daniel Nevo 
 # Based on ICsurv:::fast.PH.ICsurv.EM
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param d1 PARAM_DESCRIPTION
+#' @param d2 PARAM_DESCRIPTION
+#' @param d3 PARAM_DESCRIPTION
+#' @param Li PARAM_DESCRIPTION
+#' @param Ri PARAM_DESCRIPTION
+#' @param knots PARAM_DESCRIPTION
+#' @param order PARAM_DESCRIPTION
+#' @param eta.g PARAM_DESCRIPTION
+#' @param eta.b PARAM_DESCRIPTION
+#' @param Q PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[ICsurv]{Ispline}}
+#' @rdname CalcGradEtaPers
+#' @importFrom ICsurv Ispline
 CalcGradEtaPers <- function(d1, d2, d3, Li, Ri,  knots, order, eta.g, eta.b, Q)
 {
   n <- length(Ri)

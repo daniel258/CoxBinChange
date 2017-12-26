@@ -1,24 +1,20 @@
   #### FitCalibCoxRSInts function
 # Unlike FitCalibCoxRS, this function only estimate the model in certain given number of points, and not in each risk set time
 ## The function takes the following
-## w - a matrix. Each row is observation and each column is questionnaire time in the interval. w equal to Inf once
-# an observation is censore/had the event
-## w.res - a matrix of the same dimensions as w. Equal to the x(t) at time w. For example second column is 
-# second questionnaire result for all participents.
 ## pts.for.ints: the points defining the intervals (first one has to be zero)  - should be sorted from zero up
 ###
 # The function returns a list of cox fits for interval-censored time to event data, one for each risk set.
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
-#' @param w PARAM_DESCRIPTION
-#' @param w.res PARAM_DESCRIPTION
-#' @param Q PARAM_DESCRIPTION
-#' @param hz.times PARAM_DESCRIPTION
-#' @param n.int PARAM_DESCRIPTION, Default: 5
-#' @param order PARAM_DESCRIPTION, Default: 2
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @param Q Matrix of covariates for PH calibration model
+#' @param hz.times Times used for calculating the baseline hazard function from PH calibartion model
+#' @param n.int The number of interior knots to be used, see \code{ICsurv::fast.PH.ICsurv.EM}, Default: 5
+#' @param order the order of the basis functions. See \code{ICsurv::fast.PH.ICsurv.EM}, Default: 2
 #' @param tm PARAM_DESCRIPTION
-#' @param event PARAM_DESCRIPTION
-#' @param pts.for.ints PARAM_DESCRIPTION
+#' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
+#' @param pts.for.ints Points defining the intervals for grouping risk-sets (first one has to be zero). Should be sorted from zero up
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
 #' @examples 

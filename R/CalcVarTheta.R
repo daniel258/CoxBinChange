@@ -1,4 +1,29 @@
 ###
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param theta Coefficeint vector from main PH model. Fist coefficent corresponds to `X`, the rest to `Z`
+#' @param tm PARAM_DESCRIPTION
+#' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
+#' @param Z Additional variables for the main model other than the binary covaraite
+#' @param Q Matrix of covariates for PH calibration model
+#' @param ps A matrix. Rows are observations, columns are time points of the events. $ps(i,j)=Pr(X_i(time of case j)=1|history)$
+#' @param ps.deriv A matrix. Rows are observations, columns are time points of the events. $ps.deriv(i,j)$ is the derivative of Pr(X_i(time of case j)=1|history)
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @param fit.cox The result of \code{icenReg::ic_sp} on the interval-censored data
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[MASS]{ginv}}
+#' @rdname CalcVarParam
+#' @export 
+#' @importFrom MASS ginv
 CalcVarParam <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.cox)
 {
   n <- length(tm)
@@ -50,6 +75,33 @@ CalcVarParam <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.co
   return(v.hat)
 }
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param theta Coefficeint vector from main PH model. Fist coefficent corresponds to `X`, the rest to `Z`
+#' @param tm PARAM_DESCRIPTION
+#' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
+#' @param Z Additional variables for the main model other than the binary covaraite
+#' @param Q Matrix of covariates for PH calibration model
+#' @param ps A matrix. Rows are observations, columns are time points of the events. $ps(i,j)=Pr(X_i(time of case j)=1|history)$
+#' @param ps.deriv A matrix. Rows are observations, columns are time points of the events. $ps.deriv(i,j)$ is the derivative of Pr(X_i(time of case j)=1|history)
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @param fit.cox.rs.ints The result of \code{FitCalibCoxRSInts} on the interval-censored data
+#' @param pts.for.ints Points defining the intervals for grouping risk-sets (first one has to be zero). Should be sorted from zero up
+#' @param n.etas.per.fit PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[MASS]{ginv}}
+#' @rdname CalcVarParamRSInts
+#' @export 
+#' @importFrom MASS ginv
 CalcVarParamRSInts <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res,  fit.cox.rs.ints,  pts.for.ints, n.etas.per.fit)
 {
   n <- length(tm)
@@ -130,6 +182,30 @@ CalcVarParamRSInts <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, 
 
 
 ## Weibull, no extra covariates ###
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param beta Coefficient of the binary covariate
+#' @param etas PARAM_DESCRIPTION
+#' @param tm PARAM_DESCRIPTION
+#' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
+#' @param ps A matrix. Rows are observations, columns are time points of the events. $ps(i,j)=Pr(X_i(time of case j)=1|history)$
+#' @param ps.deriv.shape Same as `ps.deriv.scale` but for the shape parameter
+#' @param ps.deriv.scale A matrix. Rows are observations, columns are time points of the events. $ps.deriv.scale(i,j)$ is the derivative
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[numDeriv]{hessian}}
+#' @rdname CalcVarThetaWeib
+#' @export 
+#' @importFrom numDeriv hessian
 CalcVarThetaWeib <- function(beta, etas, tm, event, ps, ps.deriv.shape, ps.deriv.scale, w, w.res)
 {
   n <- length(tm)
@@ -145,6 +221,27 @@ CalcVarThetaWeib <- function(beta, etas, tm, event, ps, ps.deriv.shape, ps.deriv
   var.beta <- (meat/(bread^2))/n
   return(var.beta)
 }
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param beta Coefficient of the binary covariate
+#' @param etas.matrix PARAM_DESCRIPTION
+#' @param tm PARAM_DESCRIPTION
+#' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
+#' @param ps.rs PARAM_DESCRIPTION
+#' @param ps.deriv.shape.rs Same as `ps.deriv.scale` but for the risk-set shape parameters
+#' @param ps.deriv.scale.rs A matrix. Rows are observations, columns are time points of the events. $ps.deriv(i,j)$ is the derivative
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname CalcVarThetaWeibRS
+#' @export 
 CalcVarThetaWeibRS <- function(beta, etas.matrix, tm, event, ps.rs, ps.deriv.shape.rs, ps.deriv.scale.rs, w, w.res)
 {
   n <- length(tm)
@@ -161,6 +258,24 @@ CalcVarThetaWeibRS <- function(beta, etas.matrix, tm, event, ps.rs, ps.deriv.sha
   var.beta <- (meat/(bread^2))/n
   return(var.beta)
 }
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param etas PARAM_DESCRIPTION
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[numDeriv]{hessian}}
+#' @rdname CalcVarEta
+#' @export 
+#' @importFrom numDeriv hessian
 CalcVarEta <- function(etas,  w, w.res)
 {
   n <- nrow(w)
@@ -174,6 +289,24 @@ CalcVarEta <- function(etas,  w, w.res)
   var.eta <-  solve(hess.etas.l.v)%*%(grad.eta)%*%solve(hess.etas.l.v)
     return(var.eta)
 }
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param tm PARAM_DESCRIPTION
+#' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @param BS Number of bootstrap iterations, Default: 100
+#' @param CI PARAM_DESCRIPTION, Default: T
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname CalcVarNpmle
+#' @export 
 CalcVarNpmle <- function(tm, event, w, w.res, BS = 100, CI = T)
 {
   n <- length(tm)
@@ -201,6 +334,24 @@ CalcVarNpmle <- function(tm, event, w, w.res, BS = 100, CI = T)
   } else{
     return(list(v = v.hat.npmle))
 }}
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param tm PARAM_DESCRIPTION
+#' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @param BS Number of bootstrap iterations, Default: 100
+#' @param CI PARAM_DESCRIPTION, Default: T
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname CalcVarNpmleRS
+#' @export 
 CalcVarNpmleRS <- function(tm, event, w, w.res, BS = 100, CI =T)
 {
   n <- length(tm)

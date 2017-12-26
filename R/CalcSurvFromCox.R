@@ -1,4 +1,19 @@
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param fit.cox PARAM_DESCRIPTION
+#' @param Qb PARAM_DESCRIPTION
+#' @param points PARAM_DESCRIPTION
+#' @param hz.times PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+# @rdname CalcSurvFromCox
 CalcSurvFromCox <- function(fit.cox, Qb, points, hz.times)
 {
   n.points <- length(points)

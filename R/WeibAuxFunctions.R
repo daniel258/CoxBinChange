@@ -1,4 +1,18 @@
-
+# Weibull auxiliary functions for likelihood, gradient and hessian calculations for Weibull fitting from interval-censored data
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param etas PARAM_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+# @rdname ICweibLik
 ICweibLik <- function(etas,w,w.res)
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
@@ -10,7 +24,20 @@ ICweibLik <- function(etas,w,w.res)
   s <- sum(pers)
   return(s)
 }
- 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param etas PARAM_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname ICweibGrad
 ICweibGrad <- function(etas,w,w.res)
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
@@ -20,8 +47,6 @@ ICweibGrad <- function(etas,w,w.res)
   Lzero <- (L==0 & R<Inf)
   Rinf <- (R==Inf & L >0)
   LRout <- (R==Inf & L ==0)
-  #L <- L[within]
-  #R <- R[within]
   eta.shape <- etas[1]
   eta.scale <- etas[2]
   pers.lik <- (exp(-(L/eta.scale)^eta.shape)-exp(-(R/eta.scale)^eta.shape))
@@ -34,12 +59,25 @@ ICweibGrad <- function(etas,w,w.res)
   deriv.eta.shape.pers[Rinf] <- (1/(pers.lik[Rinf] *eta.scale^eta.shape)) * (- log(L[Rinf] /eta.scale)*exp(-(L[Rinf]/eta.scale)^eta.shape)*(L[Rinf] ^eta.shape))
   deriv.eta.shape.pers[Lzero] <- (1/(pers.lik[Lzero]*eta.scale^eta.shape)) * (log(R[Lzero]/eta.scale)*exp(-(R[Lzero]/eta.scale)^eta.shape)*(R[Lzero]^eta.shape))
   deriv.eta.shape.pers[LRout] <- 0
-#  deriv.eta.scale <- sum(deriv.eta.scale.pers)
-#  deriv.eta.shape <- sum(deriv.eta.shape.pers)
   return(cbind(deriv.eta.shape.pers,deriv.eta.scale.pers))
 }
-
-ICweibLikRS <- function(etas.matrix.in.vector, w, w.res, tm, event)
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param etas.matrix.in.vector PARAM_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param obs.tm PARAM_DESCRIPTION
+#' @param event PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname ICweibLikRS
+ICweibLikRS <- function(etas.matrix.in.vector, w, w.res, obs.tm, event)
 {
   r <- sum(event)
   s <- 0
@@ -50,8 +88,8 @@ ICweibLikRS <- function(etas.matrix.in.vector, w, w.res, tm, event)
   u.risk <- vector(length = r)
   for(j in 1:r)
   {
-    point <- tm[event.index[j]]
-        lr.for.fit <- lr.for.fit.all[tm>=point,]  # Keep only observations in the risk set
+    point <- obs.tm[event.index[j]]
+        lr.for.fit <- lr.for.fit.all[obs.tm>=point,]  # Keep only observations in the risk set
   L <- lr.for.fit[,1]
   R <- lr.for.fit[,2]
   eta.shape <- etas.matrix[j,1]
@@ -62,7 +100,23 @@ ICweibLikRS <- function(etas.matrix.in.vector, w, w.res, tm, event)
   return(s)
 }
 
-ICweibGradRS <- function(etas.matrix, w, w.res, tm, event)
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param etas.matrix PARAM_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param obs.tm PARAM_DESCRIPTION
+#' @param event PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname ICweibGradRS
+ICweibGradRS <- function(etas.matrix, w, w.res, obs.tm, event)
 {
   n <- length(event)
   r <- sum(event)
@@ -79,10 +133,10 @@ ICweibGradRS <- function(etas.matrix, w, w.res, tm, event)
   LRout <- (R==Inf & L ==0)
   for(j in 1:r)
   {
-  point <- tm[event.index[j]]
+  point <- obs.tm[event.index[j]]
   eta.shape <- etas.matrix[j, 1]
   eta.scale <- etas.matrix[j, 2]
-  in.risk.set <- tm>=point
+  in.risk.set <- obs.tm>=point
   pers.lik <- (exp(-(L/eta.scale)^eta.shape)-exp(-(R/eta.scale)^eta.shape))
   mat.scale.back[LRwithin, j] <- (eta.shape/(pers.lik[LRwithin]*(eta.scale^(eta.shape+1)))) * ((L[LRwithin]^eta.shape)*exp(-(L[LRwithin]/eta.scale)^eta.shape) - (R[LRwithin]^eta.shape)*exp(-(R[LRwithin]/eta.scale)^eta.shape))
   mat.scale.back[Rinf, j] <- (eta.shape/(pers.lik[Rinf]*eta.scale^(eta.shape+1))) * ((L[Rinf]^eta.shape)*exp(-(L[Rinf]/eta.scale)^eta.shape))
@@ -96,11 +150,22 @@ ICweibGradRS <- function(etas.matrix, w, w.res, tm, event)
   mat.grad.back <- matrix(nr = n, nc = 2*r)
   mat.grad.back[,seq(1, 2*r, 2)] <- mat.shape.back
   mat.grad.back[,seq(2, 2*r, 2)] <- mat.scale.back
-  #return(cbind(mat.shape.back,mat.scale.back))
   return(mat.grad.back)
 }
-
-
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param weib.params PARAM_DESCRIPTION
+#' @param L PARAM_DESCRIPTION
+#' @param R PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @rdname ICweibLikLR
 ICweibLikLR <- function(weib.params, L,R)
 {
   eta.shape <- weib.params[1]
@@ -108,8 +173,26 @@ ICweibLikLR <- function(weib.params, L,R)
   u.risk <- sum(log(exp(-(L/eta.scale)^eta.shape)-exp(-(R/eta.scale)^eta.shape)))
   return(u.risk)
 }
-
-ICweibHessSolvedRS <- function(etas.matrix, w, w.res, tm, event)
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param etas.matrix PARAM_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param obs.tm PARAM_DESCRIPTION
+#' @param event PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[numDeriv]{hessian}}
+#' @rdname ICweibHessSolvedRS
+#' @importFrom numDeriv hessian
+ICweibHessSolvedRS <- function(etas.matrix, w, w.res, obs.tm, event)
 {
   n <- length(event)
   r <- sum(event)
@@ -119,8 +202,8 @@ ICweibHessSolvedRS <- function(etas.matrix, w, w.res, tm, event)
 for (j in 1:r)
 {
   weib.param <- etas.matrix[j,]
-  point <- tm[event.index[j]]
-  lr.for.fit <- lr.for.fit.all[tm>=point,]  # Keep only observations in the risk set
+  point <- obs.tm[event.index[j]]
+  lr.for.fit <- lr.for.fit.all[obs.tm>=point,]  # Keep only observations in the risk set
   L <- lr.for.fit[,1]
   R <- lr.for.fit[,2]
   hess.etas.solved[(2*j-1):(2*j),(2*j-1):(2*j)] <- solve(numDeriv::hessian(func = ICweibLikLR, x = weib.param, L = L, R =R))

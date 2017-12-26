@@ -1,6 +1,5 @@
 #### CalcWeibullCalibP function
 ### NEED TO WRITE EXPLANATION
-### Daniel Nevo
 ## The function takes the following
 ## w - a matrix. Each row is observation and each column is questionnaire time in the interval. w equal to Inf once
 # an observation is censore/had the event
@@ -15,6 +14,24 @@
 # The function calculates prediction for all observations, even though predictions for observations outside 
 # the risk set are not used
 #### The following functions is used: CalcAuxatPoint (R function)
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param point PARAM_DESCRIPTION
+#' @param weib.params PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[stats]{pweibull}}
+# @rdname CalcWeibullCalibPderivScale
+#' @importFrom stats pweibull
 CalcWeibullCalibPderivScale <- function(w, w.res, point, weib.params)
 {
   lr.for.lik <- CalcAuxAtPoint(w,w.res,point = point)
@@ -30,6 +47,24 @@ CalcWeibullCalibPderivScale <- function(w, w.res, point, weib.params)
   return(deriv.scale)
 }
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param point PARAM_DESCRIPTION
+#' @param weib.params PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[stats]{pweibull}}
+# @rdname CalcWeibullCalibPderivShape
+#' @importFrom stats pweibull
 CalcWeibullCalibPderivShape <- function(w, w.res, point, weib.params)
 {
   weib.shape <- weib.params[1]
@@ -49,6 +84,25 @@ CalcWeibullCalibPderivShape <- function(w, w.res, point, weib.params)
 
 
 #########################################################################################################################
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param obs.tm PARAM_DESCRIPTION
+#' @param event PARAM_DESCRIPTION
+#' @param weib.rs.params PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[stats]{pweibull}}
+# @rdname CalcWeibullCalibPderivShapeRS
+#' @importFrom stats pweibull
 CalcWeibullCalibPderivShapeRS <- function(w, w.res, obs.tm, event, weib.rs.params)
 {
   r <- sum(event)
@@ -79,6 +133,25 @@ CalcWeibullCalibPderivShapeRS <- function(w, w.res, obs.tm, event, weib.rs.param
 
 #########################################################################################################################
 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param obs.tm PARAM_DESCRIPTION
+#' @param event PARAM_DESCRIPTION
+#' @param weib.rs.params PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[stats]{pweibull}}
+# @rdname CalcWeibullCalibPderivScaleRS
+#' @importFrom stats pweibull
 CalcWeibullCalibPderivScaleRS <- function(w, w.res, obs.tm, event, weib.rs.params)
 {
   r <- sum(event)

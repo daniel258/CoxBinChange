@@ -1,21 +1,12 @@
-#### FitCalibCoxRS function
-### Daniel Nevo
-## The function takes the following
-## w - a matrix. Each row is observation and each column is questionnaire time in the interval. w equal to Inf once
-# an observation is censore/had the event
-## w.res - a matrix of the same dimensions as w. Equal to the x(t) at time w. For example second column is 
-# second questionnaire result for all participents.
-###
-# The function returns a list of cox fits for interval-censored time to event data, one for each risk set.
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
-#' @param w PARAM_DESCRIPTION
-#' @param w.res PARAM_DESCRIPTION
-#' @param Q PARAM_DESCRIPTION
-#' @param hz.times PARAM_DESCRIPTION
-#' @param n.int PARAM_DESCRIPTION, Default: 5
-#' @param order PARAM_DESCRIPTION, Default: 2
-#' @param event PARAM_DESCRIPTION
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @param Q Matrix of covariates for PH calibration model
+#' @param hz.times Times used for calculating the baseline hazard function from PH calibartion model
+#' @param n.int The number of interior knots to be used, see \code{ICsurv::fast.PH.ICsurv.EM}, Default: 5
+#' @param order the order of the basis functions. See \code{ICsurv::fast.PH.ICsurv.EM}, Default: 2
+#' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
 #' @examples 

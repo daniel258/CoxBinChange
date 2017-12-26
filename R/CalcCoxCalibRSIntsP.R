@@ -1,5 +1,4 @@
 #### CalcCoxCalibRSIntsP function
-### Daniel Nevo
 ## The function takes the following
 ## w - a matrix. Each row is observation and each column is questionnaire time in the interval. w equal to Inf once
 # an observation is censore/had the event
@@ -13,6 +12,24 @@
 # function returns for them.
 #### The following package is needed: fitdistrplus
 #### The following functions are used: CalcAuxatPoint (R function)
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param point PARAM_DESCRIPTION
+#' @param fit.cox.rs.ints PARAM_DESCRIPTION
+#' @param hz.times PARAM_DESCRIPTION
+#' @param Q PARAM_DESCRIPTION
+#' @param pts.for.ints PARAM_DESCRIPTION
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+# @rdname CalcCoxCalibRSIntsP
 CalcCoxCalibRSIntsP <- function(w, w.res, point, fit.cox.rs.ints, hz.times,  Q, pts.for.ints)
 {
   lr.for.lik <- CalcAuxAtPoint(w,w.res,point = point)

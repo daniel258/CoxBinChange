@@ -4,6 +4,33 @@
 # This is done for consistency with the other methods where zeros are replaced with a very small number and Inf 
 # are replaced with 200 (which did not effected the other methods when I took 2000 or 20000)
 #### 
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param d1 PARAM_DESCRIPTION
+#' @param d2 PARAM_DESCRIPTION
+#' @param d3 PARAM_DESCRIPTION
+#' @param Li PARAM_DESCRIPTION
+#' @param Ri PARAM_DESCRIPTION
+#' @param Xp PARAM_DESCRIPTION
+#' @param n.int PARAM_DESCRIPTION
+#' @param order PARAM_DESCRIPTION
+#' @param g0 PARAM_DESCRIPTION
+#' @param b0 PARAM_DESCRIPTION
+#' @param tol PARAM_DESCRIPTION
+#' @param t.seq PARAM_DESCRIPTION
+#' @param equal PARAM_DESCRIPTION, Default: TRUE
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+#' @seealso 
+#'  \code{\link[ICsurv]{Ispline}}
+# @rdname OurICsurvPH
+#' @importFrom ICsurv Ispline
 OurICsurvPH <- function (d1, d2, d3, Li, Ri, Xp, n.int, order, g0, b0, tol, 
           t.seq, equal = TRUE) 
 {

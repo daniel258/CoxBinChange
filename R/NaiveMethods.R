@@ -1,6 +1,5 @@
 #### Functions for the naive methods that do not perform calibration###
 # A new version is LVCFdata and MidIdata
-# On Sep 1, 2016, this file included three funcitons: CarryForward, CarryBack and MidPoint
 
 # All three functions take three arguments:
 # w: follow-up times, where infinite time implies no more follow up
@@ -8,6 +7,20 @@
 # point: the point in which a value for X is needed (i.e., current risk.set)
 ################################################################################################################
 ################### CarryForward ###############################################################################
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param point the point in which a value for X is needed (i.e., current risk.set). 
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+# @rdname CarryForward
 CarryForward <- function(w, w.res, point) {
   n.sample <- nrow(w)
   interval.w <-   FindIntervalCPP(point = point, w =w)
@@ -30,6 +43,20 @@ CarryForward <- function(w, w.res, point) {
 }
 ################################################################################################################
 ################### CarryBack ##################################################################################
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param point the point in which a value for X is needed (i.e., current risk.set). 
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+# @rdname CarryBack
 CarryBack <- function(w, w.res, point) {
   n.sample <- nrow(w)
   n.intervals <- ncol(w)
@@ -58,6 +85,20 @@ CarryBack <- function(w, w.res, point) {
 }
 ################################################################################################################
 ################### Midpoint ###################################################################################
+#' @title FUNCTION_TITLE
+#' @description FUNCTION_DESCRIPTION
+#' @param w PARAM_DESCRIPTION
+#' @param w.res PARAM_DESCRIPTION
+#' @param point the point in which a value for X is needed (i.e., current risk.set). 
+#' @return OUTPUT_DESCRIPTION
+#' @details DETAILS
+#' @examples 
+#' \dontrun{
+#' if(interactive()){
+#'  #EXAMPLE1
+#'  }
+#' }
+# @rdname MidPoint
 MidPoint <- function(w, w.res, point) 
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
