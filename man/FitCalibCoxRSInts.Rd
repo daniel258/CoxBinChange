@@ -8,23 +8,23 @@ FitCalibCoxRSInts(w, w.res, Q, hz.times, n.int = 5, order = 2, tm, event,
   pts.for.ints)
 }
 \arguments{
-\item{w}{PARAM_DESCRIPTION}
+\item{w}{A matrix of time points when measurements on the binary covariate were obtained.}
 
-\item{w.res}{PARAM_DESCRIPTION}
+\item{w.res}{A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}}
 
-\item{Q}{PARAM_DESCRIPTION}
+\item{Q}{Matrix of covariates for PH calibration model}
 
-\item{hz.times}{PARAM_DESCRIPTION}
+\item{hz.times}{Times used for calculating the baseline hazard function from PH calibartion model}
 
-\item{n.int}{PARAM_DESCRIPTION, Default: 5}
+\item{n.int}{The number of interior knots to be used, see \code{ICsurv::fast.PH.ICsurv.EM}, Default: 5}
 
-\item{order}{PARAM_DESCRIPTION, Default: 2}
+\item{order}{the order of the basis functions. See \code{ICsurv::fast.PH.ICsurv.EM}, Default: 2}
 
 \item{tm}{PARAM_DESCRIPTION}
 
-\item{event}{PARAM_DESCRIPTION}
+\item{event}{Vector of censoring indicators. \code{1} for event \code{0} for censored}
 
-\item{pts.for.ints}{PARAM_DESCRIPTION}
+\item{pts.for.ints}{Points defining the intervals for grouping risk-sets (first one has to be zero). Should be sorted from zero up}
 }
 \value{
 OUTPUT_DESCRIPTION

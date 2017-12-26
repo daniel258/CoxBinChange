@@ -2,28 +2,28 @@
 % Please edit documentation in R/FitCalibWeibullRS.R
 \name{FitCalibWeibullRS}
 \alias{FitCalibWeibullRS}
-\title{FitCalibWeibullRS}
+\title{FUNCTION_TITLE}
 \usage{
 FitCalibWeibullRS(w, w.res, tm, event, lower = 1e-04, upper = 200)
 }
 \arguments{
-\item{w}{A matrix of measurement times: each row is a participant, each entry is meausrment time, see example below}
+\item{w}{A matrix of time points when measurements on the binary covariate were obtained.}
 
-\item{w.res}{A matrix of exposure measurments corresponding to the matrix w}
+\item{w.res}{A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}}
 
 \item{tm}{PARAM_DESCRIPTION}
 
-\item{event}{PARAM_DESCRIPTION}
+\item{event}{Vector of censoring indicators. \code{1} for event \code{0} for censored}
 
 \item{lower}{PARAM_DESCRIPTION, Default: 1e-04}
 
-\item{uppper}{PARAM_DESCRIPTION, Default: 200}
+\item{upper}{PARAM_DESCRIPTION, Default: 200}
 }
 \value{
 OUTPUT_DESCRIPTION
 }
 \description{
-Fit a parametric Weibull calibration model for time-to-exposure
+FUNCTION_DESCRIPTION
 }
 \details{
 DETAILS
@@ -37,5 +37,4 @@ if(interactive()){
 }
 \seealso{
 \code{\link[fitdistrplus]{fitdistcens}}
- \code{\link[fitdistrplus]{fitdistcens}}
 }

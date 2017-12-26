@@ -7,15 +7,15 @@
 MidIdata(w, w.res, obs.tm, delta, Z = NULL)
 }
 \arguments{
-\item{w}{PARAM_DESCRIPTION}
+\item{w}{A matrix of time points when measurements on the binary covariate were obtained.}
 
-\item{w.res}{PARAM_DESCRIPTION}
+\item{w.res}{A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}}
 
-\item{obs.tm}{PARAM_DESCRIPTION}
+\item{obs.tm}{Vector of observed main event time or censoring time}
 
-\item{delta}{PARAM_DESCRIPTION}
+\item{delta}{Vector of censoring indicators. \code{1} for event \code{0} for censored}
 
-\item{Z}{PARAM_DESCRIPTION, Default: NULL}
+\item{Z}{Additional variables for the main model other than the binary covaraite, Default: NULL}
 }
 \value{
 OUTPUT_DESCRIPTION
