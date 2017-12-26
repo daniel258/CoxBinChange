@@ -1,5 +1,3 @@
-#' @useDynLib ICcalib
-#' @importFrom Rcpp sourceCpp
 #### Functions for fitting ordinery calibration ###
 # On Sep 1, 2016, this file included three calibrations: Weibull, Nonparameteric and Cox. 
 # The Weibull calibrations return the shape and scale paramters
@@ -7,10 +5,11 @@
 # Sep 1, 2016: Only the Cox calibration function allows for covariates
 ################################################################################################################
 ################### Weibull ###############################################################################################
-#' @title FitCalibWeibull
+
+#' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
-#' @param w PARAM_DESCRIPTION
-#' @param w.res PARAM_DESCRIPTION
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
 #' @examples 
@@ -21,11 +20,8 @@
 #' }
 #' @seealso 
 #'  \code{\link[fitdistrplus]{fitdistcens}}
-
-#'  \code{\link[fitdistrplus]{fitdistcens}}
 #' @rdname FitCalibWeibull
 #' @export 
-#' @importFrom fitdistrplus fitdistcens
 #' @importFrom fitdistrplus fitdistcens
 FitCalibWeibull <- function(w,w.res)
 {
@@ -50,10 +46,10 @@ FitCalibWeibull <- function(w,w.res)
 
 ################################################################################################################
 ################### Nonparametric (NPMLE)#####################################################################################
-#' @title FitCalibNpmle
+#' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
-#' @param w PARAM_DESCRIPTION
-#' @param w.res PARAM_DESCRIPTION
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
 #' @examples 
@@ -80,14 +76,14 @@ FitCalibNpmle <- function(w,w.res)
 }
 ################################################################################################################
 ################### Cox ####################################################################################################
-#' @title FitCalibCox
+#' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
-#' @param w PARAM_DESCRIPTION
-#' @param w.res PARAM_DESCRIPTION
-#' @param Q PARAM_DESCRIPTION
-#' @param hz.times PARAM_DESCRIPTION
-#' @param n.int PARAM_DESCRIPTION, Default: 5
-#' @param order PARAM_DESCRIPTION, Default: 2
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @param Q Matrix of covariates for PH calibration model
+#' @param hz.times Times used for calculating the baseline hazard function from PH calibartion model
+#' @param n.int The number of interior knots to be used, see \code{ICsurv::fast.PH.ICsurv.EM}, Default: 5
+#' @param order the order of the basis functions. See \code{ICsurv::fast.PH.ICsurv.EM}, Default: 2
 #' @return OUTPUT_DESCRIPTION
 #' @details DETAILS
 #' @examples 
