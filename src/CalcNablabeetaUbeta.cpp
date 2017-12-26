@@ -20,9 +20,9 @@ double CalcNablabeetaUbeta(arma::vec theta, arma::vec tm, arma::vec event, arma:
   int kCaseNum=-1;
   double FirstTerm=0;
   double SecondTerm=0;
-  double FirstSumType=0;
-  double SecondSumType=0;
-  double ThirdSumType=0;
+//  double FirstSumType=0;
+//  double SecondSumType=0;
+//  double ThirdSumType=0;
   double beta = theta[0];
   
   //arma::vec all=0;
