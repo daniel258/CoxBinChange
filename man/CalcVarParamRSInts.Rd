@@ -8,7 +8,7 @@ CalcVarParamRSInts(theta, tm, event, Z, Q, ps, ps.deriv, w, w.res,
   fit.cox.rs.ints, pts.for.ints, n.etas.per.fit)
 }
 \arguments{
-\item{theta}{Coefficeint vector from main PH model. Fist coefficent corresponds to `X`, the rest to `Z`}
+\item{theta}{Coefficeint vector from main PH model. First coefficent corresponds to `X`, the rest to `Z`}
 
 \item{tm}{PARAM_DESCRIPTION}
 

@@ -35,3 +35,6 @@ if(interactive()){
  }
 }
 }
+\seealso{
+\code{\link[stats]{optimize}},\code{\link[stats]{var}},\code{\link[stats]{quantile}}
+}

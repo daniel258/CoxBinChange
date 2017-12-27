@@ -4,7 +4,7 @@
 \alias{FitCalibCoxRS}
 \title{FUNCTION_TITLE}
 \usage{
-FitCalibCoxRS(w, w.res, Q, hz.times, n.int = 5, order = 2, event)
+FitCalibCoxRS(w, w.res, Q, hz.times, obs.tm, n.int = 5, order = 2, event)
 }
 \arguments{
 \item{w}{A matrix of time points when measurements on the binary covariate were obtained.}
@@ -14,6 +14,8 @@ FitCalibCoxRS(w, w.res, Q, hz.times, n.int = 5, order = 2, event)
 \item{Q}{Matrix of covariates for PH calibration model}
 
 \item{hz.times}{Times used for calculating the baseline hazard function from PH calibartion model}
+
+\item{obs.tm}{Vector of observed main event time or censoring time}
 
 \item{n.int}{The number of interior knots to be used, see \code{ICsurv::fast.PH.ICsurv.EM}, Default: 5}
 
