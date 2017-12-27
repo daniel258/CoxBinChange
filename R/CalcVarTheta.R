@@ -1,7 +1,7 @@
 ###
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
-#' @param theta Coefficeint vector from main PH model. Fist coefficent corresponds to `X`, the rest to `Z`
+#' @param theta Coefficeint vector from main PH model. First coefficent corresponds to `X`, the rest to `Z`
 #' @param tm PARAM_DESCRIPTION
 #' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
 #' @param Z Additional variables for the main model other than the binary covaraite
@@ -34,7 +34,7 @@ CalcVarParam <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.co
   order <- fit.cox$order
   knots <- fit.cox$knots
   n.eta <- length(eta.b) + length(eta.g)
-  nabla.eta.Utheta <- matrix(nr = n.theta, nc = n.eta, 0)
+  nabla.eta.Utheta <- matrix(nrow = n.theta, ncol = n.eta, 0)
   for (i in 1:n.eta)
   {
     nabla.eta.Utheta[1,i] <- CalcNablabeetaUbeta(theta = theta, tm = tm, event = event, ps = ps, Z = Z, psDeriv = t(ps.deriv[,i,]) )
@@ -51,7 +51,7 @@ CalcVarParam <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.co
   d2 <- 1 - d1 - d3
   
   ######
-  grad.eta.pers.mat <- matrix(nr = n, nc = n.eta,0)
+  grad.eta.pers.mat <- matrix(nrow = n, ncol = n.eta,0)
   grad.eta.pers.mat[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ] <- CalcGradEtaPers(d1 = d1, d2 = d2, d3 = d3, Li = lr.for.fit[,1],
                                        Ri = lr.for.fit[,2], knots = knots, order = order, eta.g = eta.g, eta.b = eta.b, Q = Qinter)
   b.mat <- CalcbZ(theta = theta, tm = tm, event = event, ps = ps, Z = Z)
@@ -77,7 +77,7 @@ CalcVarParam <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.co
 
 #' @title FUNCTION_TITLE
 #' @description FUNCTION_DESCRIPTION
-#' @param theta Coefficeint vector from main PH model. Fist coefficent corresponds to `X`, the rest to `Z`
+#' @param theta Coefficeint vector from main PH model. First coefficent corresponds to `X`, the rest to `Z`
 #' @param tm PARAM_DESCRIPTION
 #' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
 #' @param Z Additional variables for the main model other than the binary covaraite
@@ -108,8 +108,8 @@ CalcVarParamRSInts <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, 
   n.theta <- length(theta) 
   n.fits <- length(fit.cox.rs.ints)
   n.eta <- sum(n.etas.per.fit)
-  hessian.eta <- matrix(nr = n.eta, nc = n.eta, 0)
-  nabla.eta.Utheta <- matrix(nr = n.theta, nc = n.eta, 0)
+  hessian.eta <- matrix(nrow = n.eta, ncol = n.eta, 0)
+  nabla.eta.Utheta <- matrix(nrow = n.theta, ncol = n.eta, 0)
   for (j in 1:n.fits)
   {
     point <- pts.for.ints[j]
@@ -150,7 +150,7 @@ CalcVarParamRSInts <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, 
   d2 <- 1 - d1 - d3
   
   ######
-  grad.eta.pers.mat <- matrix(nr = n, nc = n.eta,0)
+  grad.eta.pers.mat <- matrix(nrow = n, ncol = n.eta,0)
   grad.eta.pers.mat[!(lr.for.fit.raw[,1]==0 & lr.for.fit.raw[,2]==Inf), ] <- CalcGradEtaPersRSInts(d1 = d1, d2 = d2, d3 = d3, 
                                                                                                    Li = lr.for.fit[,1], Ri = lr.for.fit[,2], 
                                                                                                    Q = Qinter, 
@@ -250,8 +250,8 @@ CalcVarThetaWeibRS <- function(beta, etas.matrix, tm, event, ps.rs, ps.deriv.sha
   nabla.etas.scale.Ubeta <- CalcUbetabeetaRS(beta = beta, tm = tm, event = event, ps = ps.rs, psDeriv = ps.deriv.scale.rs)
   nabla.etas.Ubeta <- c(rbind(nabla.etas.shape.Ubeta, nabla.etas.scale.Ubeta))/n
 
-  hess.eta.inv <- ICweibHessSolvedRS(etas.matrix = etas.matrix, w = w, w.res = w.res, tm = tm, event = event)
-  grad.eta.pers <- ICweibGradRS(etas = etas.matrix, w = w, w.res = w.res,  tm = tm, event = event)
+  hess.eta.inv <- ICweibHessSolvedRS(etas.matrix = etas.matrix, w = w, w.res = w.res, obs.tm = tm, event = event)
+  grad.eta.pers <- ICweibGradRS(etas.matrix = etas.matrix, w = w, w.res = w.res,  obs.tm = tm, event = event)
    r.vec <- b.vec - nabla.etas.Ubeta%*%hess.eta.inv%*%t(grad.eta.pers)
   meat <- mean(r.vec^2)  # since beta is one-dimensional here 
   bread <- myFmyHess(beta, tm, event, ps.rs)/n
@@ -305,8 +305,11 @@ CalcVarEta <- function(etas,  w, w.res)
 #'  #EXAMPLE1
 #'  }
 #' }
+#' @seealso 
+#'  \code{\link[stats]{optimize}},\code{\link[stats]{var}},\code{\link[stats]{quantile}}
 #' @rdname CalcVarNpmle
 #' @export 
+#' @importFrom stats optimize var quantile
 CalcVarNpmle <- function(tm, event, w, w.res, BS = 100, CI = T)
 {
   n <- length(tm)
@@ -322,14 +325,14 @@ CalcVarNpmle <- function(tm, event, w, w.res, BS = 100, CI = T)
     fit.npmle.bs <- FitCalibNpmle(w = w.bs, w.res = w.res.bs)
     px.np.bs <- t(sapply(case.times.bs, CalcNpmleCalibP, w = w.bs, w.res =  w.res.bs, fit.npmle = fit.npmle.bs))
     px.np.bs[is.na(px.np.bs)] <- 0 # To avoid very rare errors
-    beta.np.calib.bs[j] <- optimize(f = CoxLogLikX,  tm = tm.bs, event = event.bs, ps = px.np.bs, 
+    beta.np.calib.bs[j] <- stats::optimize(f = CoxLogLikX,  tm = tm.bs, event = event.bs, ps = px.np.bs, 
                              interval = c(-50,50), maximum = T)$maximum
   }
-  v.hat.npmle <- var(beta.np.calib.bs[abs(beta.np.calib.bs) < 5])
+  v.hat.npmle <- stats::var(beta.np.calib.bs[abs(beta.np.calib.bs) < 5])
   if (CI ==T)
   {
-    ci.l <- quantile(x = beta.np.calib.bs[abs(beta.np.calib.bs) < 5], probs = 0.025)
-    ci.h <- quantile(x = beta.np.calib.bs[abs(beta.np.calib.bs) < 5], probs = 0.975)
+    ci.l <- stats::quantile(x = beta.np.calib.bs[abs(beta.np.calib.bs) < 5], probs = 0.025)
+    ci.h <- stats::quantile(x = beta.np.calib.bs[abs(beta.np.calib.bs) < 5], probs = 0.975)
     return(list(v = v.hat.npmle, ci = c(ci.l, ci.h)))
   } else{
     return(list(v = v.hat.npmle))
@@ -350,8 +353,11 @@ CalcVarNpmle <- function(tm, event, w, w.res, BS = 100, CI = T)
 #'  #EXAMPLE1
 #'  }
 #' }
+#' @seealso 
+#'  \code{\link[stats]{optimize}},\code{\link[stats]{var}},\code{\link[stats]{quantile}}
 #' @rdname CalcVarNpmleRS
 #' @export 
+#' @importFrom stats optimize var quantile
 CalcVarNpmleRS <- function(tm, event, w, w.res, BS = 100, CI =T)
 {
   n <- length(tm)
@@ -367,14 +373,14 @@ CalcVarNpmleRS <- function(tm, event, w, w.res, BS = 100, CI =T)
     w.res.bs <- w.res[indices,]
     px.np.rs.bs <- t(sapply(case.times.bs, CalcNpmleRSP, w = w.bs, w.res =  w.res.bs, obs.tm = tm.bs))
     px.np.rs.bs[is.na(px.np.rs.bs)] <- 0 # To avoid very rare errors
-    beta.np.calib.rs.bs[j] <- optimize(f = CoxLogLikX,  tm = tm.bs, event = event.bs, ps = px.np.rs.bs, 
+    beta.np.calib.rs.bs[j] <- stats::optimize(f = CoxLogLikX,  tm = tm.bs, event = event.bs, ps = px.np.rs.bs, 
                                     interval = c(-50,50), maximum = T)$maximum
   }
-  v.hat.npmle.rs <- var(beta.np.calib.rs.bs[abs(beta.np.calib.rs.bs) < 5])
+  v.hat.npmle.rs <- stats::var(beta.np.calib.rs.bs[abs(beta.np.calib.rs.bs) < 5])
   if (CI ==T)
   {
-    ci.l <- quantile(x = beta.np.calib.rs.bs[abs(beta.np.calib.rs.bs) < 5], probs = 0.025)
-    ci.h <- quantile(x = beta.np.calib.rs.bs[abs(beta.np.calib.rs.bs) < 5], probs = 0.975)
+    ci.l <- stats::quantile(x = beta.np.calib.rs.bs[abs(beta.np.calib.rs.bs) < 5], probs = 0.025)
+    ci.h <- stats::quantile(x = beta.np.calib.rs.bs[abs(beta.np.calib.rs.bs) < 5], probs = 0.975)
     return(list(v = v.hat.npmle.rs, ci = c(ci.l, ci.h)))
   } else{
     return(list(v = v.hat.npmle.rs))

@@ -82,7 +82,7 @@ ICweibLikRS <- function(etas.matrix.in.vector, w, w.res, obs.tm, event)
   r <- sum(event)
   s <- 0
   if(r != length(etas.matrix.in.vector)/2) stop('Someting is wrong!')
-  etas.matrix <- matrix(nr = r, nc = 2, etas.matrix.in.vector, byrow = F)
+  etas.matrix <- matrix(nrow = r, ncol = 2, etas.matrix.in.vector, byrow = F)
   event.index <- which(event==1)
   lr.for.fit.all <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
   u.risk <- vector(length = r)
@@ -121,8 +121,8 @@ ICweibGradRS <- function(etas.matrix, w, w.res, obs.tm, event)
   n <- length(event)
   r <- sum(event)
   if(r != nrow(etas.matrix)) stop('Someting is wrong!')
-  mat.shape.back <- matrix(nr = n, nc = r)
-  mat.scale.back <- matrix(nr = n, nc = r)
+  mat.shape.back <- matrix(nrow = n, ncol = r)
+  mat.scale.back <- matrix(nrow = n, ncol = r)
   event.index <- which(event==1)
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
   L <- lr.for.fit[,1]
@@ -147,7 +147,7 @@ ICweibGradRS <- function(etas.matrix, w, w.res, obs.tm, event)
   mat.shape.back[Lzero, j] <- (1/(pers.lik[Lzero]*eta.scale^eta.shape)) * (log(R[Lzero]/eta.scale)*exp(-(R[Lzero]/eta.scale)^eta.shape)*(R[Lzero]^eta.shape))
   mat.shape.back[LRout | !in.risk.set, j] <- 0
   }
-  mat.grad.back <- matrix(nr = n, nc = 2*r)
+  mat.grad.back <- matrix(nrow = n, ncol = 2*r)
   mat.grad.back[,seq(1, 2*r, 2)] <- mat.shape.back
   mat.grad.back[,seq(2, 2*r, 2)] <- mat.scale.back
   return(mat.grad.back)
@@ -198,7 +198,7 @@ ICweibHessSolvedRS <- function(etas.matrix, w, w.res, obs.tm, event)
   r <- sum(event)
   event.index <- which(event==1)
   lr.for.fit.all <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
-  hess.etas.solved <- matrix(nr = 2*r, nc = 2*r, 0)
+  hess.etas.solved <- matrix(nrow = 2*r, ncol = 2*r, 0)
 for (j in 1:r)
 {
   weib.param <- etas.matrix[j,]

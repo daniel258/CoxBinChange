@@ -61,7 +61,7 @@ CalcCoxCalibPderiv <- function(w, w.res, point, fit.cox, hz.times, Q)
   H.a.point <- -log(S.at.a.point)
   b.point <- t(ICsurv::Ispline(x = point, order = order, knots = knots))
   b.a.point <- t(ICsurv::Ispline(x = a.point[p.point==0], order = order, knots = knots))
-  deriv.eta <- matrix(nr = length(p.point), nc = length(eta.b) + length(eta.g),0) 
+  deriv.eta <- matrix(nrow = length(p.point), ncol = length(eta.b) + length(eta.g),0) 
   deriv.eta[p.point==0,1:ncol(Q)] <- (S.at.point/S.at.a.point)*(H.point-H.a.point)*Q[p.point==0,]
   deriv.eta[p.point==0, (ncol(Q) + 1):ncol(deriv.eta)] <- (S.at.point/S.at.a.point)*(as.vector(b.point)-b.a.point)*exp.Qb[p.point==0]
   return(deriv.eta)
@@ -123,12 +123,12 @@ CalcCoxCalibPderivRSInsts <- function(w, w.res, point, fit.cox.rs.ints, hz.times
   b.point <- t(ICsurv::Ispline(x = point, order = order, knots = knots))
   b.a.point <- t(ICsurv::Ispline(x = a.point[p.point==0 & in.risk.set], order = order, knots = knots))
   
-  deriv.eta.ints <- matrix(nr = length(p.point), nc = n.etas.per.fit[interval], 0) 
+  deriv.eta.ints <- matrix(nrow = length(p.point), ncol = n.etas.per.fit[interval], 0) 
   deriv.eta.ints[p.point==0 & in.risk.set, 1:ncol(Q)] <- (S.at.point/S.at.a.point)*(H.point-H.a.point)*Q[p.point==0 & in.risk.set,]
   deriv.eta.ints[p.point==0 & in.risk.set, (ncol(Q)+1):ncol(deriv.eta.ints)] <- (S.at.point/S.at.a.point)*(as.vector(b.point)-b.a.point)*
                                                                                 exp.Qb[p.point==0  & in.risk.set]
   
-  deriv.eta <- matrix(nr = length(p.point), nc = sum(n.etas.per.fit),0) 
+  deriv.eta <- matrix(nrow = length(p.point), ncol = sum(n.etas.per.fit),0) 
   if (interval > 1) {
   deriv.eta[, (sum(n.etas.per.fit[1:(interval-1)])+1):sum(n.etas.per.fit[1:interval])] <- deriv.eta.ints
   } else {

@@ -52,8 +52,8 @@ CalcGradEtaPers <- function(d1, d2, d3, Li, Ri,  knots, order, eta.g, eta.b, Q)
   term.deriv.etag.d2 <- expQb*(SRi*bRi -SLi*bLi)/(SLi-SRi)
   term.deriv.etag.d3 <- -bLi*expQb
   
-  deriv.ell.etag <- matrix(nr = n, nc =  n.g)
-  deriv.ell.etab <- matrix(nr = n, nc =  n.b)
+  deriv.ell.etag <- matrix(nrow = n, ncol =  n.g)
+  deriv.ell.etab <- matrix(nrow = n, ncol =  n.b)
   
   deriv.ell.etab[d1==1,] <- term.deriv.etab.d1[d1==1]
   deriv.ell.etab[d2==1,] <- term.deriv.etab.d2[d2==1]

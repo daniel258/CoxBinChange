@@ -108,7 +108,7 @@ CalcWeibullCalibPderivShapeRS <- function(w, w.res, obs.tm, event, weib.rs.param
   r <- sum(event)
   n <- length(event)
   event.index <- which(event==1)
-  deriv.shape <- matrix(nr = n, nc = r)
+  deriv.shape <- matrix(nrow = n, ncol = r)
   for (j in 1:r)
   {
   point <- obs.tm[event.index[j]]
@@ -157,7 +157,7 @@ CalcWeibullCalibPderivScaleRS <- function(w, w.res, obs.tm, event, weib.rs.param
   r <- sum(event)
   n <- length(event)
   event.index <- which(event==1)
-  deriv.scale <- matrix(nr = n, nc = r)
+  deriv.scale <- matrix(nrow = n, ncol = r)
   for (j in 1:r)
   {
     point <- obs.tm[event.index[j]]

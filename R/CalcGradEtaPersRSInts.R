@@ -27,7 +27,7 @@ CalcGradEtaPersRSInts <- function(d1, d2, d3, Li, Ri, Q, fit.cox.rs.ints, pts.fo
 {
   n <- length(Ri)
   n.fits <- length(pts.for.ints)
-  deriv.ell.etas <- matrix(nr = n, nc = sum(n.etas.per.fit), 0)
+  deriv.ell.etas <- matrix(nrow = n, ncol = sum(n.etas.per.fit), 0)
   for (j in 1:n.fits)
   {
   point <- pts.for.ints[j]
@@ -70,8 +70,8 @@ CalcGradEtaPersRSInts <- function(d1, d2, d3, Li, Ri, Q, fit.cox.rs.ints, pts.fo
   term.deriv.etag.d2 <- expQb*(SRi*bRi -SLi*bLi)/(SLi-SRi)
   term.deriv.etag.d3 <- -bLi*expQb
   
-  deriv.ell.etag.int <- matrix(nr = n.set, nc =  n.g)
-  deriv.ell.etab.int <- matrix(nr = n.set, nc =  n.b)
+  deriv.ell.etag.int <- matrix(nrow = n.set, ncol =  n.g)
+  deriv.ell.etab.int <- matrix(nrow = n.set, ncol =  n.b)
   
   deriv.ell.etab.int[d1.int==1,] <- term.deriv.etab.d1[d1.int==1]
   deriv.ell.etab.int[d2.int==1,] <- term.deriv.etab.d2[d2.int==1]

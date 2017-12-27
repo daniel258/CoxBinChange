@@ -4,6 +4,7 @@
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
 #' @param Q Matrix of covariates for PH calibration model
 #' @param hz.times Times used for calculating the baseline hazard function from PH calibartion model
+#' @param obs.tm Vector of observed main event time or censoring time
 #' @param n.int The number of interior knots to be used, see \code{ICsurv::fast.PH.ICsurv.EM}, Default: 5
 #' @param order the order of the basis functions. See \code{ICsurv::fast.PH.ICsurv.EM}, Default: 2
 #' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
@@ -20,7 +21,7 @@
 #' @rdname FitCalibCoxRS
 #' @export 
 #' @importFrom ICsurv fast.PH.ICsurv.EM
-FitCalibCoxRS <- function(w, w.res, Q, hz.times, n.int = 5, order = 2 , event)
+FitCalibCoxRS <- function(w, w.res, Q, hz.times, obs.tm, n.int = 5, order = 2 , event)
 {
 r <- sum(event)
 event.index <- which(event==1)

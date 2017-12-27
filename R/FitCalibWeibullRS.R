@@ -33,7 +33,7 @@ FitCalibWeibullRS <- function(w, w.res, tm, event, lower = 0.0001, upper = 200)
 r <- sum(event)
 event.index <- which(event==1)
 lr.for.fit.all <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
-weib.params <- matrix(nr = r, nc = 2)
+weib.params <- matrix(nrow = r, ncol = 2)
 for (j in 1:r)
 {
   point <- tm[event.index[j]]

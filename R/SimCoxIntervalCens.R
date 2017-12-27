@@ -29,11 +29,11 @@ SimCoxIntervalCensSingle <- function(n.sample, lambda = 0.25, alpha= NULL, beta0
                                mu = 1, n.points = 5, weib.shape = 1, weib.scale = 1)
 {
   ## Simulate changepoint time
-  v <- rweibull(n.sample, shape = weib.shape, scale = weib.scale)
+  v <- stats::rweibull(n.sample, shape = weib.shape, scale = weib.scale)
  # v <- rnorm(n.sample, 3 , 0.5)
 #v <- runif(n.sample,0,10)
    #####If alpha is null, Create a piecewise exponential where the intervals are [0,V) and [V,\infty] 
-  u <- runif(n.sample) # Random uniform variable
+  u <- stats::runif(n.sample) # Random uniform variable
   event.tm <- vector(length = n.sample)
   if (is.null(alpha))
   {
@@ -54,19 +54,19 @@ SimCoxIntervalCensSingle <- function(n.sample, lambda = 0.25, alpha= NULL, beta0
     #                   (1/alpha)*log((alpha/(lambda*exp(beta0))*(-log(u)))- (exp(alpha*v)-1-exp(beta0+alpha*v))/(exp(beta0)))) 
   }
     ##### Exponential Censoring + maximu followup time of 5 years
-  cens <- pmin(rexp(n.sample,mu), 5)
+  cens <- pmin(stats::rexp(n.sample,mu), 5)
  obs.tm <- pmin(event.tm,cens)
  delta <- event.tm < cens
 # obs.tm <- event.tm
 #  delta <- rep(1, n.sample)
    ### Interval censoring of V ### Create questionairre times
-  w <- matrix(nr = n.sample, nc = n.points)
+  w <- matrix(nrow = n.sample, ncol = n.points)
   points <- seq(0,5, length.out = n.points+1)
 #   intervals <- seq(0,max(event.tm), length.out = n.intervals+1)
 #  intervals <- seq(0,max(event.tm), by = 5)
      for (j in 1:n.points)
   {
-    w[,j] <- runif(n = n.sample, min = points[j], max = points[j+1])
+    w[,j] <- stats::runif(n = n.sample, min = points[j], max = points[j+1])
     #   w[,j] <- intervals[j+1]
   }
   
@@ -105,12 +105,12 @@ SimCoxIntervalCensSingleNormal <- function(n.sample, lambda = 0.25, alpha= NULL,
 {
   ## Simulate changepoint time
   #v <- rweibull(n.sample, shape = weib.shape, scale = weib.scale)
-  v <- rnorm(n.sample, nor.mean , nor.sd)
+  v <- stats::rnorm(n.sample, nor.mean , nor.sd)
   v <- ifelse(v < 0, 0, v)
   v <- ifelse(v > 10, 10, v)
   #v <- runif(n.sample,0,10)
   #####If alpha is null, Create a piecewise exponential where the intervals are [0,V) and [V,\infty] 
-  u <- runif(n.sample) # Random uniform variable
+  u <- stats::runif(n.sample) # Random uniform variable
   event.tm <- vector(length = n.sample)
   if (is.null(alpha))
   {
@@ -131,19 +131,19 @@ SimCoxIntervalCensSingleNormal <- function(n.sample, lambda = 0.25, alpha= NULL,
     #                   (1/alpha)*log((alpha/(lambda*exp(beta0))*(-log(u)))- (exp(alpha*v)-1-exp(beta0+alpha*v))/(exp(beta0)))) 
   }
   ##### Exponential Censoring + maximu followup time of 10 years
-  cens <- pmin(rexp(n.sample,mu), 10)
+  cens <- pmin(stats::rexp(n.sample,mu), 10)
   obs.tm <- pmin(event.tm,cens)
   delta <- event.tm < cens
   # obs.tm <- event.tm
   #  delta <- rep(1, n.sample)
   ### Interval censoring of V ### Create questionairre times
-  w <- matrix(nr = n.sample, nc = n.points)
+  w <- matrix(nrow = n.sample, ncol = n.points)
   points <- seq(0,10, length.out = n.points+1)
   #   intervals <- seq(0,max(event.tm), length.out = n.intervals+1)
   #  intervals <- seq(0,max(event.tm), by = 5)
   for (j in 1:n.points)
   {
-    w[,j] <- runif(n = n.sample, min = points[j], max = points[j+1])
+    w[,j] <- stats::runif(n = n.sample, min = points[j], max = points[j+1])
     #   w[,j] <- intervals[j+1]
   }
   
@@ -190,7 +190,7 @@ SimCoxIntervalCensSinglePexp <- function(n.sample, lambda = 0.25, alpha= NULL, b
   #v <- ifelse(v > 10, 10, v)
   #v <- runif(n.sample,0,10)
   #####If alpha is null, Create a piecewise exponential where the intervals are [0,V) and [V,\infty] 
-  u <- runif(n.sample) # Random uniform variable
+  u <- stats::runif(n.sample) # Random uniform variable
   event.tm <- vector(length = n.sample)
   if (is.null(alpha))
   {
@@ -211,19 +211,19 @@ SimCoxIntervalCensSinglePexp <- function(n.sample, lambda = 0.25, alpha= NULL, b
     #                   (1/alpha)*log((alpha/(lambda*exp(beta0))*(-log(u)))- (exp(alpha*v)-1-exp(beta0+alpha*v))/(exp(beta0)))) 
   }
   ##### Exponential Censoring + maximu followup time of 5 years
-  cens <- pmin(rexp(n.sample,mu), 5)
+  cens <- pmin(stats::rexp(n.sample,mu), 5)
   obs.tm <- pmin(event.tm,cens)
   delta <- event.tm < cens
   # obs.tm <- event.tm
   #  delta <- rep(1, n.sample)
   ### Interval censoring of V ### Create questionairre times
-  w <- matrix(nr = n.sample, nc = n.points)
+  w <- matrix(nrow = n.sample, ncol = n.points)
   points <- seq(0,5, length.out = n.points+1)
   #   intervals <- seq(0,max(event.tm), length.out = n.intervals+1)
   #  intervals <- seq(0,max(event.tm), by = 5)
   for (j in 1:n.points)
   {
-    w[,j] <- runif(n = n.sample, min = points[j], max = points[j+1])
+    w[,j] <- stats::runif(n = n.sample, min = points[j], max = points[j+1])
     #   w[,j] <- intervals[j+1]
   }
   
@@ -286,11 +286,11 @@ AuxF <- function(tt, q1, q2, beta.q1 = log(2), beta.q2 = log(0.5), u)
 SimCoxIntervalCensCox <- function(n.sample, lambda = 0.25, alpha = 0.1  ,beta0 = log(0.75), gamma.q = c(log(0.75), log(2.5)),
                                   gamma.z = log(1.5), mu = 1, n.points = 5)
 {
-  q1 <- rbinom(n = n.sample, size = 1, 0.5)
-  q2 <- rnorm(n = n.sample, mean = 0, sd =  0.5)
-  z1 <- rnorm(n = n.sample, mean = 0, sd =  1)
+  q1 <- stats::rbinom(n = n.sample, size = 1, 0.5)
+  q2 <- stats::rnorm(n = n.sample, mean = 0, sd =  0.5)
+  z1 <- stats::rnorm(n = n.sample, mean = 0, sd =  1)
   ## Simulate changepoint time -- Adopting Wang et Al. simulation exapmle ##
-  u.for.v <- runif(n.sample)
+  u.for.v <- stats::runif(n.sample)
   v <- vector(length = n.sample) 
   for(i in 1:n.sample)
   {
@@ -299,10 +299,10 @@ SimCoxIntervalCensCox <- function(n.sample, lambda = 0.25, alpha = 0.1  ,beta0 =
       q1[i] <- q1[i]*0.9
       q2[i] <- q2[i]*0.9
     }
-  v[i] <- uniroot(AuxF, q1 = q1[i], q2 = q2[i], u = u.for.v[i], c(0,10000))$root
+  v[i] <- stats::uniroot(AuxF, q1 = q1[i], q2 = q2[i], u = u.for.v[i], c(0,10000))$root
   }
   #####If alpha is null, Create a piecewise exponential where the intervals are [0,V) and [V,\infty] 
-  u <- runif(n.sample) # Random uniform variable
+  u <- stats::runif(n.sample) # Random uniform variable
   event.tm <- vector(length = n.sample)
   ##### Create a piecewise Gompertz distribution where the intervals are [0,V) and [V,\infty] (See Austin, 2011)
   exp.qz.gamma <- exp(q1*gamma.q[1] + q2*gamma.q[2] + z1*gamma.z)
@@ -311,15 +311,15 @@ SimCoxIntervalCensCox <- function(n.sample, lambda = 0.25, alpha = 0.1  ,beta0 =
     event.tm[tm.cond==0] <- (1/alpha)*log((alpha/(lambda*exp(beta0)*exp.qz.gamma[tm.cond==0])*(-log(u[tm.cond==0])))- 
                                             (exp(alpha*v[tm.cond==0])-1-exp(beta0+alpha*v[tm.cond==0]))/(exp(beta0))) 
   ##### Exponential Censoring + maximum followup time of 5 years
-  cens <- pmin(rexp(n.sample,mu), 5)
+  cens <- pmin(stats::rexp(n.sample,mu), 5)
   obs.tm <- pmin(event.tm,cens)
   delta <- event.tm < cens
   ### Interval censoring of V ### Create questionairre times
-  w <- matrix(nr = n.sample, nc = n.points)
+  w <- matrix(nrow = n.sample, ncol = n.points)
   points <- seq(0,5, length.out = n.points+1)
   for (j in 1:n.points)
   {
-    w[,j] <- runif(n = n.sample, min = points[j], max = points[j+1])
+    w[,j] <- stats::runif(n = n.sample, min = points[j], max = points[j+1])
     #   w[,j] <- intervals[j+1]
   }
   
@@ -357,11 +357,11 @@ SimCoxIntervalCensCox <- function(n.sample, lambda = 0.25, alpha = 0.1  ,beta0 =
 SimCoxIntervalCensCoxNonTerminal <- function(n.sample, lambda = 0.25, alpha = 0.1  ,beta0 = log(0.75), gamma.q = c(log(0.75), log(2.5)),
                                   gamma.z = log(1.5), mu = 1, n.points = 5)
 {
-  q1 <- rbinom(n = n.sample, size = 1, 0.5)
-  q2 <- rnorm(n = n.sample, mean = 0, sd =  0.5)
-  z1 <- rnorm(n = n.sample, mean = 0, sd =  1)
+  q1 <- stats::rbinom(n = n.sample, size = 1, 0.5)
+  q2 <- stats::rnorm(n = n.sample, mean = 0, sd =  0.5)
+  z1 <- stats::rnorm(n = n.sample, mean = 0, sd =  1)
   ## Simulate changepoint time -- Adopting Wang et Al. simulation exapmle ##
-  u.for.v <- runif(n.sample)
+  u.for.v <- stats::runif(n.sample)
   v <- vector(length = n.sample) 
   for(i in 1:n.sample)
   {
@@ -370,10 +370,10 @@ SimCoxIntervalCensCoxNonTerminal <- function(n.sample, lambda = 0.25, alpha = 0.
       q1[i] <- q1[i]*0.9
       q2[i] <- q2[i]*0.9
     }
-    v[i] <- uniroot(AuxF, q1 = q1[i], q2 = q2[i], u = u.for.v[i], c(0,10000))$root
+    v[i] <- stats::uniroot(AuxF, q1 = q1[i], q2 = q2[i], u = u.for.v[i], c(0,10000))$root
   }
   #####If alpha is null, Create a piecewise exponential where the intervals are [0,V) and [V,\infty] 
-  u <- runif(n.sample) # Random uniform variable
+  u <- stats::runif(n.sample) # Random uniform variable
   event.tm <- vector(length = n.sample)
   ##### Create a piecewise Gompertz distribution where the intervals are [0,V) and [V,\infty] (See Austin, 2011)
   exp.qz.gamma <- exp(q1*gamma.q[1] + q2*gamma.q[2] + z1*gamma.z)
@@ -382,15 +382,15 @@ SimCoxIntervalCensCoxNonTerminal <- function(n.sample, lambda = 0.25, alpha = 0.
   event.tm[tm.cond==0] <- (1/alpha)*log((alpha/(lambda*exp(beta0)*exp.qz.gamma[tm.cond==0])*(-log(u[tm.cond==0])))- 
                                           (exp(alpha*v[tm.cond==0])-1-exp(beta0+alpha*v[tm.cond==0]))/(exp(beta0))) 
   ##### Exponential Censoring + maximum followup time of 5 years
-  cens <- pmin(rexp(n.sample,mu), 5)
+  cens <- pmin(stats::rexp(n.sample,mu), 5)
   obs.tm <- pmin(event.tm,cens)
   delta <- event.tm < cens
   ### Interval censoring of V ### Create questionairre times
-  w <- matrix(nr = n.sample, nc = n.points)
+  w <- matrix(nrow = n.sample, ncol = n.points)
   points <- seq(0,5, length.out = n.points+1)
   for (j in 1:n.points)
   {
-    w[,j] <- runif(n = n.sample, min = points[j], max = points[j+1])
+    w[,j] <- stats::runif(n = n.sample, min = points[j], max = points[j+1])
     #   w[,j] <- intervals[j+1]
   }
   
