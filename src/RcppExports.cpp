@@ -6,9 +6,38 @@
 
 using namespace Rcpp;
 
+// Calcb
+NumericVector Calcb(double beta, NumericVector tm, LogicalVector event, NumericMatrix ps);
+RcppExport SEXP _ICcalib_Calcb(SEXP betaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type tm(tmSEXP);
+    Rcpp::traits::input_parameter< LogicalVector >::type event(eventSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type ps(psSEXP);
+    rcpp_result_gen = Rcpp::wrap(Calcb(beta, tm, event, ps));
+    return rcpp_result_gen;
+END_RCPP
+}
+// CalcbZ
+arma::mat CalcbZ(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z);
+RcppExport SEXP _ICcalib_CalcbZ(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec >::type theta(thetaSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type tm(tmSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type event(eventSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type ps(psSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type Z(ZSEXP);
+    rcpp_result_gen = Rcpp::wrap(CalcbZ(theta, tm, event, ps, Z));
+    return rcpp_result_gen;
+END_RCPP
+}
 // CalcNablabeetaUbeta
 double CalcNablabeetaUbeta(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z, arma::mat psDeriv);
-RcppExport SEXP ICcalib_CalcNablabeetaUbeta(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP, SEXP psDerivSEXP) {
+RcppExport SEXP _ICcalib_CalcNablabeetaUbeta(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP, SEXP psDerivSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -24,7 +53,7 @@ END_RCPP
 }
 // CalcNablabeetaUgamma
 arma::mat CalcNablabeetaUgamma(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z, arma::mat psDeriv);
-RcppExport SEXP ICcalib_CalcNablabeetaUgamma(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP, SEXP psDerivSEXP) {
+RcppExport SEXP _ICcalib_CalcNablabeetaUgamma(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP, SEXP psDerivSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -40,7 +69,7 @@ END_RCPP
 }
 // CalcSurvFromNPMLE
 NumericVector CalcSurvFromNPMLE(NumericVector probs, NumericVector points, NumericMatrix Tbull);
-RcppExport SEXP ICcalib_CalcSurvFromNPMLE(SEXP probsSEXP, SEXP pointsSEXP, SEXP TbullSEXP) {
+RcppExport SEXP _ICcalib_CalcSurvFromNPMLE(SEXP probsSEXP, SEXP pointsSEXP, SEXP TbullSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -53,7 +82,7 @@ END_RCPP
 }
 // CalcUbetabeeta
 double CalcUbetabeeta(double beta, NumericVector tm, LogicalVector event, NumericMatrix ps, NumericMatrix psDeriv);
-RcppExport SEXP ICcalib_CalcUbetabeeta(SEXP betaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP psDerivSEXP) {
+RcppExport SEXP _ICcalib_CalcUbetabeeta(SEXP betaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP psDerivSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -68,7 +97,7 @@ END_RCPP
 }
 // CalcUbetabeetaRS
 NumericVector CalcUbetabeetaRS(double beta, NumericVector tm, LogicalVector event, NumericMatrix ps, NumericMatrix psDeriv);
-RcppExport SEXP ICcalib_CalcUbetabeetaRS(SEXP betaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP psDerivSEXP) {
+RcppExport SEXP _ICcalib_CalcUbetabeetaRS(SEXP betaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP psDerivSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -81,38 +110,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// Calcb
-NumericVector Calcb(double beta, NumericVector tm, LogicalVector event, NumericMatrix ps);
-RcppExport SEXP ICcalib_Calcb(SEXP betaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type beta(betaSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type tm(tmSEXP);
-    Rcpp::traits::input_parameter< LogicalVector >::type event(eventSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type ps(psSEXP);
-    rcpp_result_gen = Rcpp::wrap(Calcb(beta, tm, event, ps));
-    return rcpp_result_gen;
-END_RCPP
-}
-// CalcbZ
-arma::mat CalcbZ(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z);
-RcppExport SEXP ICcalib_CalcbZ(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type theta(thetaSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type tm(tmSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type event(eventSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type ps(psSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type Z(ZSEXP);
-    rcpp_result_gen = Rcpp::wrap(CalcbZ(theta, tm, event, ps, Z));
-    return rcpp_result_gen;
-END_RCPP
-}
 // CoxLogLik
 double CoxLogLik(arma::vec betagamma, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z);
-RcppExport SEXP ICcalib_CoxLogLik(SEXP betagammaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP) {
+RcppExport SEXP _ICcalib_CoxLogLik(SEXP betagammaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -127,7 +127,7 @@ END_RCPP
 }
 // CoxLogLikGrad
 arma::vec CoxLogLikGrad(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z);
-RcppExport SEXP ICcalib_CoxLogLikGrad(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP) {
+RcppExport SEXP _ICcalib_CoxLogLikGrad(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -142,7 +142,7 @@ END_RCPP
 }
 // CoxLogLikHess
 arma::mat CoxLogLikHess(arma::vec theta, arma::vec tm, arma::vec event, arma::mat ps, arma::mat Z);
-RcppExport SEXP ICcalib_CoxLogLikHess(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP) {
+RcppExport SEXP _ICcalib_CoxLogLikHess(SEXP thetaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP, SEXP ZSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -157,7 +157,7 @@ END_RCPP
 }
 // CoxLogLikNoBeta
 double CoxLogLikNoBeta(arma::vec gamma, arma::vec tm, arma::vec event, arma::mat Z);
-RcppExport SEXP ICcalib_CoxLogLikNoBeta(SEXP gammaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP ZSEXP) {
+RcppExport SEXP _ICcalib_CoxLogLikNoBeta(SEXP gammaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP ZSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -171,7 +171,7 @@ END_RCPP
 }
 // CoxLogLikX
 double CoxLogLikX(double beta, NumericVector tm, LogicalVector event, NumericMatrix ps);
-RcppExport SEXP ICcalib_CoxLogLikX(SEXP betaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP) {
+RcppExport SEXP _ICcalib_CoxLogLikX(SEXP betaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -183,21 +183,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// FindIntervalCPP
-IntegerVector FindIntervalCPP(double point, NumericMatrix w);
-RcppExport SEXP ICcalib_FindIntervalCPP(SEXP pointSEXP, SEXP wSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type point(pointSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type w(wSEXP);
-    rcpp_result_gen = Rcpp::wrap(FindIntervalCPP(point, w));
-    return rcpp_result_gen;
-END_RCPP
-}
 // FindIntervalCalibCPP
 NumericMatrix FindIntervalCalibCPP(NumericMatrix w, NumericMatrix wres);
-RcppExport SEXP ICcalib_FindIntervalCalibCPP(SEXP wSEXP, SEXP wresSEXP) {
+RcppExport SEXP _ICcalib_FindIntervalCalibCPP(SEXP wSEXP, SEXP wresSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -209,7 +197,7 @@ END_RCPP
 }
 // FindIntervalCalibCPPvec
 NumericVector FindIntervalCalibCPPvec(NumericVector w, NumericVector wres);
-RcppExport SEXP ICcalib_FindIntervalCalibCPPvec(SEXP wSEXP, SEXP wresSEXP) {
+RcppExport SEXP _ICcalib_FindIntervalCalibCPPvec(SEXP wSEXP, SEXP wresSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -219,9 +207,21 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// FindIntervalCPP
+IntegerVector FindIntervalCPP(double point, NumericMatrix w);
+RcppExport SEXP _ICcalib_FindIntervalCPP(SEXP pointSEXP, SEXP wSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type point(pointSEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type w(wSEXP);
+    rcpp_result_gen = Rcpp::wrap(FindIntervalCPP(point, w));
+    return rcpp_result_gen;
+END_RCPP
+}
 // myFmyHess
 double myFmyHess(double beta, NumericVector tm, LogicalVector event, NumericMatrix ps);
-RcppExport SEXP ICcalib_myFmyHess(SEXP betaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP) {
+RcppExport SEXP _ICcalib_myFmyHess(SEXP betaSEXP, SEXP tmSEXP, SEXP eventSEXP, SEXP psSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
