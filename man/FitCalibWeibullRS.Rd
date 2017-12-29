@@ -20,7 +20,7 @@ FitCalibWeibullRS(w, w.res, tm, event, lower = 1e-04, upper = 200)
 \item{upper}{A value to replace infinity in the right point of the interval, Default: 200}
 }
 \value{
-A 2-column matrix with the shape and scale paramter for each time-point at which a calibration model was fitted.
+A 2-column matrix with the shape and scale parameter for each time-point at which a calibration model was fitted.
 }
 \description{
 Fits Weibull risk-set calibration models for time-to-exposure from interval-censored data. The exposure is a binary covariate measured

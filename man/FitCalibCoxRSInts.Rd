@@ -2,7 +2,7 @@
 % Please edit documentation in R/FitCalibCoxRSInts.R
 \name{FitCalibCoxRSInts}
 \alias{FitCalibCoxRSInts}
-\title{Fitting Proportional Hazards Grouped Risk-Set Calibration Models with Covariates.}
+\title{Fitting Proportional Hazards Grouped Risk-Set Calibration Models with Covariates}
 \usage{
 FitCalibCoxRSInts(w, w.res, Q, hz.times, n.int = 5, order = 2, tm, event,
   pts.for.ints)
@@ -14,7 +14,7 @@ FitCalibCoxRSInts(w, w.res, Q, hz.times, n.int = 5, order = 2, tm, event,
 
 \item{Q}{Matrix of covariates for PH calibration model}
 
-\item{hz.times}{Times used for calculating the baseline hazard function from PH calibartion model}
+\item{hz.times}{Times used for calculating the baseline hazard function of a PH calibration model}
 
 \item{n.int}{The number of interior knots to be used, see \code{ICsurv::fast.PH.ICsurv.EM}, Default: 5}
 
@@ -27,7 +27,7 @@ FitCalibCoxRSInts(w, w.res, Q, hz.times, n.int = 5, order = 2, tm, event,
 \item{pts.for.ints}{Points defining the intervals for grouping risk-sets (first one has to be zero). Should be sorted from zero up}
 }
 \value{
-A list of Cox PH model fits, each supplmented with the knots and order used for the I-splines.
+A list of Cox PH model fits, each supplemented with the knots and order used for the I-splines.
 }
 \description{
 Fits proportional hazards grouped risk-set calibration models for time-to-exposure from interval-censored data with covariates. The exposure is a binary covariate measured

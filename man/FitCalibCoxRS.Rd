@@ -13,7 +13,7 @@ FitCalibCoxRS(w, w.res, Q, hz.times, obs.tm, n.int = 5, order = 2, event)
 
 \item{Q}{Matrix of covariates for PH calibration model}
 
-\item{hz.times}{Times used for calculating the baseline hazard function from PH calibration model}
+\item{hz.times}{Times used for calculating the baseline hazard function of a PH calibration model}
 
 \item{obs.tm}{Vector of observed main event time or censoring time}
 
