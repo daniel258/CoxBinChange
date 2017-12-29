@@ -2,27 +2,27 @@
 % Please edit documentation in R/CalcVarTheta.R
 \name{CalcVarParamRSInts}
 \alias{CalcVarParamRSInts}
-\title{Variance estimation for main proporational hazards model under proportaional hazards grouped risk-set calibration models}
+\title{Variance estimation for main proportional hazards model under proportional hazards grouped risk-set calibration models}
 \usage{
 CalcVarParamRSInts(theta, tm, event, Z, Q, ps, ps.deriv, w, w.res,
   fit.cox.rs.ints, pts.for.ints, n.etas.per.fit)
 }
 \arguments{
-\item{theta}{Coefficeint vector from main PH model. First coefficent corresponds to X, the rest to Z}
+\item{theta}{Coefficient vector from main PH model. First coefficient corresponds to X, the rest to Z.}
 
-\item{tm}{Vector of observed main event time or censoring time}
+\item{tm}{Vector of observed main event time or censoring time.}
 
-\item{event}{Vector of censoring indicators. \code{1} for event \code{0} for censored}
+\item{event}{Vector of censoring indicators. \code{1} for event \code{0} for censored.}
 
-\item{Z}{Additional variables for the main model other than the binary covaraite}
+\item{Z}{Additional variables for the main model other than the binary covariate.}
 
-\item{Q}{Matrix of covariates for PH calibration model}
+\item{Q}{Matrix of covariates for PH calibration model.}
 
 \item{ps}{A matrix. Rows are observations, columns are time points of the events. The entry at the i-th row and j-column is
 the conditional probability of positive exposure status for observation i at the j-th event time.}
 
 \item{ps.deriv}{A matrix. Rows are observations, columns are time points of the events.  The derivative of \code{ps} with 
-respect to the calibration model paramters.}
+respect to the calibration model parameters.}
 
 \item{w}{A matrix of time points when measurements on the binary covariate were obtained.}
 
@@ -38,5 +38,5 @@ respect to the calibration model paramters.}
 The covariance matrix. The first row and column are for the binary exposure.
 }
 \description{
-Calculates the covariance matrix for the paramteris of the main calibration model. This includes the variance.
+Calculates the covariance matrix for the parameters of the main calibration model. This includes the variance.
 }

@@ -13,7 +13,7 @@ FitCalibCoxRS(w, w.res, Q, hz.times, obs.tm, n.int = 5, order = 2, event)
 
 \item{Q}{Matrix of covariates for PH calibration model}
 
-\item{hz.times}{Times used for calculating the baseline hazard function from PH calibartion model}
+\item{hz.times}{Times used for calculating the baseline hazard function from PH calibration model}
 
 \item{obs.tm}{Vector of observed main event time or censoring time}
 
@@ -24,7 +24,7 @@ FitCalibCoxRS(w, w.res, Q, hz.times, obs.tm, n.int = 5, order = 2, event)
 \item{event}{Vector of censoring indicators. \code{1} for event \code{0} for censored}
 }
 \value{
-A list of Cox PH model fits, each supplmented with the knots and order used for the I-splines.
+A list of Cox PH model fits, each supplemented with the knots and order used for the I-splines.
 }
 \description{
 Fits proportional hazards risk-set calibration models for time-to-exposure from interval-censored data with covariates. The exposure is a binary covariate measured

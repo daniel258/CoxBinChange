@@ -1,16 +1,16 @@
 ###
-#' @title Variance estimation for main proporational hazards model, when the calibration model is also PH  
-#' @description Calculates the covariance matrix for the paramteris of the main calibration model. This includes the variance 
+#' @title Variance estimation for main proportional hazards model, when the calibration model is also PH  
+#' @description Calculates the covariance matrix for the parameters of the main calibration model. This includes the variance 
 #' of the binary exposure estimate and the other covariates. 
-#' @param theta Coefficeint vector from main PH model. First coefficent corresponds to X, the rest to Z
+#' @param theta Coefficient vector from main PH model. First coefficient corresponds to X, the rest to Z
 #' @param tm Vector of observed main event time or censoring time
 #' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
-#' @param Z Additional variables for the main model other than the binary covaraite
-#' @param Q Matrix of covariates for PH calibration model
+#' @param Z Additional variables for the main model other than the binary covariate
+#' @param Q Matrix of covariate for PH calibration model
 #' @param ps A matrix. Rows are observations, columns are time points of the events. The entry at the i-th row and j-column is
 #' the conditional probability of positive exposure status for observation i at the j-th event time.
 #' @param ps.deriv A matrix. Rows are observations, columns are time points of the events.  The derivative of \code{ps} with 
-#' respect to the calibration model paramters.
+#' respect to the calibration model parameters
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
 #' @param fit.cox The result of \code{icenReg::ic_sp} on the interval-censored data
@@ -78,17 +78,17 @@ CalcVarParam <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.co
   return(v.hat)
 }
 
-#' @title Variance estimation for main proporational hazards model under proportaional hazards grouped risk-set calibration models
-#' @description Calculates the covariance matrix for the paramteris of the main calibration model. This includes the variance. 
-#' @param theta Coefficeint vector from main PH model. First coefficent corresponds to X, the rest to Z
-#' @param tm Vector of observed main event time or censoring time
-#' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
-#' @param Z Additional variables for the main model other than the binary covaraite
-#' @param Q Matrix of covariates for PH calibration model
+#' @title Variance estimation for main proportional hazards model under proportional hazards grouped risk-set calibration models
+#' @description Calculates the covariance matrix for the parameters of the main calibration model. This includes the variance. 
+#' @param theta Coefficient vector from main PH model. First coefficient corresponds to X, the rest to Z.
+#' @param tm Vector of observed main event time or censoring time.
+#' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored.
+#' @param Z Additional variables for the main model other than the binary covariate.
+#' @param Q Matrix of covariates for PH calibration model.
 #' @param ps A matrix. Rows are observations, columns are time points of the events. The entry at the i-th row and j-column is
 #' the conditional probability of positive exposure status for observation i at the j-th event time.
 #' @param ps.deriv A matrix. Rows are observations, columns are time points of the events.  The derivative of \code{ps} with 
-#' respect to the calibration model paramters.
+#' respect to the calibration model parameters.
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
 #' @param fit.cox.rs.ints The result of \code{FitCalibCoxRSInts} on the interval-censored data
@@ -191,7 +191,7 @@ CalcVarParamRSInts <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, 
 #' @description Bootstrap calculations of the variance and confidence interval for the for the log hazard-ratio of the binary exposure
 #' under a Weibull calibration model.
 #' @param beta Coefficient of the binary covariate
-#' @param etas shape and scale paramters of the Weibull calibration model.
+#' @param etas shape and scale parameters of the Weibull calibration model.
 #' @param tm Vector of observed main event time or censoring time
 #' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
 #' @param ps A matrix. Rows are observations, columns are time points of the events. The entry at the i-th row and j-column is
@@ -200,7 +200,7 @@ CalcVarParamRSInts <- function(theta,  tm, event, Z, Q, ps, ps.deriv, w, w.res, 
 #' @param ps.deriv.scale The derivative of \code{ps} with respect to the scale parameter of the Weibull calibration model.
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
-#' @return Variance estimate and possiblty confidence interval for the log hazard-ratio of the binary exposure under 
+#' @return Variance estimate and possibly confidence interval for the log hazard-ratio of the binary exposure under 
 # @details DETAILS
 # @examples 
 # \dontrun{
@@ -232,7 +232,7 @@ CalcVarThetaWeib <- function(beta, etas, tm, event, ps, ps.deriv.shape, ps.deriv
 #' @description Bootstrap calculations of the variance and confidence interval for the for the log hazard-ratio of the binary exposure
 #' under  Weibull risk-set calibration models.
 #' @param beta Coefficient of the binary covariate
-#' @param etas.matrix Two-columns matrix. Each row constains shape and scale paramters from a Weibull risk-set calibration model
+#' @param etas.matrix Two-columns matrix. Each row contains shape and scale parameters from a Weibull risk-set calibration model
 #' @param tm Vector of observed main event time or censoring time
 #' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
 #' @param ps.rs A matrix. Rows are observations, columns are time points of the events. The entry at the i-th row and j-column is
@@ -306,8 +306,8 @@ CalcVarEta <- function(etas,  w, w.res)
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
 #' @param BS Number of bootstrap iterations, Default: 100
-#' @param CI Should the function return confidencei intervals?, Default: T
-#' @return Variance estimate and possiblty confidence interval for the log hazard-ratio of the binary exposure under 
+#' @param CI Should the function return confidence intervals?, Default: T
+#' @return Variance estimate and possibly confidence interval for the log hazard-ratio of the binary exposure under 
 #' a nonparametric calibration model.
 # @details DETAILS
 # @examples 
@@ -356,8 +356,8 @@ CalcVarNpmle <- function(tm, event, w, w.res, BS = 100, CI = T)
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
 #' @param BS Number of bootstrap iterations, Default: 100
-#' @param CI Should the function return confidencei intervals?, Default: T
-#' @return Variance estimate and possiblty confidence interval for the log hazard-ratio of the binary exposure under 
+#' @param CI Should the function return confidence intervals?, Default: T
+#' @return Variance estimate and possibly confidence interval for the log hazard-ratio of the binary exposure under 
 #' nonparametric risk-set calibration models.
 # @details DETAILS
 # @examples 

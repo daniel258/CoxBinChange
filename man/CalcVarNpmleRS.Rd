@@ -17,10 +17,10 @@ CalcVarNpmleRS(tm, event, w, w.res, BS = 100, CI = T)
 
 \item{BS}{Number of bootstrap iterations, Default: 100}
 
-\item{CI}{Should the function return confidencei intervals?, Default: T}
+\item{CI}{Should the function return confidence intervals?, Default: T}
 }
 \value{
-Variance estimate and possiblty confidence interval for the log hazard-ratio of the binary exposure under 
+Variance estimate and possibly confidence interval for the log hazard-ratio of the binary exposure under 
 nonparametric risk-set calibration models.
 }
 \description{

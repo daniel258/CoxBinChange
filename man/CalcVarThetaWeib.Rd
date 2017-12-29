@@ -10,7 +10,7 @@ CalcVarThetaWeib(beta, etas, tm, event, ps, ps.deriv.shape, ps.deriv.scale, w,
 \arguments{
 \item{beta}{Coefficient of the binary covariate}
 
-\item{etas}{shape and scale paramters of the Weibull calibration model.}
+\item{etas}{shape and scale parameters of the Weibull calibration model.}
 
 \item{tm}{Vector of observed main event time or censoring time}
 
@@ -28,7 +28,7 @@ the conditional probability of positive exposure status for observation i at the
 \item{w.res}{A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}}
 }
 \value{
-Variance estimate and possiblty confidence interval for the log hazard-ratio of the binary exposure under
+Variance estimate and possibly confidence interval for the log hazard-ratio of the binary exposure under
 }
 \description{
 Bootstrap calculations of the variance and confidence interval for the for the log hazard-ratio of the binary exposure

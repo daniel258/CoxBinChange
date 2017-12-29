@@ -6,7 +6,7 @@
 ################################################################################################################
 ################### Weibull ###############################################################################################
 
-#' @title Fitiing Weibull Calibration Models
+#' @title Fitting Weibull Calibration Models
 #' @description Fits a Weibull calibration model for time-to-exposure from interval-censored data. The exposure is a binary covariate measured
 #' in intermittent times.
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
@@ -47,12 +47,12 @@ FitCalibWeibull <- function(w,w.res)
 
 ################################################################################################################
 ################### Nonparametric (NPMLE)#####################################################################################
-#' @title Fitiing Nonparametric Calibration Models
+#' @title Fitting Nonparametric Calibration Models
 #' @description Fits a Weibull calibration model for time-to-exposure from interval-censored data. The exposure is a binary covariate measured
 #' in intermittent times.
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
-#' @return The result of NPMLE model fitting for interval-censored data, as obatined by \code{icenReg::ic_np}
+#' @return The result of NPMLE model fitting for interval-censored data, as obtained by \code{icenReg::ic_np}
 # @details DETAILS
 # @examples 
 # \dontrun{
@@ -84,7 +84,7 @@ FitCalibNpmle <- function(w,w.res)
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
 #' @param Q Matrix of covariates for PH calibration model
-#' @param hz.times Times used for calculating the baseline hazard function from PH calibartion model
+#' @param hz.times Times used for calculating the baseline hazard function from PH calibration model
 #' @param n.int The number of interior knots to be used, see \code{ICsurv::fast.PH.ICsurv.EM}, Default: 5
 #' @param order the order of the basis functions. See \code{ICsurv::fast.PH.ICsurv.EM}, Default: 2
 #' @return An object created by ICsurv::fast.PH.ICsurv.EM, with additional variables \code{knots} and \code{order}.

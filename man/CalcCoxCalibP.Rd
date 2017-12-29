@@ -15,9 +15,9 @@ CalcCoxCalibP(w, w.res, point, fit.cox, hz.times, Q)
 
 \item{fit.cox}{The result of \code{icenReg::ic_sp} on the interval-censored data}
 
-\item{hz.times}{Times used for calculating the baseline hazard function from PH calibartion model}
+\item{hz.times}{Times used for calculating the baseline hazard function from PH calibration model}
 
-\item{Q}{Matrix of covariates for PH calibration model}
+\item{Q}{Matrix of covariates for the PH calibration model}
 }
 \value{
 A vector of estimated probabilities of positive exposure status at time \code{point}.

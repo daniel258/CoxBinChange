@@ -10,7 +10,7 @@ CalcVarThetaWeibRS(beta, etas.matrix, tm, event, ps.rs, ps.deriv.shape.rs,
 \arguments{
 \item{beta}{Coefficient of the binary covariate}
 
-\item{etas.matrix}{Two-columns matrix. Each row constains shape and scale paramters from a Weibull risk-set calibration model}
+\item{etas.matrix}{Two-columns matrix. Each row contains shape and scale parameters from a Weibull risk-set calibration model}
 
 \item{tm}{Vector of observed main event time or censoring time}
 

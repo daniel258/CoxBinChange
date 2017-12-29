@@ -2,7 +2,7 @@
 % Please edit documentation in R/OrdinaryCalibration.R
 \name{FitCalibWeibull}
 \alias{FitCalibWeibull}
-\title{Fitiing Weibull Calibration Models}
+\title{Fitting Weibull Calibration Models}
 \usage{
 FitCalibWeibull(w, w.res)
 }

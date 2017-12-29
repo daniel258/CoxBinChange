@@ -13,7 +13,7 @@ CalcWeibullRSP(w, w.res, point, weib.params)
 
 \item{point}{The time point at which the probabilities are estimated.}
 
-\item{weib.params}{A bivariate vector. Shape and scale paramters of the Weibull calibration model.}
+\item{weib.params}{A bivariate vector. Shape and scale parameters of the Weibull calibration model.}
 }
 \value{
 A vector of estimated probabilities of positive exposure status at time \code{point}.
@@ -24,9 +24,9 @@ The function uses the results of a Weibull calibration model fit, and given coll
 of the binary exposure for each participant.
 }
 \details{
-At its present formm this function is identical to \code{CalcWeibullCalibP}. This is because the current version of the \code{ICcalib} package
-(Version 1.0.005), the user loop over the main event times. Then, at each event time point, the user should include the appropaite Weibull
-paramters as given by \code{FitCalibWeibullRS}.
+At its present form this function is identical to \code{CalcWeibullCalibP}. This is because the current version of the \code{ICcalib} package
+(Version 1.0.005), the user loop over the main event times. Then, at each event time point, the user should include the appropriate Weibull
+parameters as estimated by \code{FitCalibWeibullRS}.
 }
 \examples{
 \dontrun{

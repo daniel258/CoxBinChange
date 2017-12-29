@@ -20,12 +20,12 @@ A vector of estimated probabilities of positive exposure status at time \code{po
 }
 \description{
 For a given time point, calculate the probability of positive exposure value  for multiple observations (participants). 
-The function first fits the nonparametric riskset calibration models at each main event time point and then calculates the probabilities
+The function first fits the nonparametric risk-set calibration models at each main event time point and then calculates the probabilities
 of positive binary exposure status.
 }
 \details{
-Unlike other risk-set calibration models, this function carries both the NPMLE at each main event time point and provides
-the estimated probabilities for positive exposure status at time \code{point}.
+This function calculates the NPMLE at each main event time point and then provides the estimated probabilities for positive 
+exposure status at time \code{point}.
 }
 \seealso{
 \code{\link[icenReg]{ic_np}}

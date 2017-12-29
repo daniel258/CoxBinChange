@@ -14,7 +14,7 @@
 # if(interactive()){
 #  #EXAMPLE1
 #  }
-#' }
+# }
 # @rdname LVCFdata
 # @export 
 LVCFdata <- function(w, w.res, obs.tm, delta, Z = NULL)

@@ -13,7 +13,7 @@ CalcWeibullCalibP(w, w.res, point, weib.params)
 
 \item{point}{The time point at which the probabilities are estimated.}
 
-\item{weib.params}{A bivariate vector. Shape and scale paramters of the Weibull calibration model.}
+\item{weib.params}{A bivariate vector. Shape and scale parameters of the Weibull calibration model.}
 }
 \value{
 A vector of estimated probabilities of positive exposure status at time \code{point}.

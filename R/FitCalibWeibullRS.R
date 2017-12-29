@@ -16,7 +16,7 @@
 #' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
 #' @param lower  A value to replace zero in the left point of the interval, Default: 1e-04
 #' @param upper A value to replace infinity in the right point of the interval, Default: 200
-#' @return A 2-column matrix with the shape and scale paramter for each time-point at which a calibration model was fitted. 
+#' @return A 2-column matrix with the shape and scale parameter for each time-point at which a calibration model was fitted. 
 #' @details In case of an error in the model-fitting at a certain time point, a Weibull calibration 
 #' model is fitted and used for that time point.
 # @examples 

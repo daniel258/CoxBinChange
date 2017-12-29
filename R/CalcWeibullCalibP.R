@@ -14,7 +14,7 @@
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
 #' @param point The time point at which the probabilities are estimated.
-#' @param weib.params A bivariate vector. Shape and scale paramters of the Weibull calibration model.  
+#' @param weib.params A bivariate vector. Shape and scale parameters of the Weibull calibration model.  
 #' @return A vector of estimated probabilities of positive exposure status at time \code{point}.
 # @details DETAILS
 # @examples 

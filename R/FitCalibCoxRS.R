@@ -5,12 +5,12 @@
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
 #' @param Q Matrix of covariates for PH calibration model
-#' @param hz.times Times used for calculating the baseline hazard function from PH calibartion model
+#' @param hz.times Times used for calculating the baseline hazard function of a PH calibration model
 #' @param obs.tm Vector of observed main event time or censoring time
 #' @param n.int The number of interior knots to be used, see \code{ICsurv::fast.PH.ICsurv.EM}, Default: 5
 #' @param order the order of the basis functions. See \code{ICsurv::fast.PH.ICsurv.EM}, Default: 2
 #' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
-#' @return A list of Cox PH model fits, each supplmented with the knots and order used for the I-splines.
+#' @return A list of Cox PH model fits, each supplemented with the knots and order used for the I-splines.
 #' @details In case of an error in the model-fitting at a certain time point, a proportional hazards calibration 
 #' model is fitted (for all the data) and used for that time point.
 # @examples 

@@ -16,9 +16,9 @@ CalcCoxCalibRSIntsP(w, w.res, point, fit.cox.rs.ints, hz.times, Q, pts.for.ints)
 
 \item{fit.cox.rs.ints}{The result of \code{FitCalibCoxRSInts} on the interval-censored data}
 
-\item{hz.times}{Times used for calculating the baseline hazard function from PH calibartion model}
+\item{hz.times}{Times used for calculating the baseline hazard function from PH calibration model}
 
-\item{Q}{Matrix of covariates for PH calibration model}
+\item{Q}{Matrix of covariates for the PH calibration model}
 
 \item{pts.for.ints}{Points defining the intervals for grouping risk-sets (first one has to be zero). Should be sorted from zero up}
 }
