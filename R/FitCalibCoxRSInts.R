@@ -3,28 +3,31 @@
 ## The function takes the following
 ## pts.for.ints: the points defining the intervals (first one has to be zero)  - should be sorted from zero up
 ###
-# The function returns a list of cox fits for interval-censored time to event data, one for each risk set.
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
+# The function returns a list of cox fits for interval-censored time to event data, 
+#' @title Fitting Proportional Hazards Grouped Risk-Set Calibration Models with Covariates. 
+#' @description Fits proportional hazards grouped risk-set calibration models for time-to-exposure from interval-censored data with covariates. The exposure is a binary covariate measured
+#' in intermittent times. The covariates (\code{Q}) are associated with the time-to-exposure. Unlike \code{FitCalibCoxRS}, this function fits a calibration model
+#' at each of the given points for \code{pts.for.ints}. 
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
 #' @param Q Matrix of covariates for PH calibration model
 #' @param hz.times Times used for calculating the baseline hazard function from PH calibartion model
 #' @param n.int The number of interior knots to be used, see \code{ICsurv::fast.PH.ICsurv.EM}, Default: 5
 #' @param order the order of the basis functions. See \code{ICsurv::fast.PH.ICsurv.EM}, Default: 2
-#' @param tm PARAM_DESCRIPTION
+#' @param tm Vector of observed main event time or censoring time
 #' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
 #' @param pts.for.ints Points defining the intervals for grouping risk-sets (first one has to be zero). Should be sorted from zero up
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
+#' @return A list of Cox PH model fits, each supplmented with the knots and order used for the I-splines.
+#' @details In case of an error in the model-fitting at a certain time point, a proportional hazards calibration 
+#' model (for all the data) is fitted and used for that time point.
+# @examples 
+# \dontrun{
+# if(interactive()){
+#  #EXAMPLE1
+#  }
+# }
 #' @seealso 
-#'  \code{\link[ICsurv]{fast.PH.ICsurv.EM}}
+#'  \code{\link[ICsurv]{fast.PH.ICsurv.EM}},  \code{\link[ICcalib]{FitCalibCox}}
 #' @rdname FitCalibCoxRSInts
 #' @export 
 #' @importFrom ICsurv fast.PH.ICsurv.EM

@@ -1,5 +1,7 @@
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
+#' @title Fitting Proportional Hazards Risk-Set Calibration Models with Covariates
+#' @description Fits proportional hazards risk-set calibration models for time-to-exposure from interval-censored data with covariates. The exposure is a binary covariate measured
+#' in intermittent times. The covariates (\code{Q}) are associated with the time-to-exposure. This function fits a calibration model at each main event time point,
+#' using only members of the risk set at that time point.
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
 #' @param Q Matrix of covariates for PH calibration model
@@ -8,16 +10,17 @@
 #' @param n.int The number of interior knots to be used, see \code{ICsurv::fast.PH.ICsurv.EM}, Default: 5
 #' @param order the order of the basis functions. See \code{ICsurv::fast.PH.ICsurv.EM}, Default: 2
 #' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
+#' @return A list of Cox PH model fits, each supplmented with the knots and order used for the I-splines.
+#' @details In case of an error in the model-fitting at a certain time point, a proportional hazards calibration 
+#' model is fitted (for all the data) and used for that time point.
+# @examples 
+# \dontrun{
+# if(interactive()){
+#  #EXAMPLE1
+#  }
+# }
 #' @seealso 
-#'  \code{\link[ICsurv]{fast.PH.ICsurv.EM}}
+#'  \code{\link[ICsurv]{fast.PH.ICsurv.EM}},  \code{\link[ICcalib]{FitCalibCox}}
 #' @rdname FitCalibCoxRS
 #' @export 
 #' @importFrom ICsurv fast.PH.ICsurv.EM

@@ -2,7 +2,7 @@
 % Please edit documentation in R/CalcNpmleCalibP.R
 \name{CalcNpmleCalibP}
 \alias{CalcNpmleCalibP}
-\title{FUNCTION_TITLE}
+\title{Calculating the probabilities of positive binary exposure status at a given time point using a nonparametric calibration model}
 \usage{
 CalcNpmleCalibP(w, w.res, point, fit.npmle)
 }
@@ -11,23 +11,15 @@ CalcNpmleCalibP(w, w.res, point, fit.npmle)
 
 \item{w.res}{A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}}
 
-\item{point}{PARAM_DESCRIPTION}
+\item{point}{The time point at which the probabilities are estimated.}
 
 \item{fit.npmle}{The result of \code{icenReg::ic_np} on the interval-censored data}
 }
 \value{
-OUTPUT_DESCRIPTION
+A vector of estimated probabilities of positive exposure status at time \code{point}.
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+For a given time point, calculate the probability of positive exposure value  for multiple observations (participants). 
+The function uses the results of a nonparametric calibration model fit, and given collected data on the history 
+of the binary exposure for each participant.
 }

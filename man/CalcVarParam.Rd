@@ -2,14 +2,14 @@
 % Please edit documentation in R/CalcVarTheta.R
 \name{CalcVarParam}
 \alias{CalcVarParam}
-\title{FUNCTION_TITLE}
+\title{Variance estimation for main proporational hazards model, when the calibration model is also PH}
 \usage{
 CalcVarParam(theta, tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.cox)
 }
 \arguments{
-\item{theta}{Coefficeint vector from main PH model. First coefficent corresponds to `X`, the rest to `Z`}
+\item{theta}{Coefficeint vector from main PH model. First coefficent corresponds to X, the rest to Z}
 
-\item{tm}{PARAM_DESCRIPTION}
+\item{tm}{Vector of observed main event time or censoring time}
 
 \item{event}{Vector of censoring indicators. \code{1} for event \code{0} for censored}
 
@@ -17,9 +17,11 @@ CalcVarParam(theta, tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.cox)
 
 \item{Q}{Matrix of covariates for PH calibration model}
 
-\item{ps}{A matrix. Rows are observations, columns are time points of the events. $ps(i,j)=Pr(X_i(time of case j)=1|history)$}
+\item{ps}{A matrix. Rows are observations, columns are time points of the events. The entry at the i-th row and j-column is
+the conditional probability of positive exposure status for observation i at the j-th event time.}
 
-\item{ps.deriv}{A matrix. Rows are observations, columns are time points of the events. $ps.deriv(i,j)$ is the derivative of Pr(X_i(time of case j)=1|history)}
+\item{ps.deriv}{A matrix. Rows are observations, columns are time points of the events.  The derivative of \code{ps} with 
+respect to the calibration model paramters.}
 
 \item{w}{A matrix of time points when measurements on the binary covariate were obtained.}
 
@@ -28,21 +30,9 @@ CalcVarParam(theta, tm, event, Z, Q, ps, ps.deriv, w, w.res, fit.cox)
 \item{fit.cox}{The result of \code{icenReg::ic_sp} on the interval-censored data}
 }
 \value{
-OUTPUT_DESCRIPTION
+The covariance matrix. The first row and column are for the binary exposure.
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
-}
-\seealso{
-\code{\link[MASS]{ginv}}
+Calculates the covariance matrix for the paramteris of the main calibration model. This includes the variance 
+of the binary exposure estimate and the other covariates.
 }

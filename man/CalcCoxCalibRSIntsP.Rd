@@ -2,38 +2,31 @@
 % Please edit documentation in R/CalcCoxCalibRSIntsP.R
 \name{CalcCoxCalibRSIntsP}
 \alias{CalcCoxCalibRSIntsP}
-\title{FUNCTION_TITLE}
+\title{Calculating the probabilities of positive binary exposure status at a given time point using proportional hazards grouped risk-set
+ calibration models}
 \usage{
 CalcCoxCalibRSIntsP(w, w.res, point, fit.cox.rs.ints, hz.times, Q, pts.for.ints)
 }
 \arguments{
-\item{w}{PARAM_DESCRIPTION}
+\item{w}{A matrix of time points when measurements on the binary covariate were obtained.}
 
-\item{w.res}{PARAM_DESCRIPTION}
+\item{w.res}{A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}}
 
-\item{point}{PARAM_DESCRIPTION}
+\item{point}{The time point at which the probabilities are estimated}
 
-\item{fit.cox.rs.ints}{PARAM_DESCRIPTION}
+\item{fit.cox.rs.ints}{The result of \code{FitCalibCoxRSInts} on the interval-censored data}
 
-\item{hz.times}{PARAM_DESCRIPTION}
+\item{hz.times}{Times used for calculating the baseline hazard function from PH calibartion model}
 
-\item{Q}{PARAM_DESCRIPTION}
+\item{Q}{Matrix of covariates for PH calibration model}
 
-\item{pts.for.ints}{PARAM_DESCRIPTION}
+\item{pts.for.ints}{Points defining the intervals for grouping risk-sets (first one has to be zero). Should be sorted from zero up}
 }
 \value{
-OUTPUT_DESCRIPTION
+A vector of estimated probabilities of positive exposure status at time \code{point}.
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+For a given time point, calculate the probability of positive exposure value  for multiple observations (participants). 
+The function uses the results of proportional hazards grouped risk-set calibration model fit, and given covariates and collected data on the history 
+of the binary exposure for each participant.
 }

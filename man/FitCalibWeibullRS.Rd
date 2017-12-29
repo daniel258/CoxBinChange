@@ -2,7 +2,7 @@
 % Please edit documentation in R/FitCalibWeibullRS.R
 \name{FitCalibWeibullRS}
 \alias{FitCalibWeibullRS}
-\title{FUNCTION_TITLE}
+\title{Fitting Weibull Risk-Set Calibration Models}
 \usage{
 FitCalibWeibullRS(w, w.res, tm, event, lower = 1e-04, upper = 200)
 }
@@ -11,30 +11,25 @@ FitCalibWeibullRS(w, w.res, tm, event, lower = 1e-04, upper = 200)
 
 \item{w.res}{A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}}
 
-\item{tm}{PARAM_DESCRIPTION}
+\item{tm}{Vector of observed main event time or censoring time.}
 
 \item{event}{Vector of censoring indicators. \code{1} for event \code{0} for censored}
 
-\item{lower}{PARAM_DESCRIPTION, Default: 1e-04}
+\item{lower}{A value to replace zero in the left point of the interval, Default: 1e-04}
 
-\item{upper}{PARAM_DESCRIPTION, Default: 200}
+\item{upper}{A value to replace infinity in the right point of the interval, Default: 200}
 }
 \value{
-OUTPUT_DESCRIPTION
+A 2-column matrix with the shape and scale paramter for each time-point at which a calibration model was fitted.
 }
 \description{
-FUNCTION_DESCRIPTION
+Fits Weibull risk-set calibration models for time-to-exposure from interval-censored data. The exposure is a binary covariate measured
+in intermittent times. This function fits a calibration model at each main event time point, using only members of the risk set at that time point.
 }
 \details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+In case of an error in the model-fitting at a certain time point, a Weibull calibration 
+model is fitted and used for that time point.
 }
 \seealso{
-\code{\link[fitdistrplus]{fitdistcens}}
+\code{\link[fitdistrplus]{fitdistcens}}, \code{\link[ICcalib]{FitCalibWeibull}}
 }

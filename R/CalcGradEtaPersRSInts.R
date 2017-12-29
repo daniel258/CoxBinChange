@@ -1,28 +1,5 @@
 # Based on ICsurv:::fast.PH.ICsurv.EM
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param d1 PARAM_DESCRIPTION
-#' @param d2 PARAM_DESCRIPTION
-#' @param d3 PARAM_DESCRIPTION
-#' @param Li PARAM_DESCRIPTION
-#' @param Ri PARAM_DESCRIPTION
-#' @param Q PARAM_DESCRIPTION
-#' @param fit.cox.rs.ints PARAM_DESCRIPTION
-#' @param pts.for.ints PARAM_DESCRIPTION
-#' @param tm PARAM_DESCRIPTION
-#' @param n.etas.per.fit PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @seealso 
-#'  \code{\link[ICsurv]{Ispline}}
-# @rdname CalcGradEtaPersRSInts
-#' @importFrom ICsurv Ispline
+# @importFrom ICsurv Ispline
 CalcGradEtaPersRSInts <- function(d1, d2, d3, Li, Ri, Q, fit.cox.rs.ints, pts.for.ints, tm, n.etas.per.fit)
 {
   n <- length(Ri)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/OrdinaryCalibration.R
 \name{FitCalibWeibull}
 \alias{FitCalibWeibull}
-\title{FUNCTION_TITLE}
+\title{Fitiing Weibull Calibration Models}
 \usage{
 FitCalibWeibull(w, w.res)
 }
@@ -12,20 +12,11 @@ FitCalibWeibull(w, w.res)
 \item{w.res}{A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}}
 }
 \value{
-OUTPUT_DESCRIPTION
+A bivariate vector: the estimated Weibull shape and scale parameters
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+Fits a Weibull calibration model for time-to-exposure from interval-censored data. The exposure is a binary covariate measured
+in intermittent times.
 }
 \seealso{
 \code{\link[fitdistrplus]{fitdistcens}}

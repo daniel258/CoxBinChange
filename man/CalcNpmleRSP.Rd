@@ -2,7 +2,7 @@
 % Please edit documentation in R/CalcNpmleRSP.R
 \name{CalcNpmleRSP}
 \alias{CalcNpmleRSP}
-\title{FUNCTION_TITLE}
+\title{Calculating the probabilities of positive binary exposure status at a given time point using a nonparametric risk-set calibration models}
 \usage{
 CalcNpmleRSP(w, w.res, point, obs.tm)
 }
@@ -11,25 +11,21 @@ CalcNpmleRSP(w, w.res, point, obs.tm)
 
 \item{w.res}{A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}}
 
-\item{point}{PARAM_DESCRIPTION}
+\item{point}{The time point at which the probabilities are estimated}
 
 \item{obs.tm}{Vector of observed main event time or censoring time}
 }
 \value{
-OUTPUT_DESCRIPTION
+A vector of estimated probabilities of positive exposure status at time \code{point}.
 }
 \description{
-FUNCTION_DESCRIPTION
+For a given time point, calculate the probability of positive exposure value  for multiple observations (participants). 
+The function first fits the nonparametric riskset calibration models at each main event time point and then calculates the probabilities
+of positive binary exposure status.
 }
 \details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+Unlike other risk-set calibration models, this function carries both the NPMLE at each main event time point and provides
+the estimated probabilities for positive exposure status at time \code{point}.
 }
 \seealso{
 \code{\link[icenReg]{ic_np}}

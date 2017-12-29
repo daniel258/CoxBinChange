@@ -12,24 +12,28 @@
 # function returns for them.
 #### The following package is needed: fitdistrplus
 #### The following functions are used: CalcAuxatPoint (R function)
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param w PARAM_DESCRIPTION
-#' @param w.res PARAM_DESCRIPTION
-#' @param point PARAM_DESCRIPTION
-#' @param fit.cox.rs.ints PARAM_DESCRIPTION
-#' @param hz.times PARAM_DESCRIPTION
-#' @param Q PARAM_DESCRIPTION
-#' @param pts.for.ints PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-# @rdname CalcCoxCalibRSIntsP
+#' @title Calculating the probabilities of positive binary exposure status at a given time point using proportional hazards grouped risk-set
+#'  calibration models
+#' @description For a given time point, calculate the probability of positive exposure value  for multiple observations (participants). 
+#' The function uses the results of proportional hazards grouped risk-set calibration model fit, and given covariates and collected data on the history 
+#' of the binary exposure for each participant. 
+#' @param w A matrix of time points when measurements on the binary covariate were obtained.
+#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @param point The time point at which the probabilities are estimated
+#' @param fit.cox.rs.ints The result of \code{FitCalibCoxRSInts} on the interval-censored data
+#' @param hz.times Times used for calculating the baseline hazard function from PH calibartion model
+#' @param Q Matrix of covariates for PH calibration model
+#' @param pts.for.ints Points defining the intervals for grouping risk-sets (first one has to be zero). Should be sorted from zero up
+#' @return A vector of estimated probabilities of positive exposure status at time \code{point}.
+# @details DETAILS
+# @examples 
+# \dontrun{
+# if(interactive()){
+#  #EXAMPLE1
+#  }
+# }
+#' @rdname CalcCoxCalibRSIntsP
+#' @export 
 CalcCoxCalibRSIntsP <- function(w, w.res, point, fit.cox.rs.ints, hz.times,  Q, pts.for.ints)
 {
   lr.for.lik <- CalcAuxAtPoint(w,w.res,point = point)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/CalcVarTheta.R
 \name{CalcVarThetaWeib}
 \alias{CalcVarThetaWeib}
-\title{FUNCTION_TITLE}
+\title{Variance estimation and confidence intervals for the effect of the exposure under Weibull calibration.}
 \usage{
 CalcVarThetaWeib(beta, etas, tm, event, ps, ps.deriv.shape, ps.deriv.scale, w,
   w.res)
@@ -10,38 +10,27 @@ CalcVarThetaWeib(beta, etas, tm, event, ps, ps.deriv.shape, ps.deriv.scale, w,
 \arguments{
 \item{beta}{Coefficient of the binary covariate}
 
-\item{etas}{PARAM_DESCRIPTION}
+\item{etas}{shape and scale paramters of the Weibull calibration model.}
 
-\item{tm}{PARAM_DESCRIPTION}
+\item{tm}{Vector of observed main event time or censoring time}
 
 \item{event}{Vector of censoring indicators. \code{1} for event \code{0} for censored}
 
-\item{ps}{A matrix. Rows are observations, columns are time points of the events. $ps(i,j)=Pr(X_i(time of case j)=1|history)$}
+\item{ps}{A matrix. Rows are observations, columns are time points of the events. The entry at the i-th row and j-column is
+the conditional probability of positive exposure status for observation i at the j-th event time.}
 
-\item{ps.deriv.shape}{Same as `ps.deriv.scale` but for the shape parameter}
+\item{ps.deriv.shape}{The derivative of \code{ps} with respect to the shape parameter of the Weibull calibration model.}
 
-\item{ps.deriv.scale}{A matrix. Rows are observations, columns are time points of the events. $ps.deriv.scale(i,j)$ is the derivative}
+\item{ps.deriv.scale}{The derivative of \code{ps} with respect to the scale parameter of the Weibull calibration model.}
 
 \item{w}{A matrix of time points when measurements on the binary covariate were obtained.}
 
 \item{w.res}{A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}}
 }
 \value{
-OUTPUT_DESCRIPTION
+Variance estimate and possiblty confidence interval for the log hazard-ratio of the binary exposure under
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
-}
-\seealso{
-\code{\link[numDeriv]{hessian}}
+Bootstrap calculations of the variance and confidence interval for the for the log hazard-ratio of the binary exposure
+under a Weibull calibration model.
 }

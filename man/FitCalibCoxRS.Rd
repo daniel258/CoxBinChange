@@ -2,7 +2,7 @@
 % Please edit documentation in R/FitCalibCoxRS.R
 \name{FitCalibCoxRS}
 \alias{FitCalibCoxRS}
-\title{FUNCTION_TITLE}
+\title{Fitting Proportional Hazards Risk-Set Calibration Models with Covariates}
 \usage{
 FitCalibCoxRS(w, w.res, Q, hz.times, obs.tm, n.int = 5, order = 2, event)
 }
@@ -24,21 +24,17 @@ FitCalibCoxRS(w, w.res, Q, hz.times, obs.tm, n.int = 5, order = 2, event)
 \item{event}{Vector of censoring indicators. \code{1} for event \code{0} for censored}
 }
 \value{
-OUTPUT_DESCRIPTION
+A list of Cox PH model fits, each supplmented with the knots and order used for the I-splines.
 }
 \description{
-FUNCTION_DESCRIPTION
+Fits proportional hazards risk-set calibration models for time-to-exposure from interval-censored data with covariates. The exposure is a binary covariate measured
+in intermittent times. The covariates (\code{Q}) are associated with the time-to-exposure. This function fits a calibration model at each main event time point,
+using only members of the risk set at that time point.
 }
 \details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+In case of an error in the model-fitting at a certain time point, a proportional hazards calibration 
+model is fitted (for all the data) and used for that time point.
 }
 \seealso{
-\code{\link[ICsurv]{fast.PH.ICsurv.EM}}
+\code{\link[ICsurv]{fast.PH.ICsurv.EM}},  \code{\link[ICcalib]{FitCalibCox}}
 }

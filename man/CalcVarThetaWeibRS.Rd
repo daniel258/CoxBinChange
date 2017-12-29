@@ -2,7 +2,7 @@
 % Please edit documentation in R/CalcVarTheta.R
 \name{CalcVarThetaWeibRS}
 \alias{CalcVarThetaWeibRS}
-\title{FUNCTION_TITLE}
+\title{Variance estimation and confidence intervals for the effect of the exposure under Weibull risk-set calibration.}
 \usage{
 CalcVarThetaWeibRS(beta, etas.matrix, tm, event, ps.rs, ps.deriv.shape.rs,
   ps.deriv.scale.rs, w, w.res)
@@ -10,35 +10,27 @@ CalcVarThetaWeibRS(beta, etas.matrix, tm, event, ps.rs, ps.deriv.shape.rs,
 \arguments{
 \item{beta}{Coefficient of the binary covariate}
 
-\item{etas.matrix}{PARAM_DESCRIPTION}
+\item{etas.matrix}{Two-columns matrix. Each row constains shape and scale paramters from a Weibull risk-set calibration model}
 
-\item{tm}{PARAM_DESCRIPTION}
+\item{tm}{Vector of observed main event time or censoring time}
 
 \item{event}{Vector of censoring indicators. \code{1} for event \code{0} for censored}
 
-\item{ps.rs}{PARAM_DESCRIPTION}
+\item{ps.rs}{A matrix. Rows are observations, columns are time points of the events. The entry at the i-th row and j-column is
+the conditional probability of positive exposure status for observation i at the j-th event time.}
 
-\item{ps.deriv.shape.rs}{Same as `ps.deriv.scale` but for the risk-set shape parameters}
+\item{ps.deriv.shape.rs}{The derivative of \code{ps} with respect to the shape parameters of the Weibull risk-set calibration models.}
 
-\item{ps.deriv.scale.rs}{A matrix. Rows are observations, columns are time points of the events. $ps.deriv(i,j)$ is the derivative}
+\item{ps.deriv.scale.rs}{The derivative of \code{ps} with respect to the scale parameters of the Weibull risk-set calibration models.}
 
 \item{w}{A matrix of time points when measurements on the binary covariate were obtained.}
 
 \item{w.res}{A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}}
 }
 \value{
-OUTPUT_DESCRIPTION
+Variance estimate for the log hazard-ratio of the binary exposure under  Weibull risk-set calibration model.
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+Bootstrap calculations of the variance and confidence interval for the for the log hazard-ratio of the binary exposure
+under  Weibull risk-set calibration models.
 }

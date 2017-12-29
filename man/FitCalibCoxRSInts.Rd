@@ -2,7 +2,7 @@
 % Please edit documentation in R/FitCalibCoxRSInts.R
 \name{FitCalibCoxRSInts}
 \alias{FitCalibCoxRSInts}
-\title{FUNCTION_TITLE}
+\title{Fitting Proportional Hazards Grouped Risk-Set Calibration Models with Covariates.}
 \usage{
 FitCalibCoxRSInts(w, w.res, Q, hz.times, n.int = 5, order = 2, tm, event,
   pts.for.ints)
@@ -20,28 +20,24 @@ FitCalibCoxRSInts(w, w.res, Q, hz.times, n.int = 5, order = 2, tm, event,
 
 \item{order}{the order of the basis functions. See \code{ICsurv::fast.PH.ICsurv.EM}, Default: 2}
 
-\item{tm}{PARAM_DESCRIPTION}
+\item{tm}{Vector of observed main event time or censoring time}
 
 \item{event}{Vector of censoring indicators. \code{1} for event \code{0} for censored}
 
 \item{pts.for.ints}{Points defining the intervals for grouping risk-sets (first one has to be zero). Should be sorted from zero up}
 }
 \value{
-OUTPUT_DESCRIPTION
+A list of Cox PH model fits, each supplmented with the knots and order used for the I-splines.
 }
 \description{
-FUNCTION_DESCRIPTION
+Fits proportional hazards grouped risk-set calibration models for time-to-exposure from interval-censored data with covariates. The exposure is a binary covariate measured
+in intermittent times. The covariates (\code{Q}) are associated with the time-to-exposure. Unlike \code{FitCalibCoxRS}, this function fits a calibration model
+at each of the given points for \code{pts.for.ints}.
 }
 \details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+In case of an error in the model-fitting at a certain time point, a proportional hazards calibration 
+model (for all the data) is fitted and used for that time point.
 }
 \seealso{
-\code{\link[ICsurv]{fast.PH.ICsurv.EM}}
+\code{\link[ICsurv]{fast.PH.ICsurv.EM}},  \code{\link[ICcalib]{FitCalibCox}}
 }

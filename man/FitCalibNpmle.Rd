@@ -2,7 +2,7 @@
 % Please edit documentation in R/OrdinaryCalibration.R
 \name{FitCalibNpmle}
 \alias{FitCalibNpmle}
-\title{FUNCTION_TITLE}
+\title{Fitiing Nonparametric Calibration Models}
 \usage{
 FitCalibNpmle(w, w.res)
 }
@@ -12,20 +12,11 @@ FitCalibNpmle(w, w.res)
 \item{w.res}{A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}}
 }
 \value{
-OUTPUT_DESCRIPTION
+The result of NPMLE model fitting for interval-censored data, as obatined by \code{icenReg::ic_np}
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+Fits a Weibull calibration model for time-to-exposure from interval-censored data. The exposure is a binary covariate measured
+in intermittent times.
 }
 \seealso{
 \code{\link[icenReg]{ic_np}}

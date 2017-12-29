@@ -1,22 +1,22 @@
 # Take data set in my usual form and return a data set under LVCF.
 # It returns it in the form of a data.frame called new.data
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param w A matrix of time points when measurements on the binary covariate were obtained.
-#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
-#' @param obs.tm Vector of observed main event time or censoring time
-#' @param delta Vector of censoring indicators. \code{1} for event \code{0} for censored
-#' @param Z Additional variables for the main model other than the binary covaraite, Default: NULL
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
+# @title FUNCTION_TITLE
+# @description FUNCTION_DESCRIPTION
+# @param w A matrix of time points when measurements on the binary covariate were obtained.
+# @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+# @param obs.tm Vector of observed main event time or censoring time
+# @param delta Vector of censoring indicators. \code{1} for event \code{0} for censored
+# @param Z Additional variables for the main model other than the binary covaraite, Default: NULL
+# @return OUTPUT_DESCRIPTION
+# @details DETAILS
+# @examples 
+# \dontrun{
+# if(interactive()){
+#  #EXAMPLE1
+#  }
 #' }
-#' @rdname LVCFdata
-#' @export 
+# @rdname LVCFdata
+# @export 
 LVCFdata <- function(w, w.res, obs.tm, delta, Z = NULL)
 {
   n.sample <- length(obs.tm)

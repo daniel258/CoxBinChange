@@ -2,12 +2,12 @@
 % Please edit documentation in R/CalcVarTheta.R
 \name{CalcVarNpmle}
 \alias{CalcVarNpmle}
-\title{FUNCTION_TITLE}
+\title{Variance estimation and confidence intervals for the effect of the exposure under nonparametric calibration.}
 \usage{
 CalcVarNpmle(tm, event, w, w.res, BS = 100, CI = T)
 }
 \arguments{
-\item{tm}{PARAM_DESCRIPTION}
+\item{tm}{Vector of observed main event time or censoring time}
 
 \item{event}{Vector of censoring indicators. \code{1} for event \code{0} for censored}
 
@@ -17,24 +17,13 @@ CalcVarNpmle(tm, event, w, w.res, BS = 100, CI = T)
 
 \item{BS}{Number of bootstrap iterations, Default: 100}
 
-\item{CI}{PARAM_DESCRIPTION, Default: T}
+\item{CI}{Should the function return confidencei intervals?, Default: T}
 }
 \value{
-OUTPUT_DESCRIPTION
+Variance estimate and possiblty confidence interval for the log hazard-ratio of the binary exposure under 
+a nonparametric calibration model.
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
-}
-\seealso{
-\code{\link[stats]{optimize}},\code{\link[stats]{var}},\code{\link[stats]{quantile}}
+Bootstrap calculations of the variance and confidence interval for the for the log hazard-ratio of the binary exposure
+under a nonparametric calibration model.
 }

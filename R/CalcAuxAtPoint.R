@@ -10,20 +10,6 @@
 # df.lr: a data frame. for each subject it gives the interval in which the exposure/treatment has occured according to the data.
 # a.point: time of last questionnire, i.e., a(t) in terms of the paper
 # x.one : one/zero. Equals to 1 if X(a.point)=1.
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param w PARAM_DESCRIPTION
-#' @param w.res PARAM_DESCRIPTION
-#' @param point Scalar. The time of the risk set in the main analysis. In terms of the paper, t.
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-# @rdname CalcAuxAtPoint
 CalcAuxAtPoint <- function(w, w.res, point) {
 n.sample <- nrow(w)
 interval.w <-   FindIntervalCPP(point = point, w =w)

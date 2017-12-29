@@ -2,7 +2,7 @@
 % Please edit documentation in R/CalcCoxCalibP.R
 \name{CalcCoxCalibP}
 \alias{CalcCoxCalibP}
-\title{FUNCTION_TITLE}
+\title{Calculating the probabilities of positive binary exposure status at a given time point using a proportional hazards calibration model}
 \usage{
 CalcCoxCalibP(w, w.res, point, fit.cox, hz.times, Q)
 }
@@ -11,7 +11,7 @@ CalcCoxCalibP(w, w.res, point, fit.cox, hz.times, Q)
 
 \item{w.res}{A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}}
 
-\item{point}{PARAM_DESCRIPTION}
+\item{point}{The time point at which the probabilities are estimated}
 
 \item{fit.cox}{The result of \code{icenReg::ic_sp} on the interval-censored data}
 
@@ -20,18 +20,10 @@ CalcCoxCalibP(w, w.res, point, fit.cox, hz.times, Q)
 \item{Q}{Matrix of covariates for PH calibration model}
 }
 \value{
-OUTPUT_DESCRIPTION
+A vector of estimated probabilities of positive exposure status at time \code{point}.
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+For a given time point, calculate the probability of positive exposure value  for multiple observations (participants). 
+The function uses the results of a proportional hazards calibration model fit, and given covariates and collected data on the history 
+of the binary exposure for each participant.
 }

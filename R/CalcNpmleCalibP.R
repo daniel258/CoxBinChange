@@ -10,20 +10,22 @@
 # The function returns a vector with individual predictions for P(X(t)=1|history(time t)). 
 # For observations with X(a(t))=1 the above probability is 1 by definition and this is what the
 # function returns for them.
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
+#' @title Calculating the probabilities of positive binary exposure status at a given time point using a nonparametric calibration model 
+#' @description For a given time point, calculate the probability of positive exposure value  for multiple observations (participants). 
+#' The function uses the results of a nonparametric calibration model fit, and given collected data on the history 
+#' of the binary exposure for each participant. 
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
-#' @param point PARAM_DESCRIPTION
+#' @param point The time point at which the probabilities are estimated.
 #' @param fit.npmle The result of \code{icenReg::ic_np} on the interval-censored data
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
+#' @return A vector of estimated probabilities of positive exposure status at time \code{point}.
+# @details DETAILS
+# @examples 
+# \dontrun{
+# if(interactive()){
+#  #EXAMPLE1
+#  }
+# }
 #' @rdname CalcNpmleCalibP
 #' @export 
 CalcNpmleCalibP <- function(w, w.res, point, fit.npmle)

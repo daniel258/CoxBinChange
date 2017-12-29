@@ -5,26 +5,6 @@
 # # lambda: Paramter of the baseline hazard 
 # # beta0: log hazard ratio of X, the exposure/treatment
 # # mu - mean of censoring time
-# 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param n.sample PARAM_DESCRIPTION
-#' @param lambda PARAM_DESCRIPTION, Default: 0.25
-#' @param alpha PARAM_DESCRIPTION, Default: NULL
-#' @param beta0 PARAM_DESCRIPTION, Default: log(0.75)
-#' @param mu PARAM_DESCRIPTION, Default: 1
-#' @param n.points PARAM_DESCRIPTION, Default: 5
-#' @param weib.shape PARAM_DESCRIPTION, Default: 1
-#' @param weib.scale PARAM_DESCRIPTION, Default: 1
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-# @rdname SimCoxIntervalCensSingle
 SimCoxIntervalCensSingle <- function(n.sample, lambda = 0.25, alpha= NULL, beta0 = log(0.75), 
                                mu = 1, n.points = 5, weib.shape = 1, weib.scale = 1)
 {
@@ -81,25 +61,7 @@ SimCoxIntervalCensSingle <- function(n.sample, lambda = 0.25, alpha= NULL, beta0
   return(list.back)
 }
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param n.sample PARAM_DESCRIPTION
-#' @param lambda PARAM_DESCRIPTION, Default: 0.25
-#' @param alpha PARAM_DESCRIPTION, Default: NULL
-#' @param beta0 PARAM_DESCRIPTION, Default: log(0.75)
-#' @param mu PARAM_DESCRIPTION, Default: 1
-#' @param n.points PARAM_DESCRIPTION, Default: 5
-#' @param nor.mean PARAM_DESCRIPTION, Default: 5
-#' @param nor.sd PARAM_DESCRIPTION, Default: 2
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-# @rdname SimCoxIntervalCensSingleNormal
+
 SimCoxIntervalCensSingleNormal <- function(n.sample, lambda = 0.25, alpha= NULL, beta0 = log(0.75), 
                                      mu = 1, n.points = 5, nor.mean = 5, nor.sd = 2)
 {
@@ -158,28 +120,8 @@ SimCoxIntervalCensSingleNormal <- function(n.sample, lambda = 0.25, alpha= NULL,
   return(list.back)
 }
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param n.sample PARAM_DESCRIPTION
-#' @param lambda PARAM_DESCRIPTION, Default: 0.25
-#' @param alpha PARAM_DESCRIPTION, Default: NULL
-#' @param beta0 PARAM_DESCRIPTION, Default: log(0.75)
-#' @param mu PARAM_DESCRIPTION, Default: 1
-#' @param n.points PARAM_DESCRIPTION, Default: 5
-#' @param rates PARAM_DESCRIPTION
-#' @param ts PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-#' @seealso 
-#'  \code{\link[msm]{rpexp}}
-# @rdname SimCoxIntervalCensSinglePexp
-#' @importFrom msm rpexp
+
+# @importFrom msm rpexp
 SimCoxIntervalCensSinglePexp <- function(n.sample, lambda = 0.25, alpha= NULL, beta0 = log(0.75), 
                                            mu = 1, n.points = 5, rates, ts)
 {
@@ -240,23 +182,7 @@ SimCoxIntervalCensSinglePexp <- function(n.sample, lambda = 0.25, alpha= NULL, b
 ### Auxiliry function to calculate (F(t|x)) (Equation 7 in Wng et Al. Biom 2016)
 # On June 29 - just fixing notations
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param tt PARAM_DESCRIPTION
-#' @param q1 PARAM_DESCRIPTION
-#' @param q2 PARAM_DESCRIPTION
-#' @param beta.q1 PARAM_DESCRIPTION, Default: log(2)
-#' @param beta.q2 PARAM_DESCRIPTION, Default: log(0.5)
-#' @param u PARAM_DESCRIPTION
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-# @rdname AuxF
+
 AuxF <- function(tt, q1, q2, beta.q1 = log(2), beta.q2 = log(0.5), u)
 {
   Lam <- (log(1+tt) + tt^(1/2))/5
@@ -264,25 +190,7 @@ AuxF <- function(tt, q1, q2, beta.q1 = log(2), beta.q2 = log(0.5), u)
   return(FF - u)
 }
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param n.sample PARAM_DESCRIPTION
-#' @param lambda PARAM_DESCRIPTION, Default: 0.25
-#' @param alpha PARAM_DESCRIPTION, Default: 0.1
-#' @param beta0 PARAM_DESCRIPTION, Default: log(0.75)
-#' @param gamma.q PARAM_DESCRIPTION, Default: c(log(0.75), log(2.5))
-#' @param gamma.z PARAM_DESCRIPTION, Default: log(1.5)
-#' @param mu PARAM_DESCRIPTION, Default: 1
-#' @param n.points PARAM_DESCRIPTION, Default: 5
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-# @rdname SimCoxIntervalCensCox
+
 SimCoxIntervalCensCox <- function(n.sample, lambda = 0.25, alpha = 0.1  ,beta0 = log(0.75), gamma.q = c(log(0.75), log(2.5)),
                                   gamma.z = log(1.5), mu = 1, n.points = 5)
 {
@@ -335,25 +243,7 @@ SimCoxIntervalCensCox <- function(n.sample, lambda = 0.25, alpha = 0.1  ,beta0 =
 }
 ## July 2017 - non-terminal event  to make sure MidI works then under the null ###
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
-#' @param n.sample PARAM_DESCRIPTION
-#' @param lambda PARAM_DESCRIPTION, Default: 0.25
-#' @param alpha PARAM_DESCRIPTION, Default: 0.1
-#' @param beta0 PARAM_DESCRIPTION, Default: log(0.75)
-#' @param gamma.q PARAM_DESCRIPTION, Default: c(log(0.75), log(2.5))
-#' @param gamma.z PARAM_DESCRIPTION, Default: log(1.5)
-#' @param mu PARAM_DESCRIPTION, Default: 1
-#' @param n.points PARAM_DESCRIPTION, Default: 5
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
-# @rdname SimCoxIntervalCensCoxNonTerminal
+
 SimCoxIntervalCensCoxNonTerminal <- function(n.sample, lambda = 0.25, alpha = 0.1  ,beta0 = log(0.75), gamma.q = c(log(0.75), log(2.5)),
                                   gamma.z = log(1.5), mu = 1, n.points = 5)
 {

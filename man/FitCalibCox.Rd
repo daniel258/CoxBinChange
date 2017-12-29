@@ -2,7 +2,7 @@
 % Please edit documentation in R/OrdinaryCalibration.R
 \name{FitCalibCox}
 \alias{FitCalibCox}
-\title{FUNCTION_TITLE}
+\title{Fitting Proportional Hazards Calibration Models with Covariates}
 \usage{
 FitCalibCox(w, w.res, Q, hz.times, n.int = 5, order = 2)
 }
@@ -20,20 +20,11 @@ FitCalibCox(w, w.res, Q, hz.times, n.int = 5, order = 2)
 \item{order}{the order of the basis functions. See \code{ICsurv::fast.PH.ICsurv.EM}, Default: 2}
 }
 \value{
-OUTPUT_DESCRIPTION
+An object created by ICsurv::fast.PH.ICsurv.EM, with additional variables \code{knots} and \code{order}.
 }
 \description{
-FUNCTION_DESCRIPTION
-}
-\details{
-DETAILS
-}
-\examples{
-\dontrun{
-if(interactive()){
- #EXAMPLE1
- }
-}
+Fits a proportional hazards calibration model for time-to-exposure from interval-censored data with covariates. The exposure is a binary covariate measured
+in intermittent times. The covariates (\code{Q}) are associated with the time-to-exposure.
 }
 \seealso{
 \code{\link[ICsurv]{fast.PH.ICsurv.EM}}

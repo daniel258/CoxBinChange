@@ -7,24 +7,26 @@
 ###
 # The function returns the estimates of Weibull scale and shape paramters for interval-censored time to event data.
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
+#' @title Fitting Weibull Risk-Set Calibration Models
+#' @description Fits Weibull risk-set calibration models for time-to-exposure from interval-censored data. The exposure is a binary covariate measured
+#' in intermittent times. This function fits a calibration model at each main event time point, using only members of the risk set at that time point.
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
-#' @param tm PARAM_DESCRIPTION
+#' @param tm Vector of observed main event time or censoring time.
 #' @param event Vector of censoring indicators. \code{1} for event \code{0} for censored
-#' @param lower PARAM_DESCRIPTION, Default: 1e-04
-#' @param upper PARAM_DESCRIPTION, Default: 200
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
+#' @param lower  A value to replace zero in the left point of the interval, Default: 1e-04
+#' @param upper A value to replace infinity in the right point of the interval, Default: 200
+#' @return A 2-column matrix with the shape and scale paramter for each time-point at which a calibration model was fitted. 
+#' @details In case of an error in the model-fitting at a certain time point, a Weibull calibration 
+#' model is fitted and used for that time point.
+# @examples 
+# \dontrun{
+# if(interactive()){
+#  #EXAMPLE1
+#  }
+# }
 #' @seealso 
-#'  \code{\link[fitdistrplus]{fitdistcens}}
+#'  \code{\link[fitdistrplus]{fitdistcens}}, \code{\link[ICcalib]{FitCalibWeibull}}
 #' @rdname FitCalibWeibullRS
 #' @export 
 #' @importFrom fitdistrplus fitdistcens

@@ -6,24 +6,24 @@
 ################################################################################################################
 ################### Weibull ###############################################################################################
 
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
+#' @title Fitiing Weibull Calibration Models
+#' @description Fits a Weibull calibration model for time-to-exposure from interval-censored data. The exposure is a binary covariate measured
+#' in intermittent times.
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
+#' @return A bivariate vector: the estimated Weibull shape and scale parameters
+# @details DETAILS
+# @examples 
+# \dontrun{
+# if(interactive()){
+#  #EXAMPLE1
+#  }
+# }
 #' @seealso 
 #'  \code{\link[fitdistrplus]{fitdistcens}}
 #' @rdname FitCalibWeibull
 #' @export 
 #' @importFrom fitdistrplus fitdistcens
-#' @useDynLib ICcalib, .registration = TRUE
 FitCalibWeibull <- function(w,w.res)
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
@@ -47,18 +47,19 @@ FitCalibWeibull <- function(w,w.res)
 
 ################################################################################################################
 ################### Nonparametric (NPMLE)#####################################################################################
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
+#' @title Fitiing Nonparametric Calibration Models
+#' @description Fits a Weibull calibration model for time-to-exposure from interval-censored data. The exposure is a binary covariate measured
+#' in intermittent times.
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
+#' @return The result of NPMLE model fitting for interval-censored data, as obatined by \code{icenReg::ic_np}
+# @details DETAILS
+# @examples 
+# \dontrun{
+# if(interactive()){
+#  #EXAMPLE1
+#  }
+# }
 #' @seealso 
 #'  \code{\link[icenReg]{ic_np}}
 #' @rdname FitCalibNpmle
@@ -77,22 +78,23 @@ FitCalibNpmle <- function(w,w.res)
 }
 ################################################################################################################
 ################### Cox ####################################################################################################
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
+#' @title Fitting Proportional Hazards Calibration Models with Covariates
+#' @description Fits a proportional hazards calibration model for time-to-exposure from interval-censored data with covariates. The exposure is a binary covariate measured
+#' in intermittent times. The covariates (\code{Q}) are associated with the time-to-exposure.
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
 #' @param Q Matrix of covariates for PH calibration model
 #' @param hz.times Times used for calculating the baseline hazard function from PH calibartion model
 #' @param n.int The number of interior knots to be used, see \code{ICsurv::fast.PH.ICsurv.EM}, Default: 5
 #' @param order the order of the basis functions. See \code{ICsurv::fast.PH.ICsurv.EM}, Default: 2
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
+#' @return An object created by ICsurv::fast.PH.ICsurv.EM, with additional variables \code{knots} and \code{order}.
+# @details DETAILS
+# @examples 
+# \dontrun{
+# if(interactive()){
+#  #EXAMPLE1
+#  }
+# }
 #' @seealso 
 #'  \code{\link[ICsurv]{fast.PH.ICsurv.EM}}
 #' @rdname FitCalibCox

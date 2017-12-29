@@ -10,20 +10,23 @@
 # The function returns a vector with individual predictions for P(X(t)=1|history(time t)). 
 # For observations with X(a(t))=1 the above probability is 1 by definition and this is what the
 # function returns for them.
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
+#' @title Calculating the probabilities of positive binary exposure status at a given time point using a nonparametric risk-set calibration models 
+#' @description For a given time point, calculate the probability of positive exposure value  for multiple observations (participants). 
+#' The function first fits the nonparametric riskset calibration models at each main event time point and then calculates the probabilities
+#' of positive binary exposure status.
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
-#' @param point PARAM_DESCRIPTION
+#' @param point The time point at which the probabilities are estimated
 #' @param obs.tm Vector of observed main event time or censoring time
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
-#' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  #EXAMPLE1
-#'  }
-#' }
+#' @return A vector of estimated probabilities of positive exposure status at time \code{point}.
+#' @details Unlike other risk-set calibration models, this function carries both the NPMLE at each main event time point and provides
+#' the estimated probabilities for positive exposure status at time \code{point}.
+# @examples 
+# \dontrun{
+# if(interactive()){
+#  #EXAMPLE1
+#  }
+# }
 #' @seealso 
 #'  \code{\link[icenReg]{ic_np}}
 #' @rdname CalcNpmleRSP

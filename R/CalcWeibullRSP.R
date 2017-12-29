@@ -13,14 +13,18 @@
 # The function calculate prediction for all observations, even though predictions for observations outside 
 # the risk set are not used 
 #### The following functions is used: CalcAuxatPoint (R function), FindIntervalCalibCPP (cpp function)
-#' @title FUNCTION_TITLE
-#' @description FUNCTION_DESCRIPTION
+#' @title Calculating the probabilities of positive binary exposure status at a given time point using risk-set Weibull calibration models 
+#' @description For a given time point, calculate the probability of positive exposure value  for multiple observations (participants). 
+#' The function uses the results of a Weibull calibration model fit, and given collected data on the history 
+#' of the binary exposure for each participant. 
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
 #' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
-#' @param point PARAM_DESCRIPTION
+#' @param point The time point at which the probabilities are estimated.
 #' @param weib.params A bivariate vector. Shape and scale paramters of the Weibull calibration model.  
-#' @return OUTPUT_DESCRIPTION
-#' @details DETAILS
+#' @return A vector of estimated probabilities of positive exposure status at time \code{point}.
+#' @details At its present formm this function is identical to \code{CalcWeibullCalibP}. This is because the current version of the \code{ICcalib} package
+#' (Version 1.0.005), the user loop over the main event times. Then, at each event time point, the user should include the appropaite Weibull
+#' paramters as given by \code{FitCalibWeibullRS}. 
 #' @examples 
 #' \dontrun{
 #' if(interactive()){
@@ -28,7 +32,7 @@
 #'  }
 #' }
 #' @seealso 
-#'  \code{\link[stats]{pweibull}}
+#'  \code{\link[stats]{Weibull}}
 #' @rdname CalcWeibullRSP
 #' @export 
 #' @importFrom stats pweibull
