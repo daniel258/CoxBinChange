@@ -24,6 +24,7 @@
 #' @rdname FitCalibWeibull
 #' @export 
 #' @importFrom fitdistrplus fitdistcens
+#' @useDynLib ICcalib, .registration = TRUE
 FitCalibWeibull <- function(w,w.res)
 {
   lr.for.fit <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
