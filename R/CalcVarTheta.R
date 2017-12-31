@@ -319,7 +319,7 @@ CalcVarEta <- function(etas,  w, w.res)
 # @seealso 
 #  \code{\link[stats]{optimize}},\code{\link[stats]{cor}},\code{\link[stats]{quantile}}
 # @rdname CalcVarNpmle
-# @export 
+#' @export 
 #' @importFrom stats optimize var quantile
 CalcVarNpmle <- function(tm, event, w, w.res, BS = 100, CI = T)
 {
