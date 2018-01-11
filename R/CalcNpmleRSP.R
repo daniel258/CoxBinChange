@@ -21,7 +21,17 @@
 #' @return A vector of estimated probabilities of positive exposure status at time \code{point}.
 #' @details This function calculates the NPMLE at each main event time point and then provides the estimated probabilities for positive 
 #' exposure status at time \code{point}.
-# @examples 
+#' @examples 
+#' # Simulate data set
+#' sim.data <- ICcalib:::SimCoxIntervalCensSingle(n.sample = 200, lambda = 0.1, 
+#'                                                alpha = 0.25, beta0 = log(0.5), 
+#'                                                mu = 0.2, n.points = 2, 
+#'                                                weib.shape = 1, weib.scale = 2)
+#' # Calculate the conditional probabilities of binary covariate=1 at time one
+#' # Unlike CalcNpmle, CalcNpmleRSP includes the calibration model fitting
+#' probs <- CalcNpmleRSP(w = sim.data$w, w.res = sim.data$w.res, point = 1, 
+#'                       obs.tm = sim.data$obs.tm)
+#' summary(probs)
 # \dontrun{
 # if(interactive()){
 #  #EXAMPLE1

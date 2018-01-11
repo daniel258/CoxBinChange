@@ -30,6 +30,17 @@ in intermittent times. This function fits a calibration model at each main event
 In case of an error in the model-fitting at a certain time point, a Weibull calibration 
 model is fitted and used for that time point.
 }
+\examples{
+# Simulate data set
+sim.data <- ICcalib:::SimCoxIntervalCensSingle(n.sample = 200, lambda = 0.1, 
+                                               alpha = 0.25, beta0 = log(0.5), 
+                                               mu = 0.2, n.points = 2, 
+                                               weib.shape = 1, weib.scale = 2)
+# Fit Weibull risk-set calibration models for the conditional covariate 
+# starting-time distributions
+ICcalib::FitCalibWeibullRS(w = sim.data$w, w.res = sim.data$w.res, 
+                           tm = sim.data$obs.tm, event = sim.data$delta)
+}
 \seealso{
 \code{\link[fitdistrplus]{fitdistcens}}, \code{\link[ICcalib]{FitCalibWeibull}}
 }

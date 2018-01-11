@@ -10,10 +10,17 @@
 #' @description Fits a Weibull calibration model for time-to-exposure from interval-censored data. The exposure is a binary covariate measured
 #' in intermittent times.
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
-#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @param w.res A matrix of measurement results of the binary covariate. It corresponds to the time points in \code{w}
 #' @return A bivariate vector: the estimated Weibull shape and scale parameters
 # @details DETAILS
-# @examples 
+#' @examples
+#' # Simulate data set
+#' sim.data <- ICcalib:::SimCoxIntervalCensSingle(n.sample = 200, lambda = 0.1, 
+#'                                                alpha = 0.25, beta0 = log(0.5), 
+#'                                                mu = 0.2, n.points = 2, 
+#'                                                weib.shape = 1, weib.scale = 2)
+#' # Fit a Weibull calibration model for the covariate starting time distribution
+#' ICcalib::FitCalibWeibull(w = sim.data$w, w.res = sim.data$w.res) 
 # \dontrun{
 # if(interactive()){
 #  #EXAMPLE1
@@ -52,10 +59,20 @@ FitCalibWeibull <- function(w,w.res)
 #' @description Fits a Weibull calibration model for time-to-exposure from interval-censored data. The exposure is a binary covariate measured
 #' in intermittent times.
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
-#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @param w.res A matrix of measurement results of the binary covariate. It corresponds to the time points in \code{w}
 #' @return The result of NPMLE model fitting for interval-censored data, as obtained by \code{icenReg::ic_np}
 # @details DETAILS
-# @examples 
+#' @examples 
+#' # Simulate data set
+#' sim.data <- ICcalib:::SimCoxIntervalCensSingle(n.sample = 200, lambda = 0.1, 
+#'                                                alpha = 0.25, beta0 = log(0.5), 
+#'                                                mu = 0.2, n.points = 2, 
+#'                                                weib.shape = 1, weib.scale = 2)
+#' # Calcualte the NPMLE for a nonparametric calibration model for the covariate 
+#' # starting-time distribution
+#' npmle.fit <- ICcalib::FitCalibNpmle(w = sim.data$w, w.res = sim.data$w.res)
+#' # Plot the estimated survival function
+#' plot(npmle.fit)
 # \dontrun{
 # if(interactive()){
 #  #EXAMPLE1
@@ -83,14 +100,24 @@ FitCalibNpmle <- function(w,w.res)
 #' @description Fits a proportional hazards calibration model for time-to-exposure from interval-censored data with covariates. The exposure is a binary covariate measured
 #' in intermittent times. The covariates (\code{Q}) are associated with the time-to-exposure.
 #' @param w A matrix of time points when measurements on the binary covariate were obtained.
-#' @param w.res A matrix of measurement results of the binary covariate. Each measurement corresponds to the time points in \code{w}
+#' @param w.res A matrix of measurement results of the binary covariate. It corresponds to the time points in \code{w}
 #' @param Q Matrix of covariates for PH calibration model
 #' @param hz.times Times used for calculating the baseline hazard function from PH calibration model
 #' @param n.int The number of interior knots to be used, see \code{ICsurv::fast.PH.ICsurv.EM}, Default: 5
 #' @param order the order of the basis functions. See \code{ICsurv::fast.PH.ICsurv.EM}, Default: 2
 #' @return An object created by ICsurv::fast.PH.ICsurv.EM, with additional variables \code{knots} and \code{order}.
 # @details DETAILS
-# @examples 
+#' @examples 
+#' sim.data <- ICcalib:::SimCoxIntervalCensCox(n.sample = 200, lambda = 0.1, 
+#'                                             alpha = 0.25, beta0 = 0, 
+#'                                             gamma.q = c(log(0.75), log(2.5)), 
+#'                                             gamma.z = log(1.5), mu = 0.2, 
+#'                                             n.points = 2)
+#' # The baseline hazard for the calibration model is calculated in observation times
+#' cox.hz.times <- sort(unique(sim.data$obs.tm)) 
+#' # Fit proprtional hazards calibration model
+#' FitCalibCox(w = sim.data$w, w.res = sim.data$w.res, Q = sim.data$Q, 
+#'             hz.times = cox.hz.times, n.int = 5, order = 2)
 # \dontrun{
 # if(interactive()){
 #  #EXAMPLE1
