@@ -31,6 +31,8 @@
 #' @rdname FitCalibWeibull
 #' @export 
 #' @importFrom fitdistrplus fitdistcens
+#' @importFrom Rcpp compileAttributes
+#' @importFrom survival Surv
 #' @useDynLib ICcalib, .registration = TRUE
 FitCalibWeibull <- function(w,w.res)
 {
