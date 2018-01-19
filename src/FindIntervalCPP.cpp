@@ -1,21 +1,7 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-// This is a simple example of exporting a C++ function to R. You can
-// source this function into an R session using the Rcpp::sourceCpp 
-// function (or via the Source button on the editor toolbar). Learn
-// more about Rcpp at:
-//
-//   http://www.rcpp.org/
-//   http://adv-r.had.co.nz/Rcpp.html
-//   http://gallery.rcpp.org/
-//
-// tm - event time
-// event - censoring indicator (1 event 0 no event)
-// ps - probabilities
-// beta- a value
 
-//data is assumed to be sorted by time
 // [[Rcpp::export]]
 IntegerVector FindIntervalCPP(double point, NumericMatrix w) {
   int nrow = w.nrow();
@@ -40,7 +26,7 @@ IntegerVector FindIntervalCPP(double point, NumericMatrix w) {
           intervalW[i] = j + 1;
           CondLocation = false;
           }
-        } else if (j==ncol) {
+      } else if (j==ncol-1) {
         intervalW[i] = ncol+1;
         CondLocation = false;}
       j += 1;
