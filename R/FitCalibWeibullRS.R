@@ -42,6 +42,7 @@
 FitCalibWeibullRS <- function(w, w.res, tm, event, lower = 0.0001, upper = 200)
 {
 r <- sum(event)
+n.fail <- 0
 event.index <- which(event==1)
 lr.for.fit.all <- as.data.frame(FindIntervalCalibCPP(w = w, wres = w.res))
 weib.params <- matrix(nrow = r, ncol = 2)
@@ -57,14 +58,18 @@ for (j in 1:r)
   if (inherits(fit.weib, "error")) { 
     weib.params[j,] <- FitCalibWeibull(w, w.res)
     warning(paste("In point", point, "Calibration was used instead of risk set calibration"))
+    n.fail <- n.fail + 1
     } else if (fit.weib$estimate[1] > 20 | fit.weib$estimate[2] < 1/1000)
       {
       weib.params[j,] <- FitCalibWeibull(w, w.res)
       warning(paste("In point", point, "Calibration was used instead of risk set calibration"))
+      n.fail <- n.fail + 1
       } else   {    
         weib.params[j,] <- fit.weib$estimate
-        }
+      }
 }
+if (n.fail > 0) {warning(paste("In ", round(100*n.fail/r,0), "% of the event times there were no sufficient data to fit a risk-set calibration model"))}
+if (n.fail/r > 0.5) stop("In more of 50% of the event times there were no sufficient data to fit a risk-set calibration model")
 return(weib.params)
 }
 
